@@ -24,10 +24,9 @@ function createUserReducer(state, action) {
     if (state === void 0) { state = exports.initialState; }
     switch (action.type) {
         case 'REGISTER/pending':
-            return __assign(__assign({}, exports.initialState), { message: 'REGISTER API PENDING중..', status: 201 });
+            return __assign(__assign({}, exports.initialState), { message: 'REGISTER API PENDING중..' });
         case 'REGISTER/fulfilled': {
             var _a = action.payload, email = _a.email, username = _a.username, password = _a.password, status_1 = _a.status, message_1 = _a.message;
-            // 자동로그인하기
             storage_1.saveNonStringItemToStorage({
                 key: 'user',
                 saveValue: { email: email, username: username, password: password }

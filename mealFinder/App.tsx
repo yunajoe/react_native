@@ -1,27 +1,24 @@
-import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
-
-import {createStackNavigator} from '@react-navigation/stack';
 import {Text} from 'react-native';
+import {Provider} from 'react-redux';
 
+import {FilterContextProvider} from './context/FilterContext';
+import {ThemeContextProvider} from './context/ThemeContext';
+import store from './redux/store';
 import {MemoziedFilteredFood} from './screen/FilteredFood';
 import FoodDetail from './screen/FoodDetail';
 import FoodFilter from './screen/FoodFilter';
-
-import {FilterContextProvider} from './context/FilterContext';
-import SignIn from './screen/SignIn';
-import SignUp from './screen/SignUp';
-
-// redux
-import MyDrawer from '@/components/drawer/MyDrawer';
-import NickNameEdit from '@/screen/NickNameEdit';
-import {RootStackParamList} from '@/types/navigation';
-import {Provider} from 'react-redux';
-import {ThemeContextProvider} from './context/ThemeContext';
-import store from './redux/store';
 import MyInterest from './screen/MyInterest';
 import NewProfile from './screen/NewProfile';
 import ProfileEdit from './screen/ProfileEdit';
+import SignIn from './screen/SignIn';
+import SignUp from './screen/SignUp';
+import MyDrawer from '@/components/drawer/MyDrawer';
+import ChangeEmail from '@/screen/ChangeEmail';
+import NickNameEdit from '@/screen/NickNameEdit';
+import {RootStackParamList} from '@/types/navigation';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -51,6 +48,7 @@ const RootNavigation = () => {
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
         <Stack.Screen name="NewProfile" component={NewProfile} />
         <Stack.Screen name="NickNameEdit" component={NickNameEdit} />
+        <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux';
 
-import statusReducer from '@/redux/reducer/statusReducer';
 import authReducer from './authReducer';
 import createUserReducer from './createUserReducer';
 import deleteUserReducer from './deleteUserReducer';
@@ -12,7 +11,6 @@ const reducer = combineReducers({
   createUserReducer,
   updateUserReducer,
   deleteUserReducer,
-  statusReducer,
   searchReducer,
 });
 

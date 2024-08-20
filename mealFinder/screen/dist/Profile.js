@@ -36,27 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+var react_1 = require("react");
+var react_native_1 = require("react-native");
+var react_redux_1 = require("react-redux");
 var SignButton_1 = require("@/components/button/SignButton");
 var NavigationInput_1 = require("@/components/input/NavigationInput");
 var useAlertMessage_1 = require("@/hooks/useAlertMessage");
+var action_1 = require("@/redux/action");
+var store_1 = require("@/redux/store");
 var profile_style_1 = require("@/styles/screen/profile_style");
 var storage_1 = require("@/utils/storage");
 var faBowlFood_1 = require("@fortawesome/free-solid-svg-icons/faBowlFood");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var native_1 = require("@react-navigation/native");
-var react_1 = require("react");
-var react_native_1 = require("react-native");
-var react_redux_1 = require("react-redux");
-var action_1 = require("../redux/action");
 function Profile() {
     var _this = this;
     var authState = react_redux_1.useSelector(function (state) { return state.authReducer; });
-    // const updateUserState = useSelector(
-    //   (state: {updateUserReducer: UpdateUserState}) => state.updateUserReducer,
-    // );
     var deleteState = react_redux_1.useSelector(function (state) { return state.deleteUserReducer; });
     var navigation = native_1.useNavigation();
-    var dispatch = react_redux_1.useDispatch();
+    var dispatch = store_1.useAppDispatch();
     var handleLogOut = function () { return __awaiter(_this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
@@ -100,20 +98,8 @@ function Profile() {
     var handleProfileEdit = function () {
         navigation.navigate('ProfileEdit');
     };
-    // useEffect(() => {
-    //   const handleReadStorage = async () => {
-    //     const data = await getItemFromStorage('user');
-    //     if (data !== null) {
-    //       setEmail(data.email);
-    //       setUserName(data.username);
-    //     }
-    //   };
-    //   handleReadStorage();
-    // }, [updateUserState.password, updateUserState.username, authState.email]);
-    // useEffect(() => {
-    //   dispatch(resetAuthUser);
-    // }, []);
-    return (react_1["default"].createElement(react_native_1.View, null, authState.id === '' ? (react_1["default"].createElement(react_native_1.Text, { style: profile_style_1.styles.greetingText, onPress: function () { return navigation.navigate('SignIn'); } }, "\uB85C\uADF8\uC778\uC744\uD574\uC8FC\uC138\uC694")) : (react_1["default"].createElement(react_native_1.View, { style: profile_style_1.styles.loginUserContainer },
+    return (react_1["default"].createElement(react_native_1.View, null, authState.id === '' ? (react_1["default"].createElement(react_native_1.View, { style: profile_style_1.styles.beforeLoginUserContainer },
+        react_1["default"].createElement(react_native_1.Button, { title: "\uB85C\uADF8\uC778\uC744\uD574\uC8FC\uC138\uC694", onPress: function () { return navigation.navigate('SignIn'); } }))) : (react_1["default"].createElement(react_native_1.View, { style: profile_style_1.styles.loginUserContainer },
         react_1["default"].createElement(react_native_1.View, { style: profile_style_1.styles.introduceContainer },
             react_1["default"].createElement(react_native_1.View, null,
                 react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { size: 80, icon: faBowlFood_1.faBowlFood })),

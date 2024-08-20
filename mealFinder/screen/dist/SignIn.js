@@ -1,21 +1,19 @@
 "use strict";
 exports.__esModule = true;
+var useAlertMessage_1 = require("@/hooks/useAlertMessage");
+var action_1 = require("@/redux/action");
+var native_1 = require("@react-navigation/native");
 var react_1 = require("react");
 var react_native_1 = require("react-native");
 var react_redux_1 = require("react-redux");
-var action_1 = require("../redux/action");
-var useAlertMessage_1 = require("@/hooks/useAlertMessage");
-var react_native_2 = require("react-native");
-var CalendarModule = react_native_2.NativeModules.CalendarModule;
-function SignIn(_a) {
-    var navigation = _a.navigation;
-    var _b = react_1.useState(''), email = _b[0], setEmail = _b[1];
-    var _c = react_1.useState(''), password = _c[0], setPassword = _c[1];
+// const {KaKaoModule} = NativeModules;
+var KaKaoModule = react_native_1.NativeModules.KaKaoModule;
+function SignIn() {
+    var _a = react_1.useState(''), email = _a[0], setEmail = _a[1];
+    var _b = react_1.useState(''), password = _b[0], setPassword = _b[1];
+    var navigation = native_1.useNavigation();
     var dispatch = react_redux_1.useDispatch();
     var authState = react_redux_1.useSelector(function (state) { return state.authReducer; });
-    var onPress = function () {
-        CalendarModule.createCalendarEvent('foo', 'bar');
-    };
     var submit = function () {
         if (email.trim().length === 0) {
             react_native_1.Alert.alert('email을 입력해주세요');
@@ -33,7 +31,13 @@ function SignIn(_a) {
         actionType: 'LOGIN'
     });
     // 소셜 로그인
-    var handleKaKaoLogin = function () { };
+    var handleKaKaoLogin = function () {
+        console.log('KaKaoModule', KaKaoModule.add, KaKaoModule.getKaKaoLogin);
+        KaKaoModule.add(1, 10, function (sum) {
+            console.log('나는야합', sum);
+        });
+        KaKaoModule.getKaKaoLogin();
+    };
     var handleGoogleLogin = function () { };
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.View, { style: styles.container },

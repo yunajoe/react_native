@@ -22,7 +22,6 @@ function useFetch({url, keyword}: UseFetchProps) {
       return error;
     } finally {
       setIsDataLoading(false);
-      console.log('데이터가 불러오는것을 완료하였습니다');
     }
   }, [url, keyword]);
   return {fetchDataFunc, isDataLoading};

@@ -1,10 +1,12 @@
-import {handleCheckByEmailAndPassword} from '@/api/check';
-import {styles} from '@/styles/screen/profile_edit_style';
-import {AuthState} from '@/types/reducerType';
-import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Alert, Button, Text, TextInput, View} from 'react-native';
 import {useSelector} from 'react-redux';
+
+import {handleCheckByEmailAndPassword} from '@/api/check';
+import {styles} from '@/styles/screen/profile_edit_style';
+import {StackNavigation} from '@/types/navigation';
+import {AuthState} from '@/types/reducerType';
+import {useNavigation} from '@react-navigation/native';
 
 export default function ProfileEdit() {
   const [password, setPassword] = useState('');
@@ -13,7 +15,7 @@ export default function ProfileEdit() {
     (state: {authReducer: AuthState}) => state.authReducer,
   );
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<StackNavigation>();
 
   const handleConFirm = async () => {
     const {status, message} = await handleCheckByEmailAndPassword(
@@ -53,29 +55,3 @@ export default function ProfileEdit() {
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     margin: 8,
-//   },
-//   textContainer: {
-//     marginBottom: 20,
-//   },
-//   emailContainer: {
-//     marginBottom: 20,
-//   },
-//   emailLabel: {
-//     marginBottom: 10,
-//   },
-//   passwordContainer: {
-//     marginBottom: 20,
-//   },
-//   passwordLabel: {
-//     marginBottom: 10,
-//   },
-//   input: {
-//     height: 40,
-//     borderWidth: 1,
-//     padding: 10,
-//   },
-// });

@@ -1,6 +1,6 @@
 // username validation
 export const validUserName = (username: string) => {
-  if (username.trim().length >= 2) {
+  if (username.trim().length >= 2 && username.trim().length <= 10) {
     return true;
   }
   return false;

@@ -1,59 +1,42 @@
 import {PayloadAction} from '@reduxjs/toolkit';
-import {saveNonStringItemToStorage} from '../../utils/storage';
 
 export type UpdatePayload = {
   message: string;
   status: number | null;
-  email?: string;
-  username?: string;
-  password?: string;
 };
 
 export const initialState = {
-  loading: true,
-  message: '',
-  status: null,
+  updateUserNameMessage: '',
+  updateUserNameStatus: null,
 };
 
 export default function updateUserReducer(
   state = initialState,
   action: PayloadAction<UpdatePayload>,
 ) {
-  // payload는 api return값이댜
-  const {payload} = action;
-
   switch (action.type) {
-    case 'UPDATE/pending':
+    case 'UPDATE/USERNAME/pending': {
+      console.log('닉네임 변경 펜딩중');
       return {
         ...state,
-        loading: true,
-        message: 'Pending중입니다',
-        status: 202,
       };
-    case 'UPDATE/fulfilled': {
-      const {email, password, username} = action.payload;
-
-      saveNonStringItemToStorage({
-        key: 'user',
-        saveValue: {email, username, password},
-      });
+    }
+    case 'UPDATE/USERNAME/fulfilled': {
+      const {status, message} = action.payload;
+      console.log('닉네임이 변경되었습니다앙아');
 
       return {
         ...state,
-        loading: false,
-        message: payload.message,
-        status: payload.status,
-        email,
-        password,
-        username,
+        updateUserNameMessage: message,
+        updateUserNameStatus: status,
       };
     }
     case 'UPDATE/rejected':
+      const {status, message} = action.payload;
       return {
         ...state,
-        loading: false,
-        message: payload.message,
-        status: payload.status,
+        updateUserNameMessage: message,
+        updateUserNameStatus: status,
       };
 
     case 'UPDATE/reset':

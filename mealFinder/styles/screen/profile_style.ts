@@ -4,6 +4,8 @@ export const styles = StyleSheet.create({
   greetingText: {
     fontSize: 16,
     fontWeight: 'bold',
+    padding: 10,
+    textAlign: 'center',
   },
   loginUserContainer: {
     borderWidth: 1, // Border width
@@ -11,6 +13,9 @@ export const styles = StyleSheet.create({
     borderStyle: 'solid', // Border style
     marginBottom: 20,
     padding: 6,
+  },
+  beforeLoginUserContainer: {
+    marginTop: 20,
   },
 
   introduceContainer: {

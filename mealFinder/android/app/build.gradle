@@ -1,6 +1,9 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+apply plugin: "kotlin-android"
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -112,16 +115,21 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-
-
-
-    
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
+    implementation "com.kakao.sdk:v2-all:2.20.3" // 전체 모듈 설치, 2.11.0 버전부터 지원
+    implementation "com.kakao.sdk:v2-user:2.20.3" // 카카오 로그인 API 모듈
+    implementation "com.kakao.sdk:v2-share:2.20.3" // 카카오톡 공유 API 모듈
+    implementation "com.kakao.sdk:v2-talk:2.20.3" // 카카오톡 채널, 카카오톡 소셜, 카카오톡 메시지 API 모듈
+    implementation "com.kakao.sdk:v2-friend:2.20.3" // 피커 API 모듈
+    implementation "com.kakao.sdk:v2-navi:2.20.3" // 카카오내비 API 모듈
+    implementation "com.kakao.sdk:v2-cert:2.20.3" // 카카오톡 인증 서비스 API 모듈
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0"
+
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

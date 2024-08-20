@@ -3,7 +3,6 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   logout_withdrawal_container: {
     flexDirection: 'row',
-    // backgroundColor: 'green',
     columnGap: 10,
     color: 'gray',
     padding: 10,

@@ -29,9 +29,8 @@ export type logOutUserState = {
 };
 
 export type UpdateUserState = {
-  loading: boolean;
-  message: string;
-  status: number | null;
+  updateUserNameMessage: string;
+  updateUserNameStatus: number | null;
   email?: string;
   username?: string;
   password?: string;

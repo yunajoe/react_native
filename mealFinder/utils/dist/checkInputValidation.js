@@ -3,7 +3,7 @@ exports.__esModule = true;
 exports.checkPassWordValidation = exports.validEmail = exports.validUserName = void 0;
 // username validation
 exports.validUserName = function (username) {
-    if (username.trim().length >= 2) {
+    if (username.trim().length >= 2 && username.trim().length <= 10) {
         return true;
     }
     return false;

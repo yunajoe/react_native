@@ -1,31 +1,33 @@
 import React, {useContext, useState} from 'react';
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TextInput,
-  View,
   TouchableHighlight,
-  ActivityIndicator,
+  View,
 } from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useSelector} from 'react-redux';
+
+import Food from '../components/item/Food';
+import RandomFood from '../components/item/RanDomFood';
+import {ThemeContext} from '../context/ThemeContext';
+import {search} from '../redux/searchAction';
+import {AllowedMode, Colors} from '../theme';
+import {AuthState} from '../types/reducerType';
+import {getItemFromStorage, saveNonStringItemToStorage} from '../utils/storage';
+import {checkValueInStorage} from '../utils/storageUtils';
+import {useAppDispatch} from '@/redux/store';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import {faShuffle} from '@fortawesome/free-solid-svg-icons/faShuffle';
-import RandomFood from '../components/item/RanDomFood';
-import Food from '../components/item/Food';
-import {ThemeContext} from '../context/ThemeContext';
-import {AllowedMode, Colors} from '../theme';
-import {getItemFromStorage, saveNonStringItemToStorage} from '../utils/storage';
-import {AuthState} from '../types/reducerType';
-import {useDispatch, useSelector} from 'react-redux';
-import {search} from '../redux/searchAction';
-import {checkValueInStorage} from '../utils/storageUtils';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 export default function Home() {
   const [searchedValue, setSearchedValue] = useState('');
   const [searchedTitle, setSearchTitle] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
   const {theme, setToggleFunction} = useContext(ThemeContext);
   const authState = useSelector(
     (state: {authReducer: AuthState}) => state.authReducer,

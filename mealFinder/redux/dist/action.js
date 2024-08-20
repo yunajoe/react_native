@@ -47,10 +47,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.withDrawUser = exports.updateUser = exports.findSpecificUser = exports.logOutUser = exports.loginUser = exports.registerUser = void 0;
-var toolkit_1 = require("@reduxjs/toolkit");
+exports.withDrawUser = exports.updateUserNickName = exports.logOutUser = exports.loginUser = exports.registerUser = void 0;
 var api_1 = require("@/api");
-var api_2 = require("../utils/api");
+var toolkit_1 = require("@reduxjs/toolkit");
 exports.registerUser = toolkit_1.createAsyncThunk('REGISTER', function (_a) {
     var username = _a.username, email = _a.email, password = _a.password;
     return __awaiter(void 0, void 0, void 0, function () {
@@ -116,90 +115,71 @@ exports.logOutUser = toolkit_1.createAsyncThunk('LOGOUT', function (email) { ret
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log('email', email);
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 4, , 5]);
+                _a.trys.push([0, 3, , 4]);
                 return [4 /*yield*/, fetch(api_1.signOutUser, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: email })
                     })];
-            case 2:
+            case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
-            case 3:
+            case 2:
                 result = _a.sent();
                 return [2 /*return*/, result];
-            case 4:
+            case 3:
                 err_3 = _a.sent();
                 console.error(err_3);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
-exports.findSpecificUser = toolkit_1.createAsyncThunk('FINCSPECIFICUSER', function (_a) {
-    var email = _a.email, password = _a.password;
+// export const findSpecificUser = createAsyncThunk(
+//   'FINCSPECIFICUSER',
+//   async ({email, password}: FindOutUser) => {
+//     try {
+//       const response = await fetch(findOutUser, {
+//         method: 'POST',
+//         headers: {'Content-Type': 'application/json'},
+//         body: JSON.stringify({email, password}),
+//       });
+//       return response.json().then(data => data);
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   },
+// );
+exports.updateUserNickName = toolkit_1.createAsyncThunk('UPDATE/USERNAME', function (_a) {
+    var email = _a.email, username = _a.username;
     return __awaiter(void 0, void 0, void 0, function () {
-        var response, err_4;
+        var response, jsonData, err_4;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, fetch(api_2.findOutUser, {
-                            method: 'POST',
+                    _b.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch(api_1.updateUserName, {
+                            method: 'put',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ email: email, password: password })
+                            body: JSON.stringify({ email: email, username: username })
                         })];
                 case 1:
                     response = _b.sent();
-                    return [2 /*return*/, response.json().then(function (data) { return data; })];
+                    return [4 /*yield*/, response.json()];
                 case 2:
+                    jsonData = _b.sent();
+                    return [2 /*return*/, jsonData];
+                case 3:
                     err_4 = _b.sent();
                     console.error(err_4);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    });
-});
-// update프로필
-exports.updateUser = toolkit_1.createAsyncThunk('UPDATE', function (_a) {
-    var email = _a.email, username = _a.username, password = _a.password;
-    return __awaiter(void 0, void 0, void 0, function () {
-        var response, err_5;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, fetch(api_2.updateUserProfile, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                email: email,
-                                newUsername: username,
-                                newPassword: password
-                            })
-                        })];
-                case 1:
-                    response = _b.sent();
-                    return [2 /*return*/, response.json().then(function (data) {
-                            return __assign(__assign({}, data), { email: email,
-                                username: username,
-                                password: password });
-                        })];
-                case 2:
-                    err_5 = _b.sent();
-                    console.error(err_5);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });
 });
 exports.withDrawUser = toolkit_1.createAsyncThunk('DELETE', function (email) { return __awaiter(void 0, void 0, void 0, function () {
-    var response, result, err_6;
+    var response, result, err_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -216,8 +196,8 @@ exports.withDrawUser = toolkit_1.createAsyncThunk('DELETE', function (email) { r
                 result = _a.sent();
                 return [2 /*return*/, result];
             case 3:
-                err_6 = _a.sent();
-                console.error(err_6);
+                err_5 = _a.sent();
+                console.error(err_5);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

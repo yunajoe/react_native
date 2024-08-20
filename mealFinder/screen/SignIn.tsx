@@ -1,27 +1,30 @@
-import React, {useState} from 'react';
-import {Alert, Button, StyleSheet, TextInput, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {loginUser} from '../redux/action';
-import {SignInProps} from '../types/navigation';
-import {AuthState} from '../types/reducerType';
-
 import useAlertMessage from '@/hooks/useAlertMessage';
-import {NativeModules} from 'react-native';
+import {loginUser} from '@/redux/action';
+import {StackNavigation} from '@/types/navigation';
+import {AuthState} from '@/types/reducerType';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {
+  Alert,
+  Button,
+  NativeModules,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
-const {CalendarModule} = NativeModules;
+const KaKaoModule = NativeModules.KaKaoModule;
 
-export default function SignIn({navigation}: SignInProps) {
+export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const navigation = useNavigation<StackNavigation>();
   const dispatch = useDispatch<any>();
   const authState = useSelector(
     (state: {authReducer: AuthState}) => state.authReducer,
   );
 
-  const onPress = () => {
-    CalendarModule.createCalendarEvent('foo', 'bar');
-  };
   const submit = () => {
     if (email.trim().length === 0) {
       Alert.alert('email을 입력해주세요');
@@ -41,7 +44,13 @@ export default function SignIn({navigation}: SignInProps) {
   });
 
   // 소셜 로그인
-  const handleKaKaoLogin = () => {};
+  const handleKaKaoLogin = () => {
+    console.log('KaKaoModule', KaKaoModule.add, KaKaoModule.getKaKaoLogin);
+    KaKaoModule.add(1, 10, (sum: number) => {
+      console.log('나는야합', sum);
+    });
+    KaKaoModule.getKaKaoLogin();
+  };
   const handleGoogleLogin = () => {};
 
   return (

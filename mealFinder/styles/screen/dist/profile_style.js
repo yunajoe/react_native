@@ -5,7 +5,9 @@ var react_native_1 = require("react-native");
 exports.styles = react_native_1.StyleSheet.create({
     greetingText: {
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        padding: 10,
+        textAlign: 'center'
     },
     loginUserContainer: {
         borderWidth: 1,
@@ -13,6 +15,9 @@ exports.styles = react_native_1.StyleSheet.create({
         borderStyle: 'solid',
         marginBottom: 20,
         padding: 6
+    },
+    beforeLoginUserContainer: {
+        marginTop: 20
     },
     introduceContainer: {
         flexDirection: 'row',

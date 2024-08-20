@@ -9,6 +9,6 @@ module.exports = {
       },
     ],
     'react/react-in-jsx-scope': 'off',
-    'react-hooks/exhaustive-deps': 'warn', // <--- THIS IS THE NEW RULE
+    'react-hooks/exhaustive-deps': 'warn',
   },
 };

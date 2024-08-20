@@ -45,23 +45,24 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 exports.__esModule = true;
 var react_1 = require("react");
 var react_native_1 = require("react-native");
-var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
-var faSearch_1 = require("@fortawesome/free-solid-svg-icons/faSearch");
-var faShuffle_1 = require("@fortawesome/free-solid-svg-icons/faShuffle");
-var RanDomFood_1 = require("../components/item/RanDomFood");
+var react_redux_1 = require("react-redux");
 var Food_1 = require("../components/item/Food");
+var RanDomFood_1 = require("../components/item/RanDomFood");
 var ThemeContext_1 = require("../context/ThemeContext");
+var searchAction_1 = require("../redux/searchAction");
 var theme_1 = require("../theme");
 var storage_1 = require("../utils/storage");
-var react_redux_1 = require("react-redux");
-var searchAction_1 = require("../redux/searchAction");
 var storageUtils_1 = require("../utils/storageUtils");
+var store_1 = require("@/redux/store");
+var faSearch_1 = require("@fortawesome/free-solid-svg-icons/faSearch");
+var faShuffle_1 = require("@fortawesome/free-solid-svg-icons/faShuffle");
+var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 function Home() {
     var _this = this;
     var _a = react_1.useState(''), searchedValue = _a[0], setSearchedValue = _a[1];
     var _b = react_1.useState(''), searchedTitle = _b[0], setSearchTitle = _b[1];
     var _c = react_1.useState(true), isLoading = _c[0], setIsLoading = _c[1];
-    var dispatch = react_redux_1.useDispatch();
+    var dispatch = store_1.useAppDispatch();
     var _d = react_1.useContext(ThemeContext_1.ThemeContext), theme = _d.theme, setToggleFunction = _d.setToggleFunction;
     var authState = react_redux_1.useSelector(function (state) { return state.authReducer; });
     // search데이터보관하는곳

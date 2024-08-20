@@ -1,13 +1,16 @@
+import {useCallback, useEffect} from 'react';
+import {Alert} from 'react-native';
+
 import {loginUser} from '@/redux/action';
 import {
   resetAuthUser,
   resetDeleteUser,
   resetRegisterUser,
+  resetUpdateUser,
 } from '@/redux/resetAction';
+import {useAppDispatch} from '@/redux/store';
+import {getItemFromStorage} from '@/utils/storage';
 import {useNavigation} from '@react-navigation/native';
-import {useCallback, useEffect} from 'react';
-import {Alert} from 'react-native';
-import {useDispatch} from 'react-redux';
 
 // type
 type UseAlertMessageOptions = {
@@ -18,11 +21,12 @@ type UseAlertMessageOptions = {
 };
 
 function useAlertMessage(options: UseAlertMessageOptions) {
+  console.log('userAlert입니당아', options);
   const {state, actionType, destination, loginInfo} = options;
   const email = loginInfo?.email;
   const password = loginInfo?.password;
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<any>();
 
   // 회원가입
@@ -52,11 +56,19 @@ function useAlertMessage(options: UseAlertMessageOptions) {
     dispatch(resetAuthUser);
   };
 
-  const updateUserCallbackFunc = () => {
+  // update
+  const updateUserCallbackFunc = async () => {
+    console.log('나는야 업데이뚜');
     if (destination && state.status === 200) {
       navigation.navigate(destination);
     }
-    // dispatch(resetUpdateUser);
+
+    const data = await getItemFromStorage('user');
+
+    // 다시 로그인하기
+    dispatch(loginUser({email: data.email, password: data.password}));
+
+    dispatch(resetUpdateUser);
   };
 
   const deleteUserCallback = () => {

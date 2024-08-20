@@ -1,8 +1,8 @@
-import {PayloadAction} from '@reduxjs/toolkit';
 import {
   removeItemFromStorage,
   saveNonStringItemToStorage,
 } from '../../utils/storage';
+import {PayloadAction} from '@reduxjs/toolkit';
 
 export type AuthPayload = {
   id: string;
@@ -39,7 +39,6 @@ export default function authReducer(
 ) {
   switch (action.type) {
     case 'LOGIN/pending': {
-      console.log('로그인펜딩', action.payload);
       return {
         ...state,
       };
@@ -55,8 +54,6 @@ export default function authReducer(
         status,
         message,
       } = action.payload;
-      console.log('로그인페이로드', action.payload);
-
       saveNonStringItemToStorage({
         key: 'user',
         saveValue: {username, email, password},
@@ -93,7 +90,6 @@ export default function authReducer(
     }
     case 'LOGOUT/fulfilled': {
       const {status, message} = action.payload;
-      console.log('로그아웃 fulfilled', action.payload);
 
       removeItemFromStorage('user');
       return {
@@ -103,7 +99,6 @@ export default function authReducer(
       };
     }
     case 'LOGOUT/rejected': {
-      console.log('로그아웃 rejected');
       const {status, message} = action.payload;
       return {
         ...AuthInitialState,
@@ -113,7 +108,6 @@ export default function authReducer(
     }
     // reset
     case 'AUTH/reset': {
-      console.log('AUTHRESET을합니다앙아');
       return AuthInitialState;
     }
 

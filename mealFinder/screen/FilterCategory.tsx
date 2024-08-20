@@ -46,10 +46,6 @@ export default function FilterCategory() {
       });
   }, [categoryList, categoryArea]);
 
-  useEffect(() => {
-    getCallCategoryAPI();
-  }, []);
-
   const totalData = [
     {
       title: 'Category',
@@ -60,6 +56,10 @@ export default function FilterCategory() {
       data: categoryArea,
     },
   ];
+
+  useEffect(() => {
+    getCallCategoryAPI();
+  }, []);
   return {
     totalData,
     isLoading,

@@ -1,5 +1,5 @@
-import {PayloadAction} from '@reduxjs/toolkit';
 import {saveNonStringItemToStorage} from '../../utils/storage';
+import {PayloadAction} from '@reduxjs/toolkit';
 
 export type RegisterPayload = {
   message: string;
@@ -26,11 +26,9 @@ export default function createUserReducer(
       return {
         ...initialState,
         message: 'REGISTER API PENDING중..',
-        status: 201,
       };
     case 'REGISTER/fulfilled': {
       const {email, username, password, status, message} = action.payload;
-      // 자동로그인하기
 
       saveNonStringItemToStorage({
         key: 'user',

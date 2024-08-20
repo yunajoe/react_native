@@ -1,16 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {getItemFromStorage} from '../utils/storage';
-import {useDispatch, useSelector} from 'react-redux';
-import {AuthState, SearchState} from '../types/reducerType';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
+import {Pressable, Text, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+
 import SearchedItem from '../components/item/SearchedItem';
 import BottomToTopModal from '../components/modal/BottomToTopModal';
-import {selectedDeleteFunc} from '../redux/searchAction';
 import {ThemeContext} from '../context/ThemeContext';
-import {AllowedMode, Colors} from '../theme';
+import {selectedDeleteFunc} from '../redux/searchAction';
+import {AuthState, SearchState} from '../types/reducerType';
+import {getItemFromStorage} from '../utils/storage';
+import {styles} from '@/styles/screen/my_interest_style';
+import {faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 function MyInterest() {
   const [dataArr, setDataArr] = useState<string[]>([]);
@@ -39,8 +40,6 @@ function MyInterest() {
     searchState.isWholeItemDelete,
   ]);
 
-  // 처음에는 이전에 있는 아이템이 rendering. 즉 dispatch에서 삭제되어 state에들어온것 arr가  return되지 않는다
-
   const handleModal = () => {
     setIsOpenModal(!isOpenModal);
   };
@@ -54,7 +53,7 @@ function MyInterest() {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       {dataArr.length > 0 && (
         <View style={styles.recentContainer}>
           <View style={styles.recentContainerLabel}>
@@ -73,8 +72,6 @@ function MyInterest() {
             <FlatList
               data={dataArr}
               renderItem={({index, item}) => {
-                // key로 prop을 내리면 undfined가 된다.
-                // 그라구 index={index}로 안하구
                 return <SearchedItem key={index} name={item} />;
               }}
               horizontal
@@ -91,32 +88,3 @@ function MyInterest() {
 }
 
 export default MyInterest;
-
-const styles = StyleSheet.create({
-  container: {},
-  recentContainer: {
-    backgroundColor: '#FFFFFF',
-  },
-
-  recentContainerLabel: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    padding: 10,
-    marginBottom: 10,
-  },
-
-  recommendedContainer: {
-    backgroundColor: '#FFFFFF',
-    padding: 10,
-  },
-  itemContainer: {
-    marginBottom: 10,
-    padding: 10,
-  },
-  text: {
-    color: 'black',
-    fontWeight: 'bold',
-  },
-});

@@ -1,5 +1,3 @@
-// 검색어 reducer
-
 export const search = (searchValue: string) => ({
   type: 'SEARCHED',
   payload: {

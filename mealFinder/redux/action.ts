@@ -1,7 +1,11 @@
+import {
+  createUser,
+  deleteUser,
+  signInUser,
+  signOutUser,
+  updateUserName,
+} from '@/api';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-
-import {createUser, deleteUser, signInUser, signOutUser} from '@/api';
-import {findOutUser, updateUserProfile} from '../utils/api';
 
 type UserInfo = {
   username: string;
@@ -14,15 +18,9 @@ type LoginInfo = {
   password: string;
 };
 
-type FindOutUser = {
-  email: string;
-  password: string;
-};
-
-type UpdateUser = {
+type updateUserNameInfo = {
   email: string;
   username: string;
-  password: string;
 };
 
 export const registerUser = createAsyncThunk(
@@ -69,7 +67,6 @@ export const loginUser = createAsyncThunk(
 );
 
 export const logOutUser = createAsyncThunk('LOGOUT', async (email: string) => {
-  console.log('email', email);
   try {
     const response = await fetch(signOutUser, {
       method: 'POST',
@@ -83,43 +80,33 @@ export const logOutUser = createAsyncThunk('LOGOUT', async (email: string) => {
   }
 });
 
-export const findSpecificUser = createAsyncThunk(
-  'FINCSPECIFICUSER',
-  async ({email, password}: FindOutUser) => {
+// export const findSpecificUser = createAsyncThunk(
+//   'FINCSPECIFICUSER',
+//   async ({email, password}: FindOutUser) => {
+//     try {
+//       const response = await fetch(findOutUser, {
+//         method: 'POST',
+//         headers: {'Content-Type': 'application/json'},
+//         body: JSON.stringify({email, password}),
+//       });
+//       return response.json().then(data => data);
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   },
+// );
+
+export const updateUserNickName = createAsyncThunk(
+  'UPDATE/USERNAME',
+  async ({email, username}: updateUserNameInfo) => {
     try {
-      const response = await fetch(findOutUser, {
-        method: 'POST',
+      const response = await fetch(updateUserName, {
+        method: 'put',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, password}),
+        body: JSON.stringify({email, username}),
       });
-      return response.json().then(data => data);
-    } catch (err) {
-      console.error(err);
-    }
-  },
-);
-// update프로필
-export const updateUser = createAsyncThunk(
-  'UPDATE',
-  async ({email, username, password}: UpdateUser) => {
-    try {
-      const response = await fetch(updateUserProfile, {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          email: email,
-          newUsername: username,
-          newPassword: password,
-        }),
-      });
-      return response.json().then(data => {
-        return {
-          ...data,
-          email,
-          username,
-          password,
-        };
-      });
+      const jsonData = await response.json();
+      return jsonData;
     } catch (err) {
       console.error(err);
     }

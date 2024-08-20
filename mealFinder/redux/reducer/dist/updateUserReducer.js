@@ -12,31 +12,25 @@ var __assign = (this && this.__assign) || function () {
 };
 exports.__esModule = true;
 exports.initialState = void 0;
-var storage_1 = require("../../utils/storage");
 exports.initialState = {
-    loading: true,
-    message: '',
-    status: null
+    updateUserNameMessage: '',
+    updateUserNameStatus: null
 };
 function updateUserReducer(state, action) {
     if (state === void 0) { state = exports.initialState; }
-    // payload는 api return값이댜
-    var payload = action.payload;
     switch (action.type) {
-        case 'UPDATE/pending':
-            return __assign(__assign({}, state), { loading: true, message: 'Pending중입니다', status: 202 });
-        case 'UPDATE/fulfilled': {
-            var _a = action.payload, email = _a.email, password = _a.password, username = _a.username;
-            storage_1.saveNonStringItemToStorage({
-                key: 'user',
-                saveValue: { email: email, username: username, password: password }
-            });
-            return __assign(__assign({}, state), { loading: false, message: payload.message, status: payload.status, email: email,
-                password: password,
-                username: username });
+        case 'UPDATE/USERNAME/pending': {
+            console.log('닉네임 변경 펜딩중');
+            return __assign({}, state);
+        }
+        case 'UPDATE/USERNAME/fulfilled': {
+            var _a = action.payload, status_1 = _a.status, message_1 = _a.message;
+            console.log('닉네임이 변경되었습니다앙아');
+            return __assign(__assign({}, state), { updateUserNameMessage: message_1, updateUserNameStatus: status_1 });
         }
         case 'UPDATE/rejected':
-            return __assign(__assign({}, state), { loading: false, message: payload.message, status: payload.status });
+            var _b = action.payload, status = _b.status, message = _b.message;
+            return __assign(__assign({}, state), { updateUserNameMessage: message, updateUserNameStatus: status });
         case 'UPDATE/reset':
             return exports.initialState;
         default:

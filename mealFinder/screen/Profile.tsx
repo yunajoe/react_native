@@ -1,32 +1,32 @@
+import React from 'react';
+import {Button, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
+
 import SignButton from '@/components/button/SignButton';
 import NavigationInput from '@/components/input/NavigationInput';
 import useAlertMessage from '@/hooks/useAlertMessage';
+import {logOutUser, withDrawUser} from '@/redux/action';
+import {useAppDispatch} from '@/redux/store';
 import {styles} from '@/styles/screen/profile_style';
+import {StackNavigation} from '@/types/navigation';
+import {AuthState, DeleteUserState} from '@/types/reducerType';
 import {getItemFromStorage} from '@/utils/storage';
 import {faBowlFood} from '@fortawesome/free-solid-svg-icons/faBowlFood';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {Text, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {logOutUser, withDrawUser} from '../redux/action';
-import {AuthState, DeleteUserState} from '../types/reducerType';
 
 export default function Profile() {
   const authState = useSelector(
     (state: {authReducer: AuthState}) => state.authReducer,
   );
-  // const updateUserState = useSelector(
-  //   (state: {updateUserReducer: UpdateUserState}) => state.updateUserReducer,
-  // );
 
   const deleteState = useSelector(
     (state: {deleteUserReducer: DeleteUserState}) => state.deleteUserReducer,
   );
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<StackNavigation>();
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
 
   const handleLogOut = async () => {
     const data = await getItemFromStorage('user');
@@ -61,29 +61,15 @@ export default function Profile() {
     navigation.navigate('ProfileEdit');
   };
 
-  // useEffect(() => {
-  //   const handleReadStorage = async () => {
-  //     const data = await getItemFromStorage('user');
-  //     if (data !== null) {
-  //       setEmail(data.email);
-  //       setUserName(data.username);
-  //     }
-  //   };
-
-  //   handleReadStorage();
-  // }, [updateUserState.password, updateUserState.username, authState.email]);
-
-  // useEffect(() => {
-  //   dispatch(resetAuthUser);
-  // }, []);
   return (
     <View>
       {authState.id === '' ? (
-        <Text
-          style={styles.greetingText}
-          onPress={() => navigation.navigate('SignIn')}>
-          로그인을해주세요
-        </Text>
+        <View style={styles.beforeLoginUserContainer}>
+          <Button
+            title="로그인을해주세요"
+            onPress={() => navigation.navigate('SignIn')}
+          />
+        </View>
       ) : (
         <View style={styles.loginUserContainer}>
           <View style={styles.introduceContainer}>
