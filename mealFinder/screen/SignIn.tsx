@@ -1,8 +1,3 @@
-import useAlertMessage from '@/hooks/useAlertMessage';
-import {loginUser} from '@/redux/action';
-import {StackNavigation} from '@/types/navigation';
-import {AuthState} from '@/types/reducerType';
-import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
   Alert,
@@ -14,7 +9,13 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
-const KaKaoModule = NativeModules.KaKaoModule;
+import useAlertMessage from '@/hooks/useAlertMessage';
+import {loginUser} from '@/redux/action';
+import {StackNavigation} from '@/types/navigation';
+import {AuthState} from '@/types/reducerType';
+import {useNavigation} from '@react-navigation/native';
+
+const {getKaKaoLogin, getUserProfile} = NativeModules.KaKaoModule;
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -45,11 +46,14 @@ export default function SignIn() {
 
   // 소셜 로그인
   const handleKaKaoLogin = () => {
-    console.log('KaKaoModule', KaKaoModule.add, KaKaoModule.getKaKaoLogin);
-    KaKaoModule.add(1, 10, (sum: number) => {
-      console.log('나는야합', sum);
+    getKaKaoLogin((result: any) => {
+      console.log('카카오 로그인 결과:', result);
+      if (result) {
+        getUserProfile((user: any) => {
+          console.log('카카로 user결과', user);
+        });
+      }
     });
-    KaKaoModule.getKaKaoLogin();
   };
   const handleGoogleLogin = () => {};
 

@@ -1,13 +1,12 @@
 "use strict";
 exports.__esModule = true;
-var useAlertMessage_1 = require("@/hooks/useAlertMessage");
-var action_1 = require("@/redux/action");
-var native_1 = require("@react-navigation/native");
 var react_1 = require("react");
 var react_native_1 = require("react-native");
 var react_redux_1 = require("react-redux");
-// const {KaKaoModule} = NativeModules;
-var KaKaoModule = react_native_1.NativeModules.KaKaoModule;
+var useAlertMessage_1 = require("@/hooks/useAlertMessage");
+var action_1 = require("@/redux/action");
+var native_1 = require("@react-navigation/native");
+var _a = react_native_1.NativeModules.KaKaoModule, getKaKaoLogin = _a.getKaKaoLogin, getUserProfile = _a.getUserProfile;
 function SignIn() {
     var _a = react_1.useState(''), email = _a[0], setEmail = _a[1];
     var _b = react_1.useState(''), password = _b[0], setPassword = _b[1];
@@ -32,11 +31,14 @@ function SignIn() {
     });
     // 소셜 로그인
     var handleKaKaoLogin = function () {
-        console.log('KaKaoModule', KaKaoModule.add, KaKaoModule.getKaKaoLogin);
-        KaKaoModule.add(1, 10, function (sum) {
-            console.log('나는야합', sum);
+        getKaKaoLogin(function (result) {
+            console.log('카카오 로그인 결과:', result);
+            if (result) {
+                getUserProfile(function (user) {
+                    console.log('카카로 user결과', user);
+                });
+            }
         });
-        KaKaoModule.getKaKaoLogin();
     };
     var handleGoogleLogin = function () { };
     return (react_1["default"].createElement(react_1["default"].Fragment, null,

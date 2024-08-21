@@ -1,6 +1,7 @@
 package com.mealfinder
 
 import android.app.Application
+import android.util.Log
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
@@ -12,17 +13,17 @@ import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
 import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.common.util.Utility
 import com.mealfinder.kakao.KaKaoModule
 
 
 class MainApplication : Application(), ReactApplication {
 
+
     override val reactNativeHost: ReactNativeHost =
             object : DefaultReactNativeHost(this) {
                 override fun getPackages(): List<ReactPackage> =
                         PackageList(this).packages.apply {
-                            // Packages that cannot be autolinked yet can be added manually here, for example:
-                            // add(MyReactNativePackage())
                             add(KaKaoModule()) //
                         }
 
@@ -39,6 +40,9 @@ class MainApplication : Application(), ReactApplication {
 
     override fun onCreate() {
         super.onCreate()
+//        var keyHash = Utility.getKeyHash(this)
+//
+//        Log.d("keyhas", keyHash)
 
         // 추가
         KakaoSdk.init(this, "01af65216353d4b83264ca182365b8ee")

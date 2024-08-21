@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">mealFinder</string>
+    <string name="kakao_app_key">01af65216353d4b83264ca182365b8ee</string>
 </resources>
