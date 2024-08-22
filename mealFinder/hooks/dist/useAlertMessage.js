@@ -45,7 +45,6 @@ var storage_1 = require("@/utils/storage");
 var native_1 = require("@react-navigation/native");
 function useAlertMessage(options) {
     var _this = this;
-    console.log('userAlert입니당아', options);
     var state = options.state, actionType = options.actionType, destination = options.destination, loginInfo = options.loginInfo;
     var email = loginInfo === null || loginInfo === void 0 ? void 0 : loginInfo.email;
     var password = loginInfo === null || loginInfo === void 0 ? void 0 : loginInfo.password;
@@ -62,6 +61,7 @@ function useAlertMessage(options) {
         }
         dispatch(resetAction_1.resetRegisterUser);
     };
+    // 로그인
     var logInCallbackFunc = function () {
         if (destination && state.status === 200) {
             navigation.navigate(destination);
@@ -72,59 +72,56 @@ function useAlertMessage(options) {
         if (destination && state.status === 200) {
             navigation.navigate(destination);
         }
-        dispatch(resetAction_1.resetAuthUser);
     };
-    // update
+    // 변경
     var updateUserCallbackFunc = function () { return __awaiter(_this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log('나는야 업데이뚜');
                     if (destination && state.status === 200) {
                         navigation.navigate(destination);
                     }
                     return [4 /*yield*/, storage_1.getItemFromStorage('user')];
                 case 1:
                     data = _a.sent();
-                    // 다시 로그인하기
                     dispatch(action_1.loginUser({ email: data.email, password: data.password }));
-                    dispatch(resetAction_1.resetUpdateUser);
                     return [2 /*return*/];
             }
         });
     }); };
+    //  삭제
     var deleteUserCallback = function () {
         if (destination && state.status === 200) {
             navigation.navigate(destination);
         }
-        dispatch(resetAction_1.resetDeleteUser);
-        dispatch(resetAction_1.resetAuthUser);
     };
     var handleMessageCallback = react_1.useCallback(function () {
         react_native_1.Alert.alert(state.message, '', [
             {
                 text: '확인',
                 onPress: function () {
-                    if (actionType === 'LOGIN') {
-                        logInCallbackFunc();
-                    }
-                    if (actionType === 'LOGOUT') {
-                        logOutCallbackFunc();
-                    }
-                    if (actionType === 'REGISTER/USER') {
-                        registerUserCallbackFunc();
-                    }
-                    if (actionType === 'UPDATE/USER') {
-                        updateUserCallbackFunc();
-                    }
-                    if (actionType === 'DELETE/USER') {
-                        deleteUserCallback();
+                    switch (actionType) {
+                        case 'LOGIN':
+                            logInCallbackFunc();
+                            break;
+                        case 'LOGOUT':
+                            logOutCallbackFunc();
+                            break;
+                        case 'REGISTER/USER':
+                            registerUserCallbackFunc();
+                            break;
+                        case 'UPDATE/USER':
+                            updateUserCallbackFunc();
+                            break;
+                        case 'DELETE/USER':
+                            deleteUserCallback();
+                            break;
                     }
                 }
             },
         ]);
-    }, [state.message]);
+    }, [actionType, state.status, state.message]);
     // alert메세지
     react_1.useEffect(function () {
         if (typeof state.status === 'number' && typeof state.message === 'string') {
@@ -132,6 +129,24 @@ function useAlertMessage(options) {
                 handleMessageCallback();
             }
         }
+        return function () {
+            switch (actionType) {
+                case 'LOGIN':
+                    // dispatch(resetAuthUser);
+                    // dispatch(resetKaKaoAuthUser);
+                    break;
+                case 'LOGOUT':
+                    dispatch(resetAction_1.resetAuthUser);
+                    break;
+                case 'UPDATE/USER':
+                    dispatch(resetAction_1.resetUpdateUser);
+                    break;
+                case 'DELETE/USER':
+                    dispatch(resetAction_1.resetDeleteUser);
+                    dispatch(resetAction_1.resetAuthUser);
+                    break;
+            }
+        };
     }, [state.status, state.message]);
 }
 exports["default"] = useAlertMessage;

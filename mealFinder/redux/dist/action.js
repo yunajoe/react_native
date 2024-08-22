@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.withDrawUser = exports.updateUserNickName = exports.logOutUser = exports.loginUser = exports.registerUser = void 0;
+exports.KaKaoLogOutUser = exports.KaKaoLoginUser = exports.withDrawUser = exports.updateUserNickName = exports.logOutUser = exports.loginUser = exports.registerUser = void 0;
 var api_1 = require("@/api");
 var toolkit_1 = require("@reduxjs/toolkit");
 exports.registerUser = toolkit_1.createAsyncThunk('REGISTER', function (_a) {
@@ -135,21 +135,6 @@ exports.logOutUser = toolkit_1.createAsyncThunk('LOGOUT', function (email) { ret
         }
     });
 }); });
-// export const findSpecificUser = createAsyncThunk(
-//   'FINCSPECIFICUSER',
-//   async ({email, password}: FindOutUser) => {
-//     try {
-//       const response = await fetch(findOutUser, {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify({email, password}),
-//       });
-//       return response.json().then(data => data);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   },
-// );
 exports.updateUserNickName = toolkit_1.createAsyncThunk('UPDATE/USERNAME', function (_a) {
     var email = _a.email, username = _a.username;
     return __awaiter(void 0, void 0, void 0, function () {
@@ -200,6 +185,70 @@ exports.withDrawUser = toolkit_1.createAsyncThunk('DELETE', function (email) { r
                 console.error(err_5);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.KaKaoLoginUser = toolkit_1.createAsyncThunk('KAKAO/LOGIN', function (_a) {
+    var kakaoId = _a.kakaoId, kakaoEmail = _a.kakaoEmail, kakaoNickName = _a.kakaoNickName, profileImageUrl = _a.profileImageUrl, thumbnailImageUrl = _a.thumbnailImageUrl;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var response, result, err_6;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch(api_1.kakaoSignIn, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                kakaoId: kakaoId,
+                                kakaoEmail: kakaoEmail,
+                                kakaoNickName: kakaoNickName,
+                                profileImageUrl: profileImageUrl,
+                                thumbnailImageUrl: thumbnailImageUrl
+                            }),
+                            credentials: 'include'
+                        })];
+                case 1:
+                    response = _b.sent();
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    result = _b.sent();
+                    return [2 /*return*/, result];
+                case 3:
+                    err_6 = _b.sent();
+                    console.error(err_6);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+});
+exports.KaKaoLogOutUser = toolkit_1.createAsyncThunk('KAKAO/LOGOUT', function (data) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, result, err_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log('로그아웃데이떠엉어', data);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, , 5]);
+                return [4 /*yield*/, fetch(api_1.kakaoSignOut, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ data: data }),
+                        credentials: 'include'
+                    })];
+            case 2:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 3:
+                result = _a.sent();
+                return [2 /*return*/, result];
+            case 4:
+                err_7 = _a.sent();
+                console.error(err_7);
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); });

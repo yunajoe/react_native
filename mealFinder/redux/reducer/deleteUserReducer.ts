@@ -1,5 +1,5 @@
+import {removeItemFromStorage} from '@/utils/storage';
 import {PayloadAction} from '@reduxjs/toolkit';
-import {removeItemFromStorage} from '../../utils/storage';
 
 export type DeletePayload = {
   status: number;
@@ -21,7 +21,6 @@ export default function deleteUserReducer(
     }
     case 'DELETE/fulfilled': {
       const {status, message} = action.payload;
-
       removeItemFromStorage('user');
       return {
         ...state,

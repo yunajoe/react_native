@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 exports.__esModule = true;
-var storage_1 = require("../../utils/storage");
+var storage_1 = require("@/utils/storage");
 var initialState = {
     deleteUserStatus: null,
     deleteUserMessage: ''

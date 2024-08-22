@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.removeItemFromStorage = exports.saveNonStringItemToStorage = exports.saveStringItemToStorage = exports.getItemFromStorage = void 0;
 var async_storage_1 = require("@react-native-async-storage/async-storage");
-// get
 exports.getItemFromStorage = function (key) { return __awaiter(void 0, void 0, void 0, function () {
     var itemString, error_1;
     return __generator(this, function (_a) {
@@ -62,7 +61,6 @@ exports.getItemFromStorage = function (key) { return __awaiter(void 0, void 0, v
         }
     });
 }); };
-//save
 exports.saveStringItemToStorage = function (_a) {
     var key = _a.key, value = _a.value;
     return __awaiter(void 0, void 0, void 0, function () {
@@ -117,11 +115,9 @@ exports.removeItemFromStorage = function (key) { return __awaiter(void 0, void 0
         }
     });
 }); };
-// 해당 아이템이 이미 스토리지에 있는지 double check
 exports["default"] = {
     getItemFromStorage: exports.getItemFromStorage,
     saveStringItemToStorage: exports.saveStringItemToStorage,
     saveNonStringItemToStorage: exports.saveNonStringItemToStorage,
     removeItemFromStorage: exports.removeItemFromStorage
 };
-//

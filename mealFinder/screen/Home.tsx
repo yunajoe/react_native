@@ -209,7 +209,6 @@ export default function Home() {
   );
 }
 
-// dark모드랑 상관없는 기본적인 스타일
 const styles = StyleSheet.create({
   spinner: {
     marginTop: 10,

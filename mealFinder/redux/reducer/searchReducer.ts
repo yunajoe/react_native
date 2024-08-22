@@ -1,5 +1,5 @@
-import {PayloadAction} from '@reduxjs/toolkit';
 import {checkValueInStorage} from '../../utils/storageUtils';
+import {PayloadAction} from '@reduxjs/toolkit';
 
 // 이것은 argument같은거
 export type SearchPayload = {
@@ -23,13 +23,11 @@ export default function searchReducer(
   action: PayloadAction<SearchPayload>,
 ) {
   const {payload} = action;
-  // {"payload": {"value": "aaaa"}, "type": "SEARCHED"}
-  // {"payload": {"isClick": true}, "type": "DELETE/SEARCHED_KEYWORD"}
+
   switch (action.type) {
     case 'SEARCHED':
       const trimmedPayLoad = payload.value?.trim()!;
-      // storage에 있는지 없는지 확인( check for duplication)
-      // true이면은 없는거 , false이면은 있는거
+
       const result = checkValueInStorage(
         trimmedPayLoad,
         state.insertSearchItemArr,

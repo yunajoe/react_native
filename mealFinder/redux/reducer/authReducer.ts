@@ -1,7 +1,7 @@
 import {
   removeItemFromStorage,
   saveNonStringItemToStorage,
-} from '../../utils/storage';
+} from '@/utils/storage';
 import {PayloadAction} from '@reduxjs/toolkit';
 
 export type AuthPayload = {
@@ -13,6 +13,13 @@ export type AuthPayload = {
   password: string;
   status: null | number;
   message: string;
+
+  // kakao
+  kakaoId: string;
+  kakaoEmail: string;
+  kakaoNickName: string;
+  profileImageUrl: string;
+  thumbnailImageUrl: string;
 };
 
 export const AuthInitialState = {
@@ -22,15 +29,14 @@ export const AuthInitialState = {
   email: '',
   username: '',
   password: '',
+  profileImageUrl: '',
+  thumbnailImageUrl: '',
   // login
   loginStatus: null,
   loginMessage: '',
   // logout
   logoutStatus: null,
   logoutMessage: '',
-  // delete
-  // deleteStatus: null,
-  // deleteMessage: '',
 };
 
 export default function authReducer(
@@ -81,16 +87,68 @@ export default function authReducer(
       };
     }
 
-    // 로그아웃
+    // 카카오 로그인
+    case 'KAKAO/LOGIN/pending': {
+      console.log('카카오 로그인이 펜딩중이댜아아');
+      return {
+        ...state,
+      };
+    }
+    case 'KAKAO/LOGIN/fulfilled': {
+      console.log('카카오 로그인이 성고오옹 하였습니다');
+      const {
+        status,
+        message,
+        kakaoId,
+        kakaoEmail,
+        kakaoNickName,
+        profileImageUrl,
+        thumbnailImageUrl,
+        accessToken,
+        refreshToken,
+      } = action.payload;
+      saveNonStringItemToStorage({
+        key: 'kakao_user',
+        saveValue: {
+          kakaoId,
+          kakaoNickName,
+          kakaoEmail,
+          profileImageUrl,
+          thumbnailImageUrl,
+          accessToken,
+          refreshToken,
+        },
+      });
+      return {
+        ...state,
+        id: kakaoId,
+        username: kakaoNickName,
+        email: kakaoEmail,
+        profileImageUrl,
+        thumbnailImageUrl,
+        accessToken,
+        refreshToken,
+        loginStatus: status,
+        loginMessage: message,
+      };
+    }
+
+    case 'KAKAO/LOGIN/rejected': {
+      const {status, message} = action.payload;
+      return {
+        ...AuthInitialState,
+        loginStatus: status,
+        loginMessage: message,
+      };
+    }
+
     case 'LOGOUT/pending': {
-      console.log('로그아웃펜딩');
       return {
         ...state,
       };
     }
     case 'LOGOUT/fulfilled': {
       const {status, message} = action.payload;
-
       removeItemFromStorage('user');
       return {
         ...AuthInitialState,
@@ -106,6 +164,33 @@ export default function authReducer(
         logoutMessage: message,
       };
     }
+
+    case 'KAKAO/LOGOUT/pending': {
+      return {
+        ...state,
+      };
+    }
+
+    case 'KAKAO/LOGOUT/fulfilled': {
+      console.log('카카오 dd로그아웃 이 되었땨~');
+      const {status, message} = action.payload;
+      removeItemFromStorage('kakao_user');
+      return {
+        ...AuthInitialState,
+        logoutStatus: status,
+        logoutMessage: message,
+      };
+    }
+
+    case 'KAKAO/LOGOUT/rejected': {
+      const {status, message} = action.payload;
+      return {
+        ...AuthInitialState,
+        logoutStatus: status,
+        logoutMessage: message,
+      };
+    }
+
     // reset
     case 'AUTH/reset': {
       return AuthInitialState;

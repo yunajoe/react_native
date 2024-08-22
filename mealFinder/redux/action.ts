@@ -1,6 +1,8 @@
 import {
   createUser,
   deleteUser,
+  kakaoSignIn,
+  kakaoSignOut,
   signInUser,
   signOutUser,
   updateUserName,
@@ -21,6 +23,20 @@ type LoginInfo = {
 type updateUserNameInfo = {
   email: string;
   username: string;
+};
+
+type KaKaoLoginInfo = {
+  kakaoId: string;
+  kakaoEmail: string;
+  kakaoNickName: string;
+  profileImageUrl: string;
+  thumbnailImageUrl: string;
+};
+
+type KaKaoLogOutInfo = {
+  email: string;
+  status: number;
+  message: string;
 };
 
 export const registerUser = createAsyncThunk(
@@ -80,22 +96,6 @@ export const logOutUser = createAsyncThunk('LOGOUT', async (email: string) => {
   }
 });
 
-// export const findSpecificUser = createAsyncThunk(
-//   'FINCSPECIFICUSER',
-//   async ({email, password}: FindOutUser) => {
-//     try {
-//       const response = await fetch(findOutUser, {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify({email, password}),
-//       });
-//       return response.json().then(data => data);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   },
-// );
-
 export const updateUserNickName = createAsyncThunk(
   'UPDATE/USERNAME',
   async ({email, username}: updateUserNameInfo) => {
@@ -121,6 +121,55 @@ export const withDrawUser = createAsyncThunk(
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({email}),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+);
+
+export const KaKaoLoginUser = createAsyncThunk(
+  'KAKAO/LOGIN',
+  async ({
+    kakaoId,
+    kakaoEmail,
+    kakaoNickName,
+    profileImageUrl,
+    thumbnailImageUrl,
+  }: KaKaoLoginInfo) => {
+    try {
+      const response = await fetch(kakaoSignIn, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          kakaoId,
+          kakaoEmail,
+          kakaoNickName,
+          profileImageUrl,
+          thumbnailImageUrl,
+        }),
+        credentials: 'include',
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+);
+
+export const KaKaoLogOutUser = createAsyncThunk(
+  'KAKAO/LOGOUT',
+  async (data: KaKaoLogOutInfo | null) => {
+    console.log('로그아웃데이떠엉어', data);
+    try {
+      const response = await fetch(kakaoSignOut, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({data}),
+        credentials: 'include',
       });
       const result = await response.json();
       return result;

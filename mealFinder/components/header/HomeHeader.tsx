@@ -1,40 +1,48 @@
-// import {StackNavigation} from '@/App';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
+import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
+
 import {ThemeContext} from '@/context/ThemeContext';
-import {loginUser} from '@/redux/action';
+import {KaKaoLoginUser, loginUser} from '@/redux/action';
+import {useAppDispatch} from '@/redux/store';
 import {StackNavigation} from '@/types/navigation';
 import {AuthState} from '@/types/reducerType';
 import {getItemFromStorage} from '@/utils/storage';
 import {faFilter, faUser} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 
 export default function HomeHeader() {
-  // false일떄 dark모드, true일떄 light모드로 전환하기
   const [isLight, setIsLight] = useState(false);
   const toggleSwitch = () => setIsLight(prev => !prev);
 
-  // context사용하기 for theme을 위해서
   const {theme, setToggleFunction} = useContext(ThemeContext);
 
   const navigation = useNavigation<StackNavigation>();
   const authState = useSelector(
     (state: {authReducer: AuthState}) => state.authReducer,
   );
-  // const registerUserState = useSelector(
-  //   (state: {createUserReducer: CreateUserState}) => state.createUserReducer,
-  // );
-  // // console.log('rrr', registerUserState);
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
 
   const getLogIn = async () => {
     const data = await getItemFromStorage('user');
     if (data !== null) {
-      const {email, username, password} = data;
+      const {email, password} = data;
       dispatch(loginUser({email, password}));
+    }
+
+    const kakaoUser = await getItemFromStorage('kakao_user');
+    if (kakaoUser !== null) {
+      dispatch(
+        KaKaoLoginUser({
+          kakaoId: kakaoUser.kakaoId,
+          kakaoEmail: kakaoUser.kakaoEmail,
+          kakaoNickName: kakaoUser.kakaoNickName,
+          profileImageUrl: kakaoUser.profileImageUrl,
+          thumbnailImageUrl: kakaoUser.thumbnailImageUrl,
+        }),
+      );
     }
   };
 
@@ -47,7 +55,7 @@ export default function HomeHeader() {
   const setTheme = useCallback(() => {
     const themeValue = isLight ? 'light' : 'dark';
     setToggleFunction(themeValue);
-  }, [isLight]);
+  }, [isLight, theme]);
 
   useEffect(() => {
     setTheme();
@@ -57,10 +65,10 @@ export default function HomeHeader() {
     <View style={styles.container}>
       <View style={styles.Header}>
         <View>
-          {authState.accessToken !== null ? (
-            <Text>{authState.username}님 좋은하루되세요!</Text>
+          {authState.accessToken ? (
+            <Text>{authState.username}님 좋은 하루 되세요!</Text>
           ) : (
-            <Text>로그인을해주세요</Text>
+            <Text>로그인을 해주세요</Text>
           )}
         </View>
         <TouchableOpacity
@@ -96,7 +104,6 @@ export default function HomeHeader() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    // backgroundColor: 'red',
     columnGap: 15,
     flex: 1,
     width: 330,
@@ -107,7 +114,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 10,
     alignItems: 'center',
-    // backgroundColor: 'red',
   },
   filterButton: {
     alignItems: 'center',

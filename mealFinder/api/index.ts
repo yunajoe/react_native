@@ -8,3 +8,7 @@ export const updateUserName = 'http://10.0.2.2:3001/user/update/username';
 export const checkUserName = 'http://10.0.2.2:3001/check/DuplicatedUsername';
 export const checkEmail = 'http://10.0.2.2:3001/check/DuplicatedEmail';
 export const checkUser = 'http://10.0.2.2:3001/check/user';
+
+// kakao
+export const kakaoSignIn = 'http://10.0.2.2:3001/kakao/signin';
+export const kakaoSignOut = 'http://10.0.2.2:3001/kakao/signout';

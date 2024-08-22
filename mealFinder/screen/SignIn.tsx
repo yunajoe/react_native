@@ -7,10 +7,12 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import useAlertMessage from '@/hooks/useAlertMessage';
-import {loginUser} from '@/redux/action';
+import {KaKaoLoginUser, loginUser} from '@/redux/action';
+import {useAppDispatch} from '@/redux/store';
+import {KaKaoLoginApi, KakaoUserProfile} from '@/types/kakao';
 import {StackNavigation} from '@/types/navigation';
 import {AuthState} from '@/types/reducerType';
 import {useNavigation} from '@react-navigation/native';
@@ -21,10 +23,13 @@ export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation<StackNavigation>();
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
   const authState = useSelector(
     (state: {authReducer: AuthState}) => state.authReducer,
   );
+
+  console.log('SIGNIN컴퍼넌트입니당');
+  console.log('authState', authState);
 
   const submit = () => {
     if (email.trim().length === 0) {
@@ -38,23 +43,31 @@ export default function SignIn() {
     dispatch(loginUser({email, password}));
   };
 
+  // 소셜 로그인
+  const handleKaKaoLogin = () => {
+    getKaKaoLogin((result: KaKaoLoginApi) => {
+      if (result) {
+        getUserProfile(async (user: KakaoUserProfile) => {
+          dispatch(
+            KaKaoLoginUser({
+              kakaoId: user.kakaoId,
+              kakaoEmail: user.kakaoEmail,
+              kakaoNickName: user.kakaoNickName,
+              profileImageUrl: user.profileImageUrl,
+              thumbnailImageUrl: user.thumbnailImageUrl,
+            }),
+          );
+        });
+      }
+    });
+  };
+
   useAlertMessage({
     state: {message: authState.loginMessage, status: authState.loginStatus},
     destination: 'Home',
     actionType: 'LOGIN',
   });
 
-  // 소셜 로그인
-  const handleKaKaoLogin = () => {
-    getKaKaoLogin((result: any) => {
-      console.log('카카오 로그인 결과:', result);
-      if (result) {
-        getUserProfile((user: any) => {
-          console.log('카카로 user결과', user);
-        });
-      }
-    });
-  };
   const handleGoogleLogin = () => {};
 
   return (
@@ -78,11 +91,6 @@ export default function SignIn() {
           <Button title="로그인" onPress={submit} />
         </View>
         <View style={styles.socialLoginContainer}>
-          {/* source={{uri: strMealThumb}} */}
-          {/* <View>
-            <Image source={KaKaoImage} />
-          </View> */}
-
           <Button
             title="카카오로로그인하기"
             onPress={handleKaKaoLogin}
@@ -139,9 +147,6 @@ const styles = StyleSheet.create({
 
   // kakao 이미지
   kakaoImage: {
-    // width: 132,
-    // height: 132,
-    // borderRadius: 100,
     overflow: 'hidden',
     height: 37,
     marginBottom: 10,

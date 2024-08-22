@@ -1,10 +1,11 @@
 import {ReactNode, createContext, useCallback, useState} from 'react';
-import {saveNonStringItemToStorage} from '../utils/storage';
+
 import {AllowedMode} from '../theme';
+import {saveNonStringItemToStorage} from '../utils/storage';
 
 type ThemeContextType = {
   theme: AllowedMode;
-  setToggleFunction: (newTheme: string) => void;
+  setToggleFunction: (newTheme: AllowedMode) => void;
 };
 
 export const ThemeContext = createContext<ThemeContextType>({
@@ -13,15 +14,16 @@ export const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeContextProvider = ({children}: {children: ReactNode}) => {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState<AllowedMode>('light');
 
   const setToggleFunction = useCallback(
-    (newTheme: string) => {
+    (newTheme: AllowedMode) => {
       setTheme(newTheme);
       saveNonStringItemToStorage({key: 'theme', saveValue: newTheme});
     },
     [theme],
   );
+  console.log('ThemeContexetProvider입니다앙아,', theme);
 
   return (
     <ThemeContext.Provider value={{theme, setToggleFunction}}>

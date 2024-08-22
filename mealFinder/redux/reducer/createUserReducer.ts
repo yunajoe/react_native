@@ -25,7 +25,6 @@ export default function createUserReducer(
     case 'REGISTER/pending':
       return {
         ...initialState,
-        message: 'REGISTER API PENDING중..',
       };
     case 'REGISTER/fulfilled': {
       const {email, username, password, status, message} = action.payload;

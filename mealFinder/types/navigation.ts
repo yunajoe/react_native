@@ -15,6 +15,9 @@ export type ScreenNames = [
   'ChangeEmail',
 ];
 
-export type RootStackParamList = Record<ScreenNames[number], undefined>;
+export type RootStackParamList = Record<
+  ScreenNames[number] | string,
+  undefined
+>;
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

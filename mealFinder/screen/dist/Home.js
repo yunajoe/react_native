@@ -236,7 +236,6 @@ function Home() {
         (randomData === null || randomData === void 0 ? void 0 : randomData.length) > 0 ? (react_1["default"].createElement(RanDomFood_1["default"], { data: randomData })) : ((noSearchKeyword === null || noSearchKeyword === void 0 ? void 0 : noSearchKeyword.length) === 0 && react_1["default"].createElement(Food_1["default"], { data: data }))));
 }
 exports["default"] = Home;
-// dark모드랑 상관없는 기본적인 스타일
 var styles = react_native_1.StyleSheet.create({
     spinner: {
         marginTop: 10,

@@ -114,7 +114,7 @@ class KaKaoMain(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
                          putString("kakaoEmail", email)
                          putString("kakaoNickName", nickname)
                          putString("profileImageUrl", profileImageUrl)
-                         putString("thumbnailImageUrl ", thumbnailImageUrl)
+                         putString("thumbnailImageUrl", thumbnailImageUrl)
                      }
                      callback.invoke(mappedUserInfo)
 

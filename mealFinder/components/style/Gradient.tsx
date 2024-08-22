@@ -1,7 +1,5 @@
-// tsrnf
-import {StyleSheet, View, useWindowDimensions} from 'react-native';
-
 import React from 'react';
+import {StyleSheet, View, useWindowDimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default function Gradient() {

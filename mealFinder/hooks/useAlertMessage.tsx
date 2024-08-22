@@ -9,6 +9,7 @@ import {
   resetUpdateUser,
 } from '@/redux/resetAction';
 import {useAppDispatch} from '@/redux/store';
+import {StackNavigation} from '@/types/navigation';
 import {getItemFromStorage} from '@/utils/storage';
 import {useNavigation} from '@react-navigation/native';
 
@@ -21,13 +22,12 @@ type UseAlertMessageOptions = {
 };
 
 function useAlertMessage(options: UseAlertMessageOptions) {
-  console.log('userAlert입니당아', options);
   const {state, actionType, destination, loginInfo} = options;
   const email = loginInfo?.email;
   const password = loginInfo?.password;
 
   const dispatch = useAppDispatch();
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<StackNavigation>();
 
   // 회원가입
   const registerUserCallbackFunc = () => {
@@ -42,6 +42,7 @@ function useAlertMessage(options: UseAlertMessageOptions) {
     dispatch(resetRegisterUser);
   };
 
+  // 로그인
   const logInCallbackFunc = () => {
     if (destination && state.status === 200) {
       navigation.navigate(destination);
@@ -53,55 +54,50 @@ function useAlertMessage(options: UseAlertMessageOptions) {
     if (destination && state.status === 200) {
       navigation.navigate(destination);
     }
-    dispatch(resetAuthUser);
   };
 
-  // update
+  // 변경
   const updateUserCallbackFunc = async () => {
-    console.log('나는야 업데이뚜');
     if (destination && state.status === 200) {
       navigation.navigate(destination);
     }
 
     const data = await getItemFromStorage('user');
-
-    // 다시 로그인하기
     dispatch(loginUser({email: data.email, password: data.password}));
-
-    dispatch(resetUpdateUser);
   };
 
+  //  삭제
   const deleteUserCallback = () => {
     if (destination && state.status === 200) {
       navigation.navigate(destination);
     }
-    dispatch(resetDeleteUser);
-    dispatch(resetAuthUser);
   };
   const handleMessageCallback = useCallback(() => {
     Alert.alert(state.message, '', [
       {
         text: '확인',
         onPress: () => {
-          if (actionType === 'LOGIN') {
-            logInCallbackFunc();
-          }
-          if (actionType === 'LOGOUT') {
-            logOutCallbackFunc();
-          }
-          if (actionType === 'REGISTER/USER') {
-            registerUserCallbackFunc();
-          }
-          if (actionType === 'UPDATE/USER') {
-            updateUserCallbackFunc();
-          }
-          if (actionType === 'DELETE/USER') {
-            deleteUserCallback();
+          switch (actionType) {
+            case 'LOGIN':
+              logInCallbackFunc();
+              break;
+            case 'LOGOUT':
+              logOutCallbackFunc();
+              break;
+            case 'REGISTER/USER':
+              registerUserCallbackFunc();
+              break;
+            case 'UPDATE/USER':
+              updateUserCallbackFunc();
+              break;
+            case 'DELETE/USER':
+              deleteUserCallback();
+              break;
           }
         },
       },
     ]);
-  }, [state.message]);
+  }, [actionType, state.status, state.message]);
 
   // alert메세지
   useEffect(() => {
@@ -110,6 +106,24 @@ function useAlertMessage(options: UseAlertMessageOptions) {
         handleMessageCallback();
       }
     }
+    return () => {
+      switch (actionType) {
+        case 'LOGIN':
+          // dispatch(resetAuthUser);
+          // dispatch(resetKaKaoAuthUser);
+          break;
+        case 'LOGOUT':
+          dispatch(resetAuthUser);
+          break;
+        case 'UPDATE/USER':
+          dispatch(resetUpdateUser);
+          break;
+        case 'DELETE/USER':
+          dispatch(resetDeleteUser);
+          dispatch(resetAuthUser);
+          break;
+      }
+    };
   }, [state.status, state.message]);
 }
 

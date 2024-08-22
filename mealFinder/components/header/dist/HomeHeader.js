@@ -36,40 +36,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-// import {StackNavigation} from '@/App';
+var react_1 = require("react");
+var react_native_1 = require("react-native");
+var react_redux_1 = require("react-redux");
 var ThemeContext_1 = require("@/context/ThemeContext");
 var action_1 = require("@/redux/action");
+var store_1 = require("@/redux/store");
 var storage_1 = require("@/utils/storage");
 var free_solid_svg_icons_1 = require("@fortawesome/free-solid-svg-icons");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var native_1 = require("@react-navigation/native");
-var react_1 = require("react");
-var react_native_1 = require("react-native");
-var react_redux_1 = require("react-redux");
 function HomeHeader() {
     var _this = this;
-    // false일떄 dark모드, true일떄 light모드로 전환하기
     var _a = react_1.useState(false), isLight = _a[0], setIsLight = _a[1];
     var toggleSwitch = function () { return setIsLight(function (prev) { return !prev; }); };
-    // context사용하기 for theme을 위해서
     var _b = react_1.useContext(ThemeContext_1.ThemeContext), theme = _b.theme, setToggleFunction = _b.setToggleFunction;
     var navigation = native_1.useNavigation();
     var authState = react_redux_1.useSelector(function (state) { return state.authReducer; });
-    // const registerUserState = useSelector(
-    //   (state: {createUserReducer: CreateUserState}) => state.createUserReducer,
-    // );
-    // // console.log('rrr', registerUserState);
-    var dispatch = react_redux_1.useDispatch();
+    var dispatch = store_1.useAppDispatch();
     var getLogIn = function () { return __awaiter(_this, void 0, void 0, function () {
-        var data, email, username, password;
+        var data, email, password, kakaoUser;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, storage_1.getItemFromStorage('user')];
                 case 1:
                     data = _a.sent();
                     if (data !== null) {
-                        email = data.email, username = data.username, password = data.password;
+                        email = data.email, password = data.password;
                         dispatch(action_1.loginUser({ email: email, password: password }));
+                    }
+                    return [4 /*yield*/, storage_1.getItemFromStorage('kakao_user')];
+                case 2:
+                    kakaoUser = _a.sent();
+                    if (kakaoUser !== null) {
+                        dispatch(action_1.KaKaoLoginUser({
+                            kakaoId: kakaoUser.kakaoId,
+                            kakaoEmail: kakaoUser.kakaoEmail,
+                            kakaoNickName: kakaoUser.kakaoNickName,
+                            profileImageUrl: kakaoUser.profileImageUrl,
+                            thumbnailImageUrl: kakaoUser.thumbnailImageUrl
+                        }));
                     }
                     return [2 /*return*/];
             }
@@ -83,15 +89,15 @@ function HomeHeader() {
     var setTheme = react_1.useCallback(function () {
         var themeValue = isLight ? 'light' : 'dark';
         setToggleFunction(themeValue);
-    }, [isLight]);
+    }, [isLight, theme]);
     react_1.useEffect(function () {
         setTheme();
     }, [isLight]);
     return (react_1["default"].createElement(react_native_1.View, { style: styles.container },
         react_1["default"].createElement(react_native_1.View, { style: styles.Header },
-            react_1["default"].createElement(react_native_1.View, null, authState.accessToken !== null ? (react_1["default"].createElement(react_native_1.Text, null,
+            react_1["default"].createElement(react_native_1.View, null, authState.accessToken ? (react_1["default"].createElement(react_native_1.Text, null,
                 authState.username,
-                "\uB2D8 \uC88B\uC740\uD558\uB8E8\uB418\uC138\uC694!")) : (react_1["default"].createElement(react_native_1.Text, null, "\uB85C\uADF8\uC778\uC744\uD574\uC8FC\uC138\uC694"))),
+                "\uB2D8 \uC88B\uC740 \uD558\uB8E8 \uB418\uC138\uC694!")) : (react_1["default"].createElement(react_native_1.Text, null, "\uB85C\uADF8\uC778\uC744 \uD574\uC8FC\uC138\uC694"))),
             react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
                     navigation.navigate('Profile');
                 } },
@@ -109,7 +115,6 @@ exports["default"] = HomeHeader;
 var styles = react_native_1.StyleSheet.create({
     container: {
         flexDirection: 'row',
-        // backgroundColor: 'red',
         columnGap: 15,
         flex: 1,
         width: 330,

@@ -11,6 +11,20 @@ export type AuthState = {
   logoutMessage: string;
 };
 
+export type KaKaoAuthState = {
+  id: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+  email: string;
+  username: string;
+  profileImageUrl: string;
+  thumbnailImageUrl: string;
+  kakaoLoginStatus: number | null;
+  kakaoLoginMessage: string;
+  kakaLogoutStatus: number | null;
+  kakaoLogoutMessage: string;
+};
+
 export type CreateUserState = {
   email: string;
   username: string;
