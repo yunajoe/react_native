@@ -7,9 +7,10 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+
 import {FilterContext} from '../context/FilterContext';
 
-export const MemoziedFilteredFood = React.memo(function FilteredFood() {
+export const MemoizedFilteredFood = React.memo(function FilteredFood() {
   const {filterData} = useContext(FilterContext);
   return (
     <View style={styles.container}>
@@ -38,7 +39,7 @@ export const MemoziedFilteredFood = React.memo(function FilteredFood() {
   );
 });
 
-export default MemoziedFilteredFood;
+export default MemoizedFilteredFood;
 
 const styles = StyleSheet.create({
   container: {

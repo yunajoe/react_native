@@ -39,16 +39,16 @@ exports.__esModule = true;
 var react_1 = require("react");
 var react_native_1 = require("react-native");
 var FilterButton_1 = require("../components/button/FilterButton");
-var FilterCategory_1 = require("./FilterCategory");
-var CategoryItem_1 = require("../components/item/CategoryItem");
 var DataWrapper_1 = require("../components/container/DataWrapper");
+var NonDataWrapper_1 = require("../components/container/NonDataWrapper");
+var CategoryItem_1 = require("../components/item/CategoryItem");
 var useFetch_1 = require("../hooks/useFetch");
 var api_1 = require("../utils/api");
 var filterScreen_1 = require("../utils/filterScreen");
-var NonDataWrapper_1 = require("../components/container/NonDataWrapper");
+var FilterCategory_1 = require("./FilterCategory");
+var Indicator_1 = require("@/components/indicator/Indicator");
 function FoodFilter() {
     var _this = this;
-    // user가 선택하면은 넣을 곳
     var _a = react_1.useState(''), cateGory = _a[0], setCateGory = _a[1];
     var _b = react_1.useState(''), area = _b[0], setArea = _b[1];
     var _c = react_1.useState([]), data = _c[0], setData = _c[1];
@@ -143,8 +143,7 @@ function FoodFilter() {
         setData([]);
     };
     if (isLoading) {
-        return (react_1["default"].createElement(react_native_1.View, { style: styles.spinner },
-            react_1["default"].createElement(react_native_1.ActivityIndicator, null)));
+        return react_1["default"].createElement(Indicator_1["default"], null);
     }
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.View, null,
@@ -198,10 +197,5 @@ var styles = react_native_1.StyleSheet.create({
     },
     sectionContainer: {
         marginBottom: 0
-    },
-    // error
-    spinner: {
-        marginTop: 10,
-        marginBottom: 10
     }
 });

@@ -39,6 +39,7 @@ exports.__esModule = true;
 var react_1 = require("react");
 var react_native_1 = require("react-native");
 var react_redux_1 = require("react-redux");
+var DarkModeSwitch_1 = require("@/components/switch/DarkModeSwitch");
 var ThemeContext_1 = require("@/context/ThemeContext");
 var action_1 = require("@/redux/action");
 var store_1 = require("@/redux/store");
@@ -108,18 +109,15 @@ function HomeHeader() {
                 } },
                 react_1["default"].createElement(react_native_1.View, { style: styles.filterButton },
                     react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: free_solid_svg_icons_1.faFilter, size: 24 })))),
-        react_1["default"].createElement(react_native_1.View, { style: styles.switchContainer },
-            react_1["default"].createElement(react_native_1.Switch, { trackColor: { "false": '#767577', "true": 'green' }, thumbColor: isLight ? '#f5dd4b' : '#f4f3f4', ios_backgroundColor: "#3e3e3e", onValueChange: toggleSwitch, value: isLight }))));
+        react_1["default"].createElement(DarkModeSwitch_1["default"], { isLight: isLight, toggleSwitch: toggleSwitch })));
 }
 exports["default"] = HomeHeader;
 var styles = react_native_1.StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        columnGap: 15,
         flex: 1,
-        width: 330,
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between'
     },
     Header: {
         flexDirection: 'row',
@@ -134,11 +132,5 @@ var styles = react_native_1.StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderStyle: 'solid'
-    },
-    switchContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginRight: 10
     }
 });

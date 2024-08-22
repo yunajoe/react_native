@@ -5,7 +5,6 @@ import {Provider} from 'react-redux';
 import {FilterContextProvider} from './context/FilterContext';
 import {ThemeContextProvider} from './context/ThemeContext';
 import store from './redux/store';
-import {MemoziedFilteredFood} from './screen/FilteredFood';
 import FoodDetail from './screen/FoodDetail';
 import FoodFilter from './screen/FoodFilter';
 import MyInterest from './screen/MyInterest';
@@ -15,6 +14,7 @@ import SignIn from './screen/SignIn';
 import SignUp from './screen/SignUp';
 import MyDrawer from '@/components/drawer/MyDrawer';
 import ChangeEmail from '@/screen/ChangeEmail';
+import MemoizedFilteredFood from '@/screen/FilteredFood';
 import NickNameEdit from '@/screen/NickNameEdit';
 import {RootStackParamList} from '@/types/navigation';
 import {NavigationContainer} from '@react-navigation/native';
@@ -39,7 +39,7 @@ const RootNavigation = () => {
         />
         <Stack.Screen
           name="FilteredFood"
-          component={MemoziedFilteredFood}
+          component={MemoizedFilteredFood}
           options={{headerShown: false}}
         />
         <Stack.Screen name="SignIn" component={SignIn} />

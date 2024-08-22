@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  ActivityIndicator,
   Alert,
   FlatList,
   SectionList,
@@ -10,18 +9,17 @@ import {
 } from 'react-native';
 
 import FilterButton from '../components/button/FilterButton';
-
-import FilterCategory from './FilterCategory';
-import CategoryItem from '../components/item/CategoryItem';
 import DataWrapper from '../components/container/DataWrapper';
+import NonDataWrapper from '../components/container/NonDataWrapper';
+import CategoryItem from '../components/item/CategoryItem';
 import useFetch from '../hooks/useFetch';
+import {FilterFood} from '../types/item';
 import {areaURL, categoryURL} from '../utils/api';
 import {combinedData} from '../utils/filterScreen';
-import {FilterFood} from '../types/item';
-import NonDataWrapper from '../components/container/NonDataWrapper';
+import FilterCategory from './FilterCategory';
+import Indicator from '@/components/indicator/Indicator';
 
 export default function FoodFilter() {
-  // user가 선택하면은 넣을 곳
   const [cateGory, setCateGory] = useState('');
   const [area, setArea] = useState('');
   const [data, setData] = useState<FilterFood[]>([]);
@@ -117,11 +115,7 @@ export default function FoodFilter() {
   };
 
   if (isLoading) {
-    return (
-      <View style={styles.spinner}>
-        <ActivityIndicator />
-      </View>
-    );
+    return <Indicator />;
   }
 
   return (
@@ -224,11 +218,5 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     marginBottom: 0,
-  },
-
-  // error
-  spinner: {
-    marginTop: 10,
-    marginBottom: 10,
   },
 });

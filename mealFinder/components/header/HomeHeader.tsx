@@ -1,7 +1,8 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
+import DarkModeSwitch from '@/components/switch/DarkModeSwitch';
 import {ThemeContext} from '@/context/ThemeContext';
 import {KaKaoLoginUser, loginUser} from '@/redux/action';
 import {useAppDispatch} from '@/redux/store';
@@ -88,27 +89,17 @@ export default function HomeHeader() {
           </View>
         </TouchableOpacity>
       </View>
-      <View style={styles.switchContainer}>
-        <Switch
-          trackColor={{false: '#767577', true: 'green'}}
-          thumbColor={isLight ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isLight}
-        />
-      </View>
+      <DarkModeSwitch isLight={isLight} toggleSwitch={toggleSwitch} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    columnGap: 15,
     flex: 1,
-    width: 330,
+    flexDirection: 'row',
+    width: '100%',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
   Header: {
     flexDirection: 'row',
@@ -123,12 +114,5 @@ const styles = StyleSheet.create({
     borderWidth: 1, // border 두께
     borderColor: 'black', // border 색상
     borderStyle: 'solid', // border 스타일
-  },
-
-  switchContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10,
   },
 });

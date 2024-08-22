@@ -14,6 +14,5 @@ exports.ThemeContextProvider = function (_a) {
         setTheme(newTheme);
         storage_1.saveNonStringItemToStorage({ key: 'theme', saveValue: newTheme });
     }, [theme]);
-    console.log('ThemeContexetProvider입니다앙아,', theme);
     return (React.createElement(exports.ThemeContext.Provider, { value: { theme: theme, setToggleFunction: setToggleFunction } }, children));
 };

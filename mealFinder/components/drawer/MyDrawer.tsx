@@ -1,10 +1,10 @@
+import React from 'react';
+
 import HomeHeader from '@/components/header/HomeHeader';
 import Home from '@/screen/Home';
 import MyInterest from '@/screen/MyInterest';
 import Profile from '@/screen/Profile';
-import {MyDrawerProps} from '@/types/navigation';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import React from 'react';
 
 export type RootDrawerParamList = {
   Home: undefined;
@@ -14,8 +14,9 @@ export type RootDrawerParamList = {
 };
 
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
+const HomeHeaderComponent = () => <HomeHeader />;
 
-export default function MyDrawer({navigation}: MyDrawerProps) {
+export default function MyDrawer() {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -30,10 +31,9 @@ export default function MyDrawer({navigation}: MyDrawerProps) {
         name="Home"
         component={Home}
         options={{
-          headerTitle: () => <HomeHeader navigation={navigation} />,
+          headerTitle: HomeHeaderComponent,
         }}
       />
-
       <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="MyInterest" component={MyInterest} />
     </Drawer.Navigator>

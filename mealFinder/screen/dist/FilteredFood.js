@@ -1,10 +1,10 @@
 "use strict";
 exports.__esModule = true;
-exports.MemoziedFilteredFood = void 0;
+exports.MemoizedFilteredFood = void 0;
 var react_1 = require("react");
 var react_native_1 = require("react-native");
 var FilterContext_1 = require("../context/FilterContext");
-exports.MemoziedFilteredFood = react_1["default"].memo(function FilteredFood() {
+exports.MemoizedFilteredFood = react_1["default"].memo(function FilteredFood() {
     var filterData = react_1.useContext(FilterContext_1.FilterContext).filterData;
     return (react_1["default"].createElement(react_native_1.View, { style: styles.container },
         react_1["default"].createElement(react_native_1.FlatList, { numColumns: 2, data: filterData, renderItem: function (_a) {
@@ -17,7 +17,7 @@ exports.MemoziedFilteredFood = react_1["default"].memo(function FilteredFood() {
                         react_1["default"].createElement(react_native_1.Text, null, item.strMeal))));
             } })));
 });
-exports["default"] = exports.MemoziedFilteredFood;
+exports["default"] = exports.MemoizedFilteredFood;
 var styles = react_native_1.StyleSheet.create({
     container: {
         marginTop: 30

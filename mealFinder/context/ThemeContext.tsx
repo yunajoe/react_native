@@ -23,7 +23,6 @@ export const ThemeContextProvider = ({children}: {children: ReactNode}) => {
     },
     [theme],
   );
-  console.log('ThemeContexetProvider입니다앙아,', theme);
 
   return (
     <ThemeContext.Provider value={{theme, setToggleFunction}}>
