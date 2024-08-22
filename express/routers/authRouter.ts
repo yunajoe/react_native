@@ -6,8 +6,9 @@ import {
   checkUserByEmail,
   checkUserByEmailAndPassword,
   createUser,
+  getUserIdByKakaoId,
+  kakaoCreateUser,
 } from "../db/user";
-import { makeAccessAndRefreshTokenMiddleWare } from "../middleware/token";
 import {
   signUPcheckUserEmailMiddleWare,
   signUPcheckUserNickNameMiddleWare,
@@ -18,6 +19,85 @@ dotenv.config();
 
 const authRouter = Router();
 
+const secretKey = process.env.SECRET_KEY as string;
+
+authRouter.post(
+  "/kakao/signin",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {
+      kakaoId,
+      kakaoEmail,
+      kakaoNickName,
+      profileImageUrl,
+      thumbnailImageUrl,
+    } = req.body;
+    // true이면 예전에 한번도 로그인 안 한 사람 false이면은 로그인 했떤 사람
+    await kakaoCreateUser({
+      kakaoId,
+      kakaoEmail,
+      kakaoNickName,
+      profileImageUrl,
+      thumbnailImageUrl,
+    });
+
+    const users_id = await getUserIdByKakaoId(kakaoId);
+    const payload = {
+      id: users_id,
+      email: kakaoEmail,
+    };
+    const accessToken = createJWT(payload, secretKey, {
+      expiresIn: "5m",
+    });
+    const refreshToken = createJWT(payload, secretKey, {
+      expiresIn: "15m",
+    });
+    const result = await saveToken({
+      users_id,
+      email: kakaoEmail,
+      accessToken,
+      refreshToken,
+    });
+    if (result) {
+      return res.status(200).send({
+        status: 200,
+        message: "로그인에 성공하였습니다",
+        kakaoId,
+        kakaoEmail,
+        kakaoNickName,
+        profileImageUrl,
+        thumbnailImageUrl,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      });
+    }
+    return res.status(400).send({
+      status: 400,
+      message: "로그인에 실패하였습니다",
+    });
+  }
+);
+
+authRouter.post("/kakao/signout", async (req, res) => {
+  const response = req.body.data;
+  try {
+    if (!response) {
+      return res.status(400).send({
+        status: 400,
+        message: "이미 로그아웃 되었습니다",
+      });
+    }
+    const { email } = response;
+    const result = await deleteToken(email);
+    if (result) {
+      return res.status(200).send({
+        status: 200,
+        message: "정상적으로 로그아웃이되었습니다",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({ error: "Internal server error" });
+  }
+});
 authRouter.post(
   "/signup",
   signUPcheckUserEmailMiddleWare,
@@ -30,16 +110,39 @@ authRouter.post(
         status: 400,
         message: "회원가입이 정상적으로 이루어지지 않았습니다",
       });
-    // userData를 local에 저장할려고 다시 한번
     const userData = await checkUserByEmail(email);
     res.locals.result = userData;
     next();
   },
-  makeAccessAndRefreshTokenMiddleWare,
   async (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).send({
-      status: 200,
-      message: "회원가입이 되었습니다!",
+    const userData = res.locals.result;
+    const users_id = userData.id;
+    const { email, password } = req.body;
+    const payload = {
+      id: users_id,
+      email: email,
+    };
+    const accessToken = createJWT(payload, secretKey, {
+      expiresIn: "5m",
+    });
+    const refreshToken = createJWT(payload, secretKey, {
+      expiresIn: "15m",
+    });
+    const result = await saveToken({
+      users_id,
+      email,
+      accessToken,
+      refreshToken,
+    });
+    if (result) {
+      return res.status(200).send({
+        status: 200,
+        message: "회원가입이 되었습니다!",
+      });
+    }
+    return res.status(400).send({
+      status: 400,
+      message: "회원가입이 정상적으로 이루어지지 않았습니다",
     });
   }
 );
@@ -84,10 +187,10 @@ authRouter.post(
       id: users_id,
       email: email,
     };
-    const accessToken = createJWT(payload, process.env.SECRET_KEY, {
+    const accessToken = createJWT(payload, secretKey, {
       expiresIn: "5m",
     });
-    const refreshToken = createJWT(payload, process.env.SECRET_KEY, {
+    const refreshToken = createJWT(payload, secretKey, {
       expiresIn: "15m",
     });
 
@@ -99,15 +202,6 @@ authRouter.post(
     });
 
     if (result) {
-      // res.cookie("accessToken", accessToken, {
-      //   httpOnly: true,
-      //   maxAge: 300000,
-      // });
-      // res.cookie("refreshToken", refreshToken, {
-      //   httpOnly: true,
-      //   secure: false,
-      //   sameSite: "strict",
-      // });
       return res.status(200).send({
         status: 200,
         message: "로그인에 성공하였습니다",
@@ -126,7 +220,6 @@ authRouter.post(
 );
 
 // 로그아웃
-
 authRouter.post("/signout", async (req, res) => {
   const { email } = req.body;
   try {
@@ -142,7 +235,7 @@ authRouter.post("/signout", async (req, res) => {
       message: "이미 로그아웃 되었습니다",
     });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).send({ status: 500, message: "Internal server error" });
   }
 });
 

@@ -6,6 +6,13 @@ type CreateUser = {
   password: string;
 };
 
+type KaKaoCreateUser = {
+  kakaoId: string;
+  kakaoEmail: string;
+  kakaoNickName: string;
+  profileImageUrl: string;
+  thumbnailImageUrl: string;
+};
 export const createUser = async (data: CreateUser) => {
   const { username, email, password } = data;
   try {
@@ -34,7 +41,6 @@ export const checkUserByUserName = async (username: string) => {
   return result.rows[0];
 };
 
-// email과 password user확인
 type CheckUserByEmailAndPassword = {
   email: string;
   password: string;
@@ -53,7 +59,6 @@ export const checkUserByEmailAndPassword = async ({
 };
 
 // email로 user삭제
-
 export const deleteUser = async (email: string) => {
   try {
     const result1 = await pool.query("DELETE FROM users WHERE email = $1", [
@@ -65,6 +70,65 @@ export const deleteUser = async (email: string) => {
     );
     return result1.rowCount > 0 && result2.rowCount > 0 ? true : false;
   } catch (error) {
+    return false;
+  }
+};
+
+// username 업데이트
+
+export const updateUserName = async (email: string, username: string) => {
+  try {
+    const result = await pool.query(
+      "UPDATE users SET username = $1 WHERE email = $2",
+      [username, email]
+    );
+    return result.rowCount > 0;
+  } catch (err) {
+    return false;
+  }
+};
+
+// kakao 관련
+
+export const kakaoCreateUser = async (data: KaKaoCreateUser) => {
+  const {
+    kakaoId,
+    kakaoEmail,
+    kakaoNickName,
+    profileImageUrl,
+    thumbnailImageUrl,
+  } = data;
+  try {
+    const result = await pool.query(
+      `INSERT INTO users (
+        kakao_id, 
+        kakao_username, 
+        kakao_email, 
+        email, 
+        kakao_profile_image_url, 
+        kakao_thumbnail_image_url
+      ) VALUES ($1, $2, $3, $3, $4, $5)`,
+      [kakaoId, kakaoNickName, kakaoEmail, profileImageUrl, thumbnailImageUrl]
+    );
+
+    return result.rowCount > 0;
+  } catch (err) {
+    return false;
+  }
+};
+
+// kakaoId로 users테이블의 id값(pk)return하는
+
+export const getUserIdByKakaoId = async (kakaoId: string) => {
+  try {
+    const result = await pool.query(
+      `SELECT id
+     FROM users
+     WHERE kakao_id = $1`,
+      [kakaoId]
+    );
+    return result.rows.length > 0 && result.rows[0].id;
+  } catch (err) {
     return false;
   }
 };
