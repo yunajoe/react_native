@@ -5,6 +5,7 @@ import { deleteToken, saveToken } from "../db/token";
 import {
   checkUserByEmail,
   checkUserByEmailAndPassword,
+  checkUserByKaKaoEmail,
   createUser,
   getUserIdByKakaoId,
   kakaoCreateUser,
@@ -31,15 +32,17 @@ authRouter.post(
       profileImageUrl,
       thumbnailImageUrl,
     } = req.body;
-    // true이면 예전에 한번도 로그인 안 한 사람 false이면은 로그인 했떤 사람
-    await kakaoCreateUser({
-      kakaoId,
-      kakaoEmail,
-      kakaoNickName,
-      profileImageUrl,
-      thumbnailImageUrl,
-    });
 
+    const isKaKaoEmailExist = await checkUserByKaKaoEmail(kakaoEmail);
+    if (!isKaKaoEmailExist) {
+      await kakaoCreateUser({
+        kakaoId,
+        kakaoEmail,
+        kakaoNickName,
+        profileImageUrl,
+        thumbnailImageUrl,
+      });
+    }
     const users_id = await getUserIdByKakaoId(kakaoId);
     const payload = {
       id: users_id,

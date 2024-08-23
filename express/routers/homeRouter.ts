@@ -4,6 +4,7 @@ import {
   checkUserByEmail,
   checkUserByEmailAndPassword,
   checkUserByUserName,
+  getUserById,
 } from "../db/user";
 
 dotenv.config();
@@ -67,6 +68,26 @@ homeRouter.post("/check/user", async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+homeRouter.post("/check/user/id", async (req, res) => {
+  const { id } = req.body;
+  try {
+    const result = await getUserById(id);
+    if (result) {
+      return res.status(200).send({
+        status: 200,
+        message: "해당 user를 찾았습니다",
+        result,
+      });
+    }
+    return res.status(400).send({
+      status: 400,
+      message: "해당 user가 없습니다",
+    });
+  } catch (error) {
+    res.status(500).send({ status: 500, message: "Internal server error" });
   }
 });
 module.exports = homeRouter;
