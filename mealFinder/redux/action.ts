@@ -1,4 +1,5 @@
 import {
+  checkUserById,
   createUser,
   deleteUser,
   kakaoSignIn,
@@ -172,6 +173,26 @@ export const KaKaoLogOutUser = createAsyncThunk(
         credentials: 'include',
       });
       const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+);
+
+export const getUserInfo = createAsyncThunk(
+  'USERINFO/ID',
+  async (id: string) => {
+    console.log('API호출');
+    try {
+      const response = await fetch(checkUserById, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id}),
+        credentials: 'include',
+      });
+      const result = await response.json();
+      console.log('result', result);
       return result;
     } catch (err) {
       console.error(err);

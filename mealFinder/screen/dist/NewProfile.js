@@ -4,10 +4,14 @@ var react_1 = require("react");
 var react_native_1 = require("react-native");
 var NewProfileButton_1 = require("@/components/button/NewProfileButton");
 var UserContainer_1 = require("@/components/container/UserContainer");
+var useLogOut_1 = require("@/hooks/useLogOut");
+var useWithDrawal_1 = require("@/hooks/useWithDrawal");
 var new_profile_style_1 = require("@/styles/screen/new_profile_style");
 function NewProfile() {
+    var handleLogOut = useLogOut_1["default"]();
+    var handleWithDrawal = useWithDrawal_1["default"]();
     return (react_1["default"].createElement(react_native_1.View, { style: new_profile_style_1.styles.container },
         react_1["default"].createElement(UserContainer_1["default"], null),
-        react_1["default"].createElement(NewProfileButton_1["default"], null)));
+        react_1["default"].createElement(NewProfileButton_1["default"], { handleLogOut: handleLogOut, handleWithDrawal: handleWithDrawal })));
 }
 exports["default"] = NewProfile;

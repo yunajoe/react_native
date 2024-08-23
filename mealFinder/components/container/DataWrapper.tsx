@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-
 import {
   ActivityIndicator,
   Image,
@@ -9,11 +8,13 @@ import {
   Text,
   View,
 } from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {FlatList} from 'react-native-gesture-handler';
-import {faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
-import {FilterFood} from '../../types/item';
+
 import {FilterContext} from '../../context/FilterContext';
+import {FilterFood} from '../../types/item';
+import {StackNavigation} from '@/types/navigation';
+import {faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation} from '@react-navigation/native';
 
 type DataWrapperProps = {
@@ -21,7 +22,7 @@ type DataWrapperProps = {
 };
 
 export default function DataWrapper({data}: DataWrapperProps) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigation>();
 
   const [pageData, setPageData] = useState<FilterFood[]>([]);
   const [currentPage, setCurrentPage] = useState(1);

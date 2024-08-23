@@ -19,7 +19,7 @@ function ChangeEmailButton({onPress, email, type}: ChangeEmailButtonProps) {
           <Text>{email}</Text>
           {type === 'general' ? (
             <View style={styles.email}>
-              <Icon name="email" size={12} color="fff" />
+              <Icon name="email" size={12} />
               <Text>이메일</Text>
             </View>
           ) : (

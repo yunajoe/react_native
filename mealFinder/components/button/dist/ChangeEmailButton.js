@@ -12,7 +12,7 @@ function ChangeEmailButton(_a) {
             react_1["default"].createElement(react_native_1.View, { style: change_email_button_1.styles.user_info },
                 react_1["default"].createElement(react_native_1.Text, null, email),
                 type === 'general' ? (react_1["default"].createElement(react_native_1.View, { style: change_email_button_1.styles.email },
-                    react_1["default"].createElement(MaterialIcons_1["default"], { name: "email", size: 12, color: "fff" }),
+                    react_1["default"].createElement(MaterialIcons_1["default"], { name: "email", size: 12 }),
                     react_1["default"].createElement(react_native_1.Text, null, "\uC774\uBA54\uC77C"))) : (react_1["default"].createElement(react_native_1.View, { style: change_email_button_1.styles.email },
                     react_1["default"].createElement(MaterialCommunityIcons_1["default"], { name: "message", size: 12, color: "#FFD700" }),
                     react_1["default"].createElement(react_native_1.Text, null, "\uCE74\uCE74\uC624\uD1A1")))),

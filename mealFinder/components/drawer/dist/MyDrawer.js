@@ -13,12 +13,15 @@ function MyDrawer() {
             headerTitleAlign: 'center',
             drawerStyle: {
                 backgroundColor: '#EAEAEA',
-                width: 200
-            }
+                width: 180
+            },
+            // headerTitleContainerStyle: {
+            //   alignItems: 'center', // 제목 중앙 정렬
+            //   justifyContent: 'center', // 제목 중앙 정렬
+            // },
+            headerTitle: HomeHeaderComponent
         } },
-        react_1["default"].createElement(Drawer.Screen, { name: "Home", component: Home_1["default"], options: {
-                headerTitle: HomeHeaderComponent
-            } }),
+        react_1["default"].createElement(Drawer.Screen, { name: "Home", component: Home_1["default"] }),
         react_1["default"].createElement(Drawer.Screen, { name: "Profile", component: Profile_1["default"] }),
         react_1["default"].createElement(Drawer.Screen, { name: "MyInterest", component: MyInterest_1["default"] })));
 }

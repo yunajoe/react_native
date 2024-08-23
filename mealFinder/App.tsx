@@ -16,6 +16,7 @@ import MyDrawer from '@/components/drawer/MyDrawer';
 import ChangeEmail from '@/screen/ChangeEmail';
 import MemoizedFilteredFood from '@/screen/FilteredFood';
 import NickNameEdit from '@/screen/NickNameEdit';
+import RegisterEmail from '@/screen/RegisterEmail';
 import {RootStackParamList} from '@/types/navigation';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -49,6 +50,7 @@ const RootNavigation = () => {
         <Stack.Screen name="NewProfile" component={NewProfile} />
         <Stack.Screen name="NickNameEdit" component={NickNameEdit} />
         <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
+        <Stack.Screen name="RegisterEmail" component={RegisterEmail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,50 +47,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var react_1 = require("react");
 var react_native_1 = require("react-native");
-var react_redux_1 = require("react-redux");
-var ChangeEmailButton_1 = require("@/components/button/ChangeEmailButton");
-var EditScreenLayout_1 = require("@/components/layout/EditScreenLayout");
 var action_1 = require("@/redux/action");
 var store_1 = require("@/redux/store");
-var native_1 = require("@react-navigation/native");
-function ChangeEmail() {
+var storage_1 = require("@/utils/storage");
+var getKaKaoLogOut = react_native_1.NativeModules.KaKaoModule.getKaKaoLogOut;
+function useLogOut() {
     var _this = this;
-    var authState = react_redux_1.useSelector(function (state) { return state.authReducer; });
     var dispatch = store_1.useAppDispatch();
-    var navigation = native_1.useNavigation();
-    var handleUserInfo = function () { return __awaiter(_this, void 0, void 0, function () {
+    var handleLogOut = function () { return __awaiter(_this, void 0, void 0, function () {
+        var data, kakaoUser;
         return __generator(this, function (_a) {
-            dispatch(action_1.getUserInfo(authState.id));
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, storage_1.getItemFromStorage('user')];
+                case 1:
+                    data = _a.sent();
+                    return [4 /*yield*/, storage_1.getItemFromStorage('kakao_user')];
+                case 2:
+                    kakaoUser = _a.sent();
+                    if (data !== null) {
+                        dispatch(action_1.logOutUser(data.email));
+                    }
+                    if (kakaoUser !== null) {
+                        getKaKaoLogOut(function (result) {
+                            if (result === null) {
+                                dispatch(action_1.KaKaoLogOutUser(result));
+                            }
+                            else {
+                                var logOutData = __assign({ email: kakaoUser.kakaoEmail }, result);
+                                dispatch(action_1.KaKaoLogOutUser(logOutData));
+                            }
+                        });
+                    }
+                    return [2 /*return*/];
+            }
         });
     }); };
-    var onPress = function () {
-        console.log('대표 이메일을 변경합니다');
-        navigation.navigate('RegisterEmail');
-    };
-    return (react_1["default"].createElement(EditScreenLayout_1["default"], null,
-        react_1["default"].createElement(ChangeEmailButton_1["default"], { type: "general", onPress: handleUserInfo, email: authState.email }),
-        react_1["default"].createElement(react_native_1.View, { style: styles.email_add_container },
-            react_1["default"].createElement(react_native_1.TouchableWithoutFeedback, { onPress: onPress },
-                react_1["default"].createElement(react_native_1.View, { style: styles.text_container },
-                    react_1["default"].createElement(react_native_1.Text, { style: styles.text }, "\uC774\uBA54\uC77C \uC9C1\uC811 \uB4F1\uB85D\uD558\uAE30"))))));
+    return handleLogOut;
 }
-exports["default"] = ChangeEmail;
-var styles = react_native_1.StyleSheet.create({
-    email_add_container: {
-        backgroundColor: 'rgba(25, 2, 14, 0.18)',
-        width: 160,
-        marginTop: 50,
-        padding: 10,
-        borderRadius: 100
-    },
-    text_container: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    text: {
-        color: 'black'
-    }
-});
+exports["default"] = useLogOut;

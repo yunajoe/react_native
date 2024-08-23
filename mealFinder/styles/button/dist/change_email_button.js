@@ -9,7 +9,8 @@ exports.styles = react_native_1.StyleSheet.create({
         position: 'relative',
         borderColor: 'black',
         borderWidth: 1,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        width: '100%'
     },
     user_info: {
         width: '100%',

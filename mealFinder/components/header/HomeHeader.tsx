@@ -17,6 +17,7 @@ export default function HomeHeader() {
   const [isLight, setIsLight] = useState(false);
   const toggleSwitch = () => setIsLight(prev => !prev);
 
+  console.log('토그으을', isLight);
   const {theme, setToggleFunction} = useContext(ThemeContext);
 
   const navigation = useNavigation<StackNavigation>();
@@ -56,15 +57,15 @@ export default function HomeHeader() {
   const setTheme = useCallback(() => {
     const themeValue = isLight ? 'light' : 'dark';
     setToggleFunction(themeValue);
-  }, [isLight, theme]);
+  }, [isLight, theme, authState.id]);
 
   useEffect(() => {
     setTheme();
-  }, [isLight]);
+  }, [isLight, authState.id]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.Header}>
+      <View style={styles.header}>
         <View>
           {authState.accessToken ? (
             <Text>{authState.username}님 좋은 하루 되세요!</Text>
@@ -72,6 +73,7 @@ export default function HomeHeader() {
             <Text>로그인을 해주세요</Text>
           )}
         </View>
+
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Profile');
@@ -96,15 +98,21 @@ export default function HomeHeader() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-  },
-  Header: {
-    flexDirection: 'row',
-    columnGap: 10,
     alignItems: 'center',
+    justifyContent: 'center',
+    columnGap: 10,
+    // backgroundColor: 'red',
+    // width: '100%',
+  },
+
+  header: {
+    flexDirection: 'row',
+    columnGap: 12,
+    alignItems: 'center',
+    // backgroundColor: 'blue',
+    // marginLeft: 30,
+    // backgroundColor: 'red',
   },
   filterButton: {
     alignItems: 'center',

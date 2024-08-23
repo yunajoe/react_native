@@ -9,10 +9,10 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 exports.__esModule = true;
 var react_1 = require("react");
 var react_native_1 = require("react-native");
-var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var react_native_gesture_handler_1 = require("react-native-gesture-handler");
-var free_solid_svg_icons_1 = require("@fortawesome/free-solid-svg-icons");
 var FilterContext_1 = require("../../context/FilterContext");
+var free_solid_svg_icons_1 = require("@fortawesome/free-solid-svg-icons");
+var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var native_1 = require("@react-navigation/native");
 function DataWrapper(_a) {
     var data = _a.data;

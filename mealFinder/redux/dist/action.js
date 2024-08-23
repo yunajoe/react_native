@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.KaKaoLogOutUser = exports.KaKaoLoginUser = exports.withDrawUser = exports.updateUserNickName = exports.logOutUser = exports.loginUser = exports.registerUser = void 0;
+exports.getUserInfo = exports.KaKaoLogOutUser = exports.KaKaoLoginUser = exports.withDrawUser = exports.updateUserNickName = exports.logOutUser = exports.loginUser = exports.registerUser = void 0;
 var api_1 = require("@/api");
 var toolkit_1 = require("@reduxjs/toolkit");
 exports.registerUser = toolkit_1.createAsyncThunk('REGISTER', function (_a) {
@@ -247,6 +247,36 @@ exports.KaKaoLogOutUser = toolkit_1.createAsyncThunk('KAKAO/LOGOUT', function (d
             case 4:
                 err_7 = _a.sent();
                 console.error(err_7);
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
+        }
+    });
+}); });
+exports.getUserInfo = toolkit_1.createAsyncThunk('USERINFO/ID', function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, result, err_8;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log('API호출');
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, , 5]);
+                return [4 /*yield*/, fetch(api_1.checkUserById, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: id }),
+                        credentials: 'include'
+                    })];
+            case 2:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 3:
+                result = _a.sent();
+                console.log('result', result);
+                return [2 /*return*/, result];
+            case 4:
+                err_8 = _a.sent();
+                console.error(err_8);
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }

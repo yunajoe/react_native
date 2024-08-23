@@ -1,22 +1,18 @@
 import React from 'react';
-import {Button, NativeModules, Text, View} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import SignButton from '@/components/button/SignButton';
 import NavigationInput from '@/components/input/NavigationInput';
 import useAlertMessage from '@/hooks/useAlertMessage';
-import {KaKaoLogOutUser, logOutUser, withDrawUser} from '@/redux/action';
-import {useAppDispatch} from '@/redux/store';
+import useLogOut from '@/hooks/useLogOut';
+import useWithDrawal from '@/hooks/useWithDrawal';
 import {styles} from '@/styles/screen/profile_style';
-import {KaKaoLogOutApi} from '@/types/kakao';
 import {StackNavigation} from '@/types/navigation';
 import {AuthState, DeleteUserState} from '@/types/reducerType';
-import {getItemFromStorage} from '@/utils/storage';
 import {faBowlFood} from '@fortawesome/free-solid-svg-icons/faBowlFood';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation} from '@react-navigation/native';
-
-const {getKaKaoLogOut} = NativeModules.KaKaoModule;
 
 export default function Profile() {
   const authState = useSelector(
@@ -29,35 +25,13 @@ export default function Profile() {
 
   const navigation = useNavigation<StackNavigation>();
 
-  const dispatch = useAppDispatch();
+  const handleLogOut = useLogOut();
+  const handleWithDrawal = useWithDrawal();
 
-  const handleLogOut = async () => {
-    const data = await getItemFromStorage('user');
-    const kakaoUser = await getItemFromStorage('kakao_user');
-
-    if (data !== null) {
-      dispatch(logOutUser(data.email));
-    }
-
-    if (kakaoUser !== null) {
-      getKaKaoLogOut((result: KaKaoLogOutApi | null) => {
-        if (result === null) {
-          dispatch(KaKaoLogOutUser(result));
-        } else {
-          const logOutData = {
-            email: kakaoUser.kakaoEmail,
-            ...result,
-          };
-          dispatch(KaKaoLogOutUser(logOutData));
-        }
-      });
-    }
-  };
-
-  const handleWithDrawal = async () => {
-    const data = await getItemFromStorage('user');
-    dispatch(withDrawUser(data.email));
-  };
+  // const handleWithDrawal = async () => {
+  //   const data = await getItemFromStorage('user');
+  //   dispatch(withDrawUser(data.email));
+  // };
 
   useAlertMessage({
     state: {message: authState.logoutMessage, status: authState.logoutStatus},

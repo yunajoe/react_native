@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     borderColor: 'black', // Set the border color
     borderWidth: 1, // Specify the width of the border
     backgroundColor: 'white',
+    width: '100%',
   },
   user_info: {
     width: '100%',
