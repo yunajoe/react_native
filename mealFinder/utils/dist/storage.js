@@ -97,7 +97,6 @@ exports.saveNonStringItemToStorage = function (_a) {
         });
     });
 };
-// remove
 exports.removeItemFromStorage = function (key) { return __awaiter(void 0, void 0, void 0, function () {
     var error_3;
     return __generator(this, function (_a) {

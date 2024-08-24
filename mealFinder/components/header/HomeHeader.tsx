@@ -17,7 +17,6 @@ export default function HomeHeader() {
   const [isLight, setIsLight] = useState(false);
   const toggleSwitch = () => setIsLight(prev => !prev);
 
-  console.log('토그으을', isLight);
   const {theme, setToggleFunction} = useContext(ThemeContext);
 
   const navigation = useNavigation<StackNavigation>();
@@ -57,11 +56,11 @@ export default function HomeHeader() {
   const setTheme = useCallback(() => {
     const themeValue = isLight ? 'light' : 'dark';
     setToggleFunction(themeValue);
-  }, [isLight, theme, authState.id]);
+  }, [isLight, theme]);
 
   useEffect(() => {
     setTheme();
-  }, [isLight, authState.id]);
+  }, [isLight]);
 
   return (
     <View style={styles.container}>
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     columnGap: 10,
     // backgroundColor: 'red',
     // width: '100%',

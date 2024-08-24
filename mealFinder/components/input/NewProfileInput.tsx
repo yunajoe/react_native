@@ -1,4 +1,3 @@
-import {styles} from '@/styles/input/new_profile_input_style';
 import React from 'react';
 import {
   NativeSyntheticEvent,
@@ -7,6 +6,8 @@ import {
   TextInputChangeEventData,
   View,
 } from 'react-native';
+
+import {styles} from '@/styles/input/new_profile_input_style';
 
 type NewProfileInputProps = {
   label: string;

@@ -209,6 +209,13 @@ export default function Home() {
   );
 }
 
+// const aaa = getItemFromStorage('user');
+// aaa.then(data => {
+//   console.log('data', data);
+// });
+
+// removeItemFromStorage('user');
+// removeItemFromStorage('kakao_user');
 const styles = StyleSheet.create({
   spinner: {
     marginTop: 10,

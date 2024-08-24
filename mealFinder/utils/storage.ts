@@ -42,7 +42,6 @@ export const saveNonStringItemToStorage = async ({
   await saveStringItemToStorage({key, value});
 };
 
-// remove
 export const removeItemFromStorage = async (key: string) => {
   try {
     await AsyncStorage.removeItem(key);

@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
-import {filterIngredient} from '../../utils/filterIndredient';
-import {Food} from '../../types/item';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+
+import {Food} from '@/types/item';
+import {filterIngredient} from '@/utils/filterIndredient';
 
 type RandomFoodProps = {
   data: Food[];
@@ -11,7 +12,6 @@ function RandomFood({data}: RandomFoodProps): React.JSX.Element {
   const randomMeal = data[0];
   const {strMeal, strMealThumb, strCategory, strArea, strInstructions} =
     randomMeal;
-
   const ingredientArr = filterIngredient(randomMeal);
 
   return (
@@ -23,16 +23,16 @@ function RandomFood({data}: RandomFoodProps): React.JSX.Element {
           <Text style={styles.text}>{strCategory}</Text>
           <Text style={styles.text}>{strArea}</Text>
         </View>
-        <View style={styles.main}>
+        <View>
           <Text style={styles.Instruction}>{strInstructions}</Text>
           <Text style={styles.IngredientTitle}>Ingredients</Text>
-          <View style={styles.IngredientArr}>
-            {ingredientArr.map((item, idx) => (
-              <Text key={idx} style={styles.item}>
-                {item}
-              </Text>
-            ))}
-          </View>
+        </View>
+        <View style={styles.IngredientArr}>
+          {ingredientArr.map((item, idx) => (
+            <Text key={idx} style={styles.item}>
+              {item}
+            </Text>
+          ))}
         </View>
       </ScrollView>
     </View>

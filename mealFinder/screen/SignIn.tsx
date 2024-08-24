@@ -15,6 +15,7 @@ import {useAppDispatch} from '@/redux/store';
 import {KaKaoLoginApi, KakaoUserProfile} from '@/types/kakao';
 import {StackNavigation} from '@/types/navigation';
 import {AuthState} from '@/types/reducerType';
+import {getItemFromStorage} from '@/utils/storage';
 import {useNavigation} from '@react-navigation/native';
 
 const {getKaKaoLogin, getUserProfile} = NativeModules.KaKaoModule;
@@ -69,7 +70,10 @@ export default function SignIn() {
   });
 
   const handleGoogleLogin = () => {};
-
+  const aaa = getItemFromStorage('user');
+  aaa.then(data => {
+    console.log('data', data);
+  });
   return (
     <>
       <View style={styles.container}>

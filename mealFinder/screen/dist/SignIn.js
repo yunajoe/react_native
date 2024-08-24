@@ -42,6 +42,7 @@ var react_redux_1 = require("react-redux");
 var useAlertMessage_1 = require("@/hooks/useAlertMessage");
 var action_1 = require("@/redux/action");
 var store_1 = require("@/redux/store");
+var storage_1 = require("@/utils/storage");
 var native_1 = require("@react-navigation/native");
 var _a = react_native_1.NativeModules.KaKaoModule, getKaKaoLogin = _a.getKaKaoLogin, getUserProfile = _a.getUserProfile;
 function SignIn() {
@@ -89,6 +90,10 @@ function SignIn() {
         actionType: 'LOGIN'
     });
     var handleGoogleLogin = function () { };
+    var aaa = storage_1.getItemFromStorage('user');
+    aaa.then(function (data) {
+        console.log('data', data);
+    });
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.View, { style: styles.container },
             react_1["default"].createElement(react_native_1.View, { style: styles.inputContainer },

@@ -51,7 +51,6 @@ function HomeHeader() {
     var _this = this;
     var _a = react_1.useState(false), isLight = _a[0], setIsLight = _a[1];
     var toggleSwitch = function () { return setIsLight(function (prev) { return !prev; }); };
-    console.log('토그으을', isLight);
     var _b = react_1.useContext(ThemeContext_1.ThemeContext), theme = _b.theme, setToggleFunction = _b.setToggleFunction;
     var navigation = native_1.useNavigation();
     var authState = react_redux_1.useSelector(function (state) { return state.authReducer; });
@@ -91,10 +90,10 @@ function HomeHeader() {
     var setTheme = react_1.useCallback(function () {
         var themeValue = isLight ? 'light' : 'dark';
         setToggleFunction(themeValue);
-    }, [isLight, theme, authState.id]);
+    }, [isLight, theme]);
     react_1.useEffect(function () {
         setTheme();
-    }, [isLight, authState.id]);
+    }, [isLight]);
     return (react_1["default"].createElement(react_native_1.View, { style: styles.container },
         react_1["default"].createElement(react_native_1.View, { style: styles.header },
             react_1["default"].createElement(react_native_1.View, null, authState.accessToken ? (react_1["default"].createElement(react_native_1.Text, null,
@@ -117,7 +116,7 @@ var styles = react_native_1.StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         columnGap: 10
     },
     header: {

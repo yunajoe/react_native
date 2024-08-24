@@ -1,5 +1,6 @@
 import React from 'react';
-import {FlatList, Text, View, Image, StyleSheet, Pressable} from 'react-native';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
 
 const LinkButton = props => {
@@ -33,6 +34,7 @@ const LinkButton = props => {
 };
 
 function Food({data}): React.JSX.Element {
+  console.log('FoodComponent', data);
   return (
     <>
       <FlatList
@@ -40,7 +42,7 @@ function Food({data}): React.JSX.Element {
         numColumns={2}
         keyExtractor={item => item.idMeal}
         data={data}
-        renderItem={({index, item, separators}) => {
+        renderItem={({item}) => {
           const {idMeal, strMeal, strMealThumb} = item;
 
           return (
