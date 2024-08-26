@@ -33,10 +33,6 @@ function SearchTitle({
       </Text>
     );
 
-  // api가 호출이 안 되었을때 => 아무것도 입력하지 않았을때 (성공)
-
-  // api가 호출이 되었을떄  => 검색어를 입력했을때  => 1. 아무 데이터가 없을때
-
   return (
     <View>
       {!isSearchApiCalled ? (

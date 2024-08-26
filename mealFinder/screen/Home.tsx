@@ -10,16 +10,17 @@ import SearchTitle from '@/components/title/SearchTitle';
 import {ThemeContext} from '@/context/ThemeContext';
 import useRandomData from '@/hooks/useRandomData';
 import useSearchData from '@/hooks/useSearchData';
+import {search} from '@/redux/searchAction';
 import {useAppDispatch} from '@/redux/store';
 import {darkModeStyling} from '@/styles/darkmode/dark_mode_style';
 import {AuthState} from '@/types/reducerType';
+import {saveSearchedValue} from '@/utils/search';
 
 export default function Home() {
   const [searchedValue, setSearchedValue] = useState('');
   const [searchedTitle, setSearchTitle] = useState('');
   const [isSearchApiCalled, setIsSearchApiCalled] = useState(false);
   const [isRandomApiCalled, setIsRandomApiCalled] = useState(false);
-  //검색어 입력 입력 안 했을때
   const [noSearchKeyword, setNoSearchKeyword] = useState('');
 
   const dispatch = useAppDispatch();
@@ -41,9 +42,6 @@ export default function Home() {
     getRanDomFood();
   };
 
-  console.log('randomData', randomData);
-  console.log('랜덤데이터로오딩', isRandomDataLoading);
-
   const onPressSearchFunction = async () => {
     setSearchData([]);
     setRandomData([]);
@@ -61,8 +59,8 @@ export default function Home() {
       setSearchTitle(value);
       getSearchFood();
 
-      //await saveSearchedValue(authState, searchedValue);
-      // dispatch(search(searchedValue.trim()));
+      await saveSearchedValue(authState, searchedValue);
+      dispatch(search(searchedValue.trim()));
     }
   };
 
