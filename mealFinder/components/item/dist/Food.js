@@ -29,7 +29,6 @@ var LinkButton = function (props) {
 };
 function Food(_a) {
     var data = _a.data;
-    console.log('FoodComponent', data);
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.FlatList, { columnWrapperStyle: styles.columnContainer, numColumns: 2, keyExtractor: function (item) { return item.idMeal; }, data: data, renderItem: function (_a) {
                 var item = _a.item;

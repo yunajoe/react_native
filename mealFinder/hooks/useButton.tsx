@@ -6,7 +6,7 @@ export interface useButtonProps {
   onPress: (event: GestureResponderEvent) => void;
   color?: string;
   accessibilityLabel?: string;
-  accessibilityActions?: Object; //array
+  accessibilityActions?: Object;
   onAccessibilityAction?: Function;
   disabled?: boolean;
 }

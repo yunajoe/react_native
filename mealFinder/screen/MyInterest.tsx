@@ -1,11 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, Text, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 
 import SearchedItem from '../components/item/SearchedItem';
 import BottomToTopModal from '../components/modal/BottomToTopModal';
-import {ThemeContext} from '../context/ThemeContext';
 import {selectedDeleteFunc} from '../redux/searchAction';
 import {AuthState, SearchState} from '../types/reducerType';
 import {getItemFromStorage} from '../utils/storage';
@@ -24,9 +23,6 @@ function MyInterest() {
   const searchState = useSelector(
     (state: {searchReducer: SearchState}) => state.searchReducer,
   );
-
-  const {theme, setToggleFunction} = useContext(ThemeContext);
-  console.log('MYINTEREST컴퍼넌트입니다', theme);
 
   useEffect(() => {
     getItemFromStorage(authState.email).then(data => {

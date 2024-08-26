@@ -1,8 +1,9 @@
-import {styles} from '@/styles/input/navigation_input_style';
-import {faArrowRight, IconDefinition} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React from 'react';
 import {Pressable, Text, View} from 'react-native';
+
+import {styles} from '@/styles/input/navigation_input_style';
+import {IconDefinition, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 type NavigationInputProps = {
   title: string;

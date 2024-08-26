@@ -40,7 +40,6 @@ var react_1 = require("react");
 var react_native_1 = require("react-native");
 var react_redux_1 = require("react-redux");
 var DarkModeSwitch_1 = require("@/components/switch/DarkModeSwitch");
-var ThemeContext_1 = require("@/context/ThemeContext");
 var action_1 = require("@/redux/action");
 var store_1 = require("@/redux/store");
 var storage_1 = require("@/utils/storage");
@@ -49,9 +48,7 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var native_1 = require("@react-navigation/native");
 function HomeHeader() {
     var _this = this;
-    var _a = react_1.useState(false), isLight = _a[0], setIsLight = _a[1];
-    var toggleSwitch = function () { return setIsLight(function (prev) { return !prev; }); };
-    var _b = react_1.useContext(ThemeContext_1.ThemeContext), theme = _b.theme, setToggleFunction = _b.setToggleFunction;
+    var _a = react_1.useState(''), darkModeValue = _a[0], setDarkModeValue = _a[1];
     var navigation = native_1.useNavigation();
     var authState = react_redux_1.useSelector(function (state) { return state.authReducer; });
     var dispatch = store_1.useAppDispatch();
@@ -87,13 +84,21 @@ function HomeHeader() {
             getLogIn();
         }
     }, [authState.id]);
-    var setTheme = react_1.useCallback(function () {
-        var themeValue = isLight ? 'light' : 'dark';
-        setToggleFunction(themeValue);
-    }, [isLight, theme]);
+    var callbackFunc = function () { return __awaiter(_this, void 0, void 0, function () {
+        var backGroundColor;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, storage_1.getItemFromStorage('mode')];
+                case 1:
+                    backGroundColor = _a.sent();
+                    setDarkModeValue(backGroundColor);
+                    return [2 /*return*/];
+            }
+        });
+    }); };
     react_1.useEffect(function () {
-        setTheme();
-    }, [isLight]);
+        callbackFunc();
+    });
     return (react_1["default"].createElement(react_native_1.View, { style: styles.container },
         react_1["default"].createElement(react_native_1.View, { style: styles.header },
             react_1["default"].createElement(react_native_1.View, null, authState.accessToken ? (react_1["default"].createElement(react_native_1.Text, null,
@@ -109,7 +114,7 @@ function HomeHeader() {
                 } },
                 react_1["default"].createElement(react_native_1.View, { style: styles.filterButton },
                     react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: free_solid_svg_icons_1.faFilter, size: 24 })))),
-        react_1["default"].createElement(DarkModeSwitch_1["default"], { isLight: isLight, toggleSwitch: toggleSwitch })));
+        react_1["default"].createElement(DarkModeSwitch_1["default"], null)));
 }
 exports["default"] = HomeHeader;
 var styles = react_native_1.StyleSheet.create({

@@ -34,7 +34,6 @@ const LinkButton = props => {
 };
 
 function Food({data}): React.JSX.Element {
-  console.log('FoodComponent', data);
   return (
     <>
       <FlatList

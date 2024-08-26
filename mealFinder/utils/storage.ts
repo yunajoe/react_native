@@ -28,7 +28,6 @@ export const saveStringItemToStorage = async ({
 }: saveStringItemToStorage) => {
   try {
     await AsyncStorage.setItem(key, value);
-    return true;
   } catch (error) {
     return false;
   }

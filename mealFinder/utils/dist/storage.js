@@ -72,7 +72,7 @@ exports.saveStringItemToStorage = function (_a) {
                     return [4 /*yield*/, async_storage_1["default"].setItem(key, value)];
                 case 1:
                     _b.sent();
-                    return [2 /*return*/, true];
+                    return [3 /*break*/, 3];
                 case 2:
                     error_2 = _b.sent();
                     return [2 /*return*/, false];

@@ -42,7 +42,6 @@ var react_redux_1 = require("react-redux");
 var useAlertMessage_1 = require("@/hooks/useAlertMessage");
 var action_1 = require("@/redux/action");
 var store_1 = require("@/redux/store");
-var storage_1 = require("@/utils/storage");
 var native_1 = require("@react-navigation/native");
 var _a = react_native_1.NativeModules.KaKaoModule, getKaKaoLogin = _a.getKaKaoLogin, getUserProfile = _a.getUserProfile;
 function SignIn() {
@@ -52,8 +51,6 @@ function SignIn() {
     var navigation = native_1.useNavigation();
     var dispatch = store_1.useAppDispatch();
     var authState = react_redux_1.useSelector(function (state) { return state.authReducer; });
-    console.log('SIGNIN컴퍼넌트입니당');
-    console.log('authState', authState);
     var submit = function () {
         if (email.trim().length === 0) {
             react_native_1.Alert.alert('email을 입력해주세요');
@@ -90,10 +87,10 @@ function SignIn() {
         actionType: 'LOGIN'
     });
     var handleGoogleLogin = function () { };
-    var aaa = storage_1.getItemFromStorage('user');
-    aaa.then(function (data) {
-        console.log('data', data);
-    });
+    // const aaa = getItemFromStorage('user');
+    // aaa.then(data => {
+    //   console.log('data', data);
+    // });
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.View, { style: styles.container },
             react_1["default"].createElement(react_native_1.View, { style: styles.inputContainer },

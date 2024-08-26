@@ -15,7 +15,6 @@ import {useAppDispatch} from '@/redux/store';
 import {KaKaoLoginApi, KakaoUserProfile} from '@/types/kakao';
 import {StackNavigation} from '@/types/navigation';
 import {AuthState} from '@/types/reducerType';
-import {getItemFromStorage} from '@/utils/storage';
 import {useNavigation} from '@react-navigation/native';
 
 const {getKaKaoLogin, getUserProfile} = NativeModules.KaKaoModule;
@@ -28,9 +27,6 @@ export default function SignIn() {
   const authState = useSelector(
     (state: {authReducer: AuthState}) => state.authReducer,
   );
-
-  console.log('SIGNIN컴퍼넌트입니당');
-  console.log('authState', authState);
 
   const submit = () => {
     if (email.trim().length === 0) {
@@ -70,10 +66,10 @@ export default function SignIn() {
   });
 
   const handleGoogleLogin = () => {};
-  const aaa = getItemFromStorage('user');
-  aaa.then(data => {
-    console.log('data', data);
-  });
+  // const aaa = getItemFromStorage('user');
+  // aaa.then(data => {
+  //   console.log('data', data);
+  // });
   return (
     <>
       <View style={styles.container}>

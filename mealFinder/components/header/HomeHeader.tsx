@@ -1,9 +1,8 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import DarkModeSwitch from '@/components/switch/DarkModeSwitch';
-import {ThemeContext} from '@/context/ThemeContext';
 import {KaKaoLoginUser, loginUser} from '@/redux/action';
 import {useAppDispatch} from '@/redux/store';
 import {StackNavigation} from '@/types/navigation';
@@ -14,11 +13,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation} from '@react-navigation/native';
 
 export default function HomeHeader() {
-  const [isLight, setIsLight] = useState(false);
-  const toggleSwitch = () => setIsLight(prev => !prev);
-
-  const {theme, setToggleFunction} = useContext(ThemeContext);
-
+  const [darkModeValue, setDarkModeValue] = useState('');
   const navigation = useNavigation<StackNavigation>();
   const authState = useSelector(
     (state: {authReducer: AuthState}) => state.authReducer,
@@ -53,14 +48,14 @@ export default function HomeHeader() {
     }
   }, [authState.id]);
 
-  const setTheme = useCallback(() => {
-    const themeValue = isLight ? 'light' : 'dark';
-    setToggleFunction(themeValue);
-  }, [isLight, theme]);
+  const callbackFunc = async () => {
+    const backGroundColor = await getItemFromStorage('mode');
+    setDarkModeValue(backGroundColor);
+  };
 
   useEffect(() => {
-    setTheme();
-  }, [isLight]);
+    callbackFunc();
+  });
 
   return (
     <View style={styles.container}>
@@ -90,7 +85,7 @@ export default function HomeHeader() {
           </View>
         </TouchableOpacity>
       </View>
-      <DarkModeSwitch isLight={isLight} toggleSwitch={toggleSwitch} />
+      <DarkModeSwitch />
     </View>
   );
 }

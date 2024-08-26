@@ -1,7 +1,6 @@
 import {ReactNode, createContext, useCallback, useState} from 'react';
 
 import {AllowedMode} from '../theme';
-import {saveNonStringItemToStorage} from '../utils/storage';
 
 type ThemeContextType = {
   theme: AllowedMode;
@@ -19,7 +18,6 @@ export const ThemeContextProvider = ({children}: {children: ReactNode}) => {
   const setToggleFunction = useCallback(
     (newTheme: AllowedMode) => {
       setTheme(newTheme);
-      saveNonStringItemToStorage({key: 'theme', saveValue: newTheme});
     },
     [theme],
   );
