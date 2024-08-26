@@ -9,6 +9,7 @@ type RandomFoodProps = {
 };
 
 function RandomFood({data}: RandomFoodProps): React.JSX.Element {
+  console.log('나는야 데이터', data);
   const randomMeal = data[0];
   const {strMeal, strMealThumb, strCategory, strArea, strInstructions} =
     randomMeal;

@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
+import Indicator from '@/components/indicator/Indicator';
 import SearchInput from '@/components/input/SearchInput';
 import Food from '@/components/item/Food';
 import RandomFood from '@/components/item/RanDomFood';
@@ -16,6 +17,10 @@ import {AuthState} from '@/types/reducerType';
 export default function Home() {
   const [searchedValue, setSearchedValue] = useState('');
   const [searchedTitle, setSearchTitle] = useState('');
+  const [isSearchApiCalled, setIsSearchApiCalled] = useState(false);
+  const [isRandomApiCalled, setIsRandomApiCalled] = useState(false);
+  //검색어 입력 입력 안 했을때
+  const [noSearchKeyword, setNoSearchKeyword] = useState('');
 
   const dispatch = useAppDispatch();
   const {theme} = useContext(ThemeContext);
@@ -26,37 +31,23 @@ export default function Home() {
   const {searchData, setSearchData, isSearchLoading, getSearchFood} =
     useSearchData(searchedValue);
 
-  const {randomData, setRandomData, getRanDomFood} = useRandomData();
-
-  const [isSearchApiCalled, setIsSearchApiCalled] = useState(false);
-
-  //검색어 입력 입력 안 했을때
-  const [noSearchKeyword, setNoSearchKeyword] = useState('');
+  const {randomData, setRandomData, isRandomDataLoading, getRanDomFood} =
+    useRandomData();
 
   // random펑션
   const onPressRandomFunction = () => {
+    setIsRandomApiCalled(true);
+    setIsSearchApiCalled(false);
     getRanDomFood();
   };
 
-  // 검색 펑션
-  // const onPressSearchFunction2 = async () => {
-  //   setIsSearchApiCalled(true);
-  //   if (searchedValue.trim().length === 0) {
-  //     setNoSearchKeyword('검색어 입력을 안했습니다');
-  //     setSearchData([]);
-  //   } else {
-  //     setSearchTitle(searchedValue.trim());
-  //     setSearchedValue('');
-  //     setSearchData([]);
-  //     getSearchFood();
-
-  //     await saveSearchedValue(authState, searchedValue);
-  //     dispatch(search(searchedValue.trim()));
-  //   }
-  // };
+  console.log('randomData', randomData);
+  console.log('랜덤데이터로오딩', isRandomDataLoading);
 
   const onPressSearchFunction = async () => {
     setSearchData([]);
+    setRandomData([]);
+    setIsRandomApiCalled(false);
     const value = searchedValue.trim();
 
     // 검색어 입력 안 했을때
@@ -69,6 +60,9 @@ export default function Home() {
       setIsSearchApiCalled(true);
       setSearchTitle(value);
       getSearchFood();
+
+      //await saveSearchedValue(authState, searchedValue);
+      // dispatch(search(searchedValue.trim()));
     }
   };
 
@@ -82,7 +76,16 @@ export default function Home() {
   //   console.log('ㅎㅎㅎㅎㅎ', data);
   // });
 
+  // removeItemFromStorage('user');
   const darkModeStyle = darkModeStyling(theme);
+
+  if (isSearchApiCalled && isSearchLoading) {
+    return <Indicator />;
+  }
+
+  if (isRandomApiCalled && isRandomDataLoading) {
+    return <Indicator />;
+  }
 
   return (
     <View style={darkModeStyle.container}>
@@ -101,42 +104,15 @@ export default function Home() {
             noSearchKeyword={noSearchKeyword}
             searchData={searchData}
             searchedTitle={searchedTitle}
-            isSearchLoading={isSearchLoading}
             isSearchApiCalled={isSearchApiCalled}
           />
         )}
       </View>
-      <View>
-        {randomData.length === 0 ? (
-          <Food data={searchData} />
-        ) : (
-          <RandomFood data={randomData} />
-        )}
-      </View>
-
-      {/* 데이터 뿌려주는곳 */}
-      {/* <View>
-        {randomData.length === 0 ? (
-          noSearchKeyword.length === 0 && <Food data={searchData} />
-        ) : (
-          <RandomFood data={randomData} />
-        )}
-      </View> */}
-
-      {/* {randomData?.length > 0 ? (
-        <RandomFood data={randomData} />
+      {randomData.length === 0 ? (
+        <Food data={searchData} />
       ) : (
-        noSearchKeyword?.length === 0 && <Food data={searchData} />
-      )} */}
+        <RandomFood data={randomData} />
+      )}
     </View>
   );
 }
-
-// const aaa = getItemFromStorage('user');
-// const bbbbb = getItemFromStorage(authState.email)
-// aaa.then(data => {
-//   console.log('data', data);
-// });
-
-// removeItemFromStorage('user');
-// removeItemFromStorage('kakao_user');

@@ -2,7 +2,7 @@ import {useState} from 'react';
 
 function useRandomData() {
   const [randomData, setRandomData] = useState([]);
-  const [isRandomDataLoading, setIsRandomDataLoading] = useState(true);
+  const [isRandomDataLoading, setIsRandomDataLoading] = useState(false);
   const [isRandomDataError, setIsRandomDataError] = useState<string | null>(
     null,
   );

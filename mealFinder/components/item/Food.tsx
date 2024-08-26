@@ -1,10 +1,11 @@
 import React from 'react';
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
+import {StackNavigation} from '@/types/navigation';
 import {useNavigation} from '@react-navigation/native';
 
 const LinkButton = props => {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<StackNavigation>();
   const {children, to, item, data, action} = props;
 
   return (
