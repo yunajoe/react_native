@@ -23,7 +23,6 @@ function ChangeEmail() {
     // console.log('aaa', aaa);
   };
   const onPress = () => {
-    console.log('대표 이메일을 변경합니다');
     navigation.navigate('RegisterEmail');
   };
 

@@ -41,6 +41,64 @@ export const images = [
   },
 ];
 
+export const filterMatchText = (email: string) => {
+  const beforeAtLetterRegex = /^[^@]+/;
+  const afterAtLetterRegex = /(?<=@).+/;
+  const beforeMathcedRegex = email.match(beforeAtLetterRegex);
+  const afterMatchedRegex = email.match(afterAtLetterRegex);
+  if (beforeMathcedRegex !== null && afterMatchedRegex !== null) {
+    const email = beforeMathcedRegex[beforeMathcedRegex.length - 1];
+    const domain = afterMatchedRegex[afterMatchedRegex.length - 1];
+    return {
+      email,
+      domain,
+    };
+  }
+  if (beforeMathcedRegex !== null && afterMatchedRegex === null) {
+    return {
+      email,
+      domain: '',
+    };
+  }
+  if (beforeMathcedRegex === null && afterMatchedRegex === null) {
+    return {
+      email: '',
+      domain: '',
+    };
+  }
+};
+
+// export const emailProcessTwo = (email: string) => {
+//   const beforeAtLetterRegex = /^[^@]+/;
+//   const afterAtLetterRegex = /(?<=@).+/;
+//   const google = 'gmail.com';
+
+//   const beforeMathcedRegex = email.match(beforeAtLetterRegex);
+
+//   const afterMatchedRegex = email.match(afterAtLetterRegex);
+//   if (beforeMathcedRegex && afterMatchedRegex) {
+//     const email = beforeMathcedRegex[beforeMathcedRegex.length - 1];
+//     const domain = afterMatchedRegex[afterMatchedRegex.length - 1];
+//     console.log('하이', google.includes(domain), '나는야 도메인', domain);
+//     if (google.includes(domain)) {
+//       return `${email}@${google}`;
+//     }
+//   }
+// };
+
+type Data = {
+  domain: string;
+  email: string;
+};
+export const emailProcessTwo = (data: Data | undefined) => {
+  const google = 'gmail.com';
+  if (data) {
+    const {domain, email} = data;
+    if (google.includes(domain)) {
+      return `${email}@${google}`;
+    }
+  }
+};
 export const emailProcessing = (index: number) => {
   let email;
   switch (index) {

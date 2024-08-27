@@ -10,6 +10,16 @@ import {
 
 import EditScreenLayout from '@/components/layout/EditScreenLayout';
 import EmailList from '@/components/list/EmailList';
+import {
+  emailProcessTwo,
+  emailProcessing,
+  filterMatchText,
+} from '@/utils/processing';
+
+export type DataType = {
+  id: number;
+  title: string;
+};
 
 function RegisterEmail() {
   const [email, setEmail] = useState('');
@@ -20,12 +30,21 @@ function RegisterEmail() {
   };
 
   const handleOnChange = ({nativeEvent: {eventCount, target, text}}) => {
-    console.log('핸들체이지', target, text);
+    setIsSelected(false);
+    // console.log('text', text);m
   };
 
   const disabled = email.length === 0 ? true : false;
 
-  // console.log('이메일', email);
+  const data = Array.from({length: 8}, (_, i) => {
+    return {
+      id: i,
+      title: `${email}@${emailProcessing(i)}`,
+    };
+  });
+
+  const result = filterMatchText(email);
+
   return (
     <EditScreenLayout>
       <View style={styles.container}>
@@ -48,14 +67,35 @@ function RegisterEmail() {
           </Pressable>
         </View>
         {/* data리스트컴퍼넌 */}
-        {email.length > 0 && (
+        {!isSelected && email.length > 0 && !email.includes('@') && (
           <EmailList
+            data={data}
             email={email}
             setEmail={setEmail}
             isSelected={isSelected}
             setIsSelected={setIsSelected}
           />
         )}
+        {!isSelected &&
+          email.length > 0 &&
+          email.includes('@') &&
+          result?.domain !== '' && (
+            <View>
+              <Text>{emailProcessTwo(result)}</Text>
+            </View>
+          )}
+        {!isSelected &&
+          email.length > 0 &&
+          email.includes('@') &&
+          result?.domain === '' && (
+            <EmailList
+              data={data}
+              email={email}
+              setEmail={setEmail}
+              isSelected={isSelected}
+              setIsSelected={setIsSelected}
+            />
+          )}
       </View>
       <View style={{width: '100%'}}>
         <Button title="확인" />
