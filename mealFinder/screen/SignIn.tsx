@@ -1,14 +1,9 @@
 import React, {useState} from 'react';
-import {
-  Alert,
-  Button,
-  NativeModules,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import {Alert, Button, NativeModules, StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
+import Indicator from '@/components/indicator/Indicator';
+import SignInInput from '@/components/input/SignInInput';
 import useAlertMessage from '@/hooks/useAlertMessage';
 import {KaKaoLoginUser, loginUser} from '@/redux/action';
 import {useAppDispatch} from '@/redux/store';
@@ -69,40 +64,45 @@ export default function SignIn() {
   // const aaa = getItemFromStorage('user');
   // aaa.then(data => {
   //   console.log('data', data);
+  // authState.loginStatus !== null && authState.loginStatus !== 200
   // });
   return (
     <>
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="email"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="password"
-            value={password}
-            onChangeText={setPassword}
-          />
+      {authState.loginStatus === 200 ? (
+        <View style={{flex: 1}}>
+          <Indicator />
         </View>
-        <View style={styles.loginButton}>
-          <Button title="로그인" onPress={submit} />
-        </View>
-        <View style={styles.socialLoginContainer}>
+      ) : (
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <SignInInput
+              value={email}
+              placeholder="email"
+              onChangeText={setEmail}
+            />
+            <SignInInput
+              value={password}
+              placeholder="password"
+              onChangeText={setPassword}
+            />
+          </View>
+          <View style={styles.loginButton}>
+            <Button title="로그인" onPress={submit} />
+          </View>
+          <View style={styles.socialLoginContainer}>
+            <Button
+              title="카카오로로그인하기"
+              onPress={handleKaKaoLogin}
+              color="#FFBC00"
+            />
+            <Button title="구글로로그인하기" onPress={handleGoogleLogin} />
+          </View>
           <Button
-            title="카카오로로그인하기"
-            onPress={handleKaKaoLogin}
-            color="#FFBC00"
+            title="회원가입"
+            onPress={() => navigation.navigate('SignUp')}
           />
-          <Button title="구글로로그인하기" onPress={handleGoogleLogin} />
         </View>
-        <Button
-          title="회원가입"
-          onPress={() => navigation.navigate('SignUp')}
-        />
-      </View>
+      )}
     </>
   );
 }
@@ -116,12 +116,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginBottom: 10,
   },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-  },
+
   loginButton: {
     marginBottom: 20,
   },

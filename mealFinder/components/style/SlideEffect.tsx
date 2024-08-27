@@ -1,8 +1,12 @@
-import React, {Dispatch, RefObject, SetStateAction, useRef} from 'react';
+import React, {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  forwardRef,
+  useRef,
+} from 'react';
 import {View} from 'react-native';
 import Animated, {useAnimatedScrollHandler} from 'react-native-reanimated';
-import RenderItem from '../item/RenderItem';
-import {forwardRef} from 'react';
 
 type SlideEffectProps = {
   x: any;
@@ -82,7 +86,7 @@ const SlideEffect = forwardRef<Ref, SlideEffectProps>(function SlideEffect(
         data={data}
         keyExtractor={(_, index) => `list_item${index}`}
         renderItem={({item, index}) => {
-          return <RenderItem item={item} index={index} x={x} />;
+          return <View style={{width: width, height: width}}></View>;
         }}
       />
     </View>

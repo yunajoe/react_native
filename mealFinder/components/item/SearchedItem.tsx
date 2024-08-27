@@ -1,15 +1,17 @@
-import {faXmark} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+
+import {deleteSearchItem} from '../../redux/searchAction';
 import {AuthState, SearchState} from '../../types/reducerType';
 import {
   getItemFromStorage,
   saveNonStringItemToStorage,
 } from '../../utils/storage';
 import {deleteValueFromStorage} from '../../utils/storageUtils';
-import {deleteSearchItem} from '../../redux/searchAction';
+import {faXmark} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+
 type ItemProps = {name: string};
 
 function SearchedItem({name}: ItemProps) {
@@ -24,9 +26,6 @@ function SearchedItem({name}: ItemProps) {
 
   const handleDeleteItem = async (selectedItemName: string) => {
     if (searchState.isSelectedDeleteButtonClick) {
-      // 왜 아래처럼 disaptch를 storge보다 위에두면은 안되는가?
-      // dispatch(deleteSearchItem(selectedItemName));
-
       await getItemFromStorage(authState.email).then(async data => {
         const updatedData = deleteValueFromStorage(selectedItemName, data);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import {images} from '../utils/processImages';
+import {images} from '../utils/processing';
 import Dot from './style/Dot';
 
 type Props = {

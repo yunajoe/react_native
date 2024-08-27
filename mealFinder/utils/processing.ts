@@ -40,3 +40,34 @@ export const images = [
     genre: 'Action',
   },
 ];
+
+export const emailProcessing = (index: number) => {
+  let email;
+  switch (index) {
+    case 0:
+      email = 'gmail.com';
+      break;
+    case 1:
+      email = 'naver.com';
+      break;
+    case 2:
+      email = 'daum.net';
+      break;
+    case 3:
+      email = 'kakao.com';
+      break;
+    case 4:
+      email = 'hanmail.net';
+      break;
+    case 5:
+      email = 'icloud.com';
+      break;
+    case 6:
+      email = 'nate.com';
+      break;
+    case 7:
+      email = 'hotmail.com';
+      break;
+  }
+  return email;
+};

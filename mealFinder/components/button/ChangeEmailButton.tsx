@@ -24,14 +24,14 @@ function ChangeEmailButton({onPress, email, type}: ChangeEmailButtonProps) {
             </View>
           ) : (
             <View style={styles.email}>
-              <MaterialIcon name="message" size={12} color="#FFD700" />
+              <MaterialIcon name="message" size={12} />
               <Text>카카오톡</Text>
             </View>
           )}
         </View>
         <View style={styles.radio_icon}>
           {/* <Icon name="radio-button-unchecked" size={28} color="fff" /> */}
-          <Icon name="radio-button-checked" size={28} color="fff" />
+          <Icon name="radio-button-checked" size={28} />
         </View>
       </View>
     </TouchableWithoutFeedback>

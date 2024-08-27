@@ -64,17 +64,8 @@ export default function Home() {
     }
   };
 
-  // const aaa = getItemFromStorage('user');
-  // const bbb = getItemFromStorage(authState.email);
-  // aaa.then(data => {
-  //   console.log('dasdfsdfsdfta', data);
-  // });
-
-  // bbb.then(data => {
-  //   console.log('ㅎㅎㅎㅎㅎ', data);
-  // });
-
   // removeItemFromStorage('user');
+  // removeItemFromStorage('kakao_user');
   const darkModeStyle = darkModeStyling(theme);
 
   if (isSearchApiCalled && isSearchLoading) {

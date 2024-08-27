@@ -45,6 +45,8 @@ export default function authReducer(
 ) {
   switch (action.type) {
     case 'LOGIN/pending': {
+      console.log('일반 로그인이 펜ㅇㅇㅇㅇddd딩중이dddddddddd댜아아');
+
       return {
         ...state,
       };
@@ -89,13 +91,13 @@ export default function authReducer(
 
     // 카카오 로그인
     case 'KAKAO/LOGIN/pending': {
-      console.log('카카오 로그인이 펜딩중이댜아아');
+      console.log('카카오 로그인ㄴㄴㄴ이 펜딩중이ddddddd댜아아');
       return {
         ...state,
       };
     }
     case 'KAKAO/LOGIN/fulfilled': {
-      console.log('카카오 로그인이 성고오옹 하였습니다');
+      console.log('카카오 로그인이 성고오옹 ㅇㅇㅇㅇㅇㅇ하였습니다');
       const {
         status,
         message,

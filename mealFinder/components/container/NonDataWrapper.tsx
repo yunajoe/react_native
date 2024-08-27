@@ -6,7 +6,8 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
-import {images} from '../../utils/processImages';
+
+import {images} from '../../utils/processing';
 import Pagination from '../Pagination';
 import BackImage from '../style/BackImage';
 import SlideEffect from '../style/SlideEffect';
