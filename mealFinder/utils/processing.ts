@@ -1,3 +1,5 @@
+import {Email, EmailObject} from '@/types/item';
+
 export const images = [
   {
     id: 1,
@@ -68,38 +70,15 @@ export const filterMatchText = (email: string) => {
   }
 };
 
-// export const emailProcessTwo = (email: string) => {
-//   const beforeAtLetterRegex = /^[^@]+/;
-//   const afterAtLetterRegex = /(?<=@).+/;
-//   const google = 'gmail.com';
-
-//   const beforeMathcedRegex = email.match(beforeAtLetterRegex);
-
-//   const afterMatchedRegex = email.match(afterAtLetterRegex);
-//   if (beforeMathcedRegex && afterMatchedRegex) {
-//     const email = beforeMathcedRegex[beforeMathcedRegex.length - 1];
-//     const domain = afterMatchedRegex[afterMatchedRegex.length - 1];
-//     console.log('하이', google.includes(domain), '나는야 도메인', domain);
-//     if (google.includes(domain)) {
-//       return `${email}@${google}`;
-//     }
-//   }
-// };
-
-type Data = {
-  domain: string;
-  email: string;
-};
-export const emailProcessTwo = (data: Data | undefined) => {
-  const google = 'gmail.com';
-  if (data) {
-    const {domain, email} = data;
-    if (google.includes(domain)) {
-      return `${email}@${google}`;
-    }
+export const processLocalPart = (email: string) => {
+  if (email.includes('@')) {
+    const processedEmail = email.replace('@', '');
+    return processedEmail;
   }
+  return email;
 };
-export const emailProcessing = (index: number) => {
+
+export const processDomainPart = (index: number) => {
   let email;
   switch (index) {
     case 0:
@@ -128,4 +107,34 @@ export const emailProcessing = (index: number) => {
       break;
   }
   return email;
+};
+
+export const emailProcessTwo = (data: Email | undefined) => {
+  let arr: EmailObject[] = [];
+  let emailId = 0;
+
+  const emailDomains = [
+    'gmail.com',
+    'naver.com',
+    'daum.net',
+    'kakao.com',
+    'icloud.com',
+    'hanmail.net',
+    'nate.com',
+    'hotmail.com',
+  ];
+
+  if (data) {
+    const {domain, email} = data;
+    emailDomains.forEach(item => {
+      if (item.startsWith(domain)) {
+        arr.push({
+          id: emailId++,
+          title: `${email}@${item}`,
+        });
+      }
+    });
+
+    return arr;
+  }
 };

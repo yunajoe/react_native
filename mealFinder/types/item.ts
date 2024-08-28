@@ -59,3 +59,12 @@ export type FilterFood = {
   strMeal: string;
   strMealThumb: string;
 };
+export type Email = {
+  domain: string;
+  email: string;
+};
+
+export type EmailObject = {
+  id: number;
+  title: string;
+};

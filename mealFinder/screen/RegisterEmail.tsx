@@ -12,14 +12,10 @@ import EditScreenLayout from '@/components/layout/EditScreenLayout';
 import EmailList from '@/components/list/EmailList';
 import {
   emailProcessTwo,
-  emailProcessing,
   filterMatchText,
+  processDomainPart,
+  processLocalPart,
 } from '@/utils/processing';
-
-export type DataType = {
-  id: number;
-  title: string;
-};
 
 function RegisterEmail() {
   const [email, setEmail] = useState('');
@@ -31,7 +27,6 @@ function RegisterEmail() {
 
   const handleOnChange = ({nativeEvent: {eventCount, target, text}}) => {
     setIsSelected(false);
-    // console.log('text', text);m
   };
 
   const disabled = email.length === 0 ? true : false;
@@ -39,11 +34,13 @@ function RegisterEmail() {
   const data = Array.from({length: 8}, (_, i) => {
     return {
       id: i,
-      title: `${email}@${emailProcessing(i)}`,
+      title: `${processLocalPart(email)}@${processDomainPart(i)}`,
     };
   });
 
   const result = filterMatchText(email);
+
+  const dataTwo = emailProcessTwo(result);
 
   return (
     <EditScreenLayout>
@@ -80,9 +77,13 @@ function RegisterEmail() {
           email.length > 0 &&
           email.includes('@') &&
           result?.domain !== '' && (
-            <View>
-              <Text>{emailProcessTwo(result)}</Text>
-            </View>
+            <EmailList
+              data={dataTwo}
+              email={email}
+              setEmail={setEmail}
+              isSelected={isSelected}
+              setIsSelected={setIsSelected}
+            />
           )}
         {!isSelected &&
           email.length > 0 &&
@@ -121,16 +122,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    borderColor: 'gray', // Set the border color here
-    borderWidth: 2, // Set the border width here
-    borderRadius: 4, // Optional: for rounded corners
+    borderColor: 'gray',
+    borderWidth: 2,
+    borderRadius: 4,
     padding: 8,
     width: '80%',
   },
   button: {
-    borderColor: 'gray', // Set the border color here
-    borderWidth: 2, // Set the border width here
-    borderRadius: 4, // Optional: for rounded corners
+    borderColor: 'gray',
+    borderWidth: 2,
+    borderRadius: 4,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

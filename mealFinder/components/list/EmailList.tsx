@@ -1,10 +1,10 @@
 import React from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
-import {DataType} from '@/screen/RegisterEmail';
+import {EmailObject} from '@/types/item';
 
 type EmailListProps = {
-  data: DataType[];
+  data: EmailObject[] | undefined;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   isSelected: boolean;
@@ -25,7 +25,7 @@ function EmailList({
   return (
     <SafeAreaView style={styles.container}>
       {!isSelected &&
-        data.map((item, index) => {
+        data?.map((item, index) => {
           return (
             <View key={item.id} style={styles.item}>
               <Pressable onPress={() => handlePress(item.title)}>
