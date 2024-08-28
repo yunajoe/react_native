@@ -15,3 +15,6 @@ export const checkUserById = 'http://10.0.2.2:3001/check/user/id';
 // kakao
 export const kakaoSignIn = 'http://10.0.2.2:3001/kakao/signin';
 export const kakaoSignOut = 'http://10.0.2.2:3001/kakao/signout';
+
+// send
+export const sendEmail = 'http://10.0.2.2:3001/email/send';

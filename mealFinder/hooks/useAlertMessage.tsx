@@ -75,7 +75,9 @@ function useAlertMessage(options: UseAlertMessageOptions) {
   };
 
   const registerEmailCallback = () => {
-    dispatch(resetStatus);
+    if (state.status == 400) {
+      dispatch(resetStatus);
+    }
   };
 
   const handleMessageCallback = useCallback(() => {
@@ -130,6 +132,8 @@ function useAlertMessage(options: UseAlertMessageOptions) {
           dispatch(resetDeleteUser);
           dispatch(resetAuthUser);
           break;
+        // case 'REGISTER/EMAIL':
+        //   dispatch(resetStatus);
       }
     };
   }, [state.status, state.message]);

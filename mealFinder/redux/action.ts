@@ -5,6 +5,7 @@ import {
   deleteUser,
   kakaoSignIn,
   kakaoSignOut,
+  sendEmail,
   signInUser,
   signOutUser,
   updateUserName,
@@ -211,6 +212,27 @@ export const checkNewEmail = createAsyncThunk(
         credentials: 'include',
       });
       const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+);
+
+// 'http://10.0.2.2:3001/email/send'
+export const sendNewEmail = createAsyncThunk(
+  'SEND/EMAIL',
+  async (email: string) => {
+    console.log('eeee', email);
+    try {
+      const response = await fetch(sendEmail, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email}),
+      });
+
+      const result = await response.json();
+      console.log('reuslt', result);
       return result;
     } catch (err) {
       console.error(err);

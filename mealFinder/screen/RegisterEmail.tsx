@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 
+import InputError from '@/components/error/InputError';
 import EditScreenLayout from '@/components/layout/EditScreenLayout';
 import EmailList from '@/components/list/EmailList';
 import useAlertMessage from '@/hooks/useAlertMessage';
-import {checkNewEmail} from '@/redux/action';
+import {checkNewEmail, sendNewEmail} from '@/redux/action';
 import {useAppDispatch} from '@/redux/store';
 import {StatusState} from '@/types/reducerType';
 import {
@@ -29,10 +30,13 @@ function RegisterEmail() {
   const statusState = useSelector(
     (state: {statusReducer: StatusState}) => state.statusReducer,
   );
+
+  const {registerEmailStatus, registerEmailMessage} = statusState;
   const dispatch = useAppDispatch();
   console.log('statusState', statusState);
 
   const handlePress = async (email: string) => {
+    console.log('email', email);
     dispatch(checkNewEmail(email));
   };
 
@@ -63,6 +67,10 @@ function RegisterEmail() {
     },
     actionType: 'REGISTER/EMAIL',
   });
+
+  const handleConfirm = async (email: string) => {
+    dispatch(sendNewEmail(email));
+  };
   return (
     <EditScreenLayout>
       <View style={styles.container}>
@@ -74,6 +82,7 @@ function RegisterEmail() {
             onChangeText={setEmail}
             onChange={handleOnChange}
           />
+
           <Pressable
             style={[
               styles.button,
@@ -84,6 +93,16 @@ function RegisterEmail() {
             <Text>확인</Text>
           </Pressable>
         </View>
+
+        {/* status에 따라 달라지는 컴퍼어어어넌트 */}
+        {registerEmailStatus === 200 && (
+          <Text>성공시 textinput으로 변ㅎ함</Text>
+        )}
+
+        {registerEmailStatus === 400 && (
+          <InputError errorMessage={registerEmailMessage} />
+        )}
+
         {/* data리스트컴퍼넌 */}
         {!isSelected && email.length > 0 && !email.includes('@') && (
           <EmailList
@@ -120,7 +139,7 @@ function RegisterEmail() {
           )}
       </View>
       <View style={{width: '100%'}}>
-        <Button title="확인" />
+        <Button title="확인" onPress={() => handleConfirm(email)} />
       </View>
     </EditScreenLayout>
   );
@@ -141,6 +160,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
+    // backgroundColor: 'blue',
+  },
+  inputContainer: {
+    // backgroundColor: 'green',
+    flex: 1,
   },
   input: {
     borderColor: 'gray',
@@ -148,6 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 8,
     width: '80%',
+    // backgroundColor: 'red',
   },
   button: {
     borderColor: 'gray',
