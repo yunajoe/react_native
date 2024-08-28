@@ -1,3 +1,4 @@
+// dispatch가 필요있는  훅
 import {useCallback, useEffect} from 'react';
 import {Alert} from 'react-native';
 
@@ -6,6 +7,7 @@ import {
   resetAuthUser,
   resetDeleteUser,
   resetRegisterUser,
+  resetStatus,
   resetUpdateUser,
 } from '@/redux/resetAction';
 import {useAppDispatch} from '@/redux/store';
@@ -13,11 +15,10 @@ import {StackNavigation} from '@/types/navigation';
 import {getItemFromStorage} from '@/utils/storage';
 import {useNavigation} from '@react-navigation/native';
 
-// type
 type UseAlertMessageOptions = {
   state: {message: string; status: number | null};
-  destination: string;
   actionType: string;
+  destination?: string;
   loginInfo?: {email: string; password: string};
 };
 
@@ -72,6 +73,11 @@ function useAlertMessage(options: UseAlertMessageOptions) {
       navigation.navigate(destination);
     }
   };
+
+  const registerEmailCallback = () => {
+    dispatch(resetStatus);
+  };
+
   const handleMessageCallback = useCallback(() => {
     Alert.alert(state.message, '', [
       {
@@ -93,6 +99,8 @@ function useAlertMessage(options: UseAlertMessageOptions) {
             case 'DELETE/USER':
               deleteUserCallback();
               break;
+            case 'REGISTER/EMAIL':
+              registerEmailCallback();
           }
         },
       },

@@ -29,6 +29,22 @@ export const handleCheckByEmail = async (inputEmail: string) => {
   }
 };
 
+// export const handleCheckByEmailByAllEmailColumns = async (
+//   inputEmail: string,
+// ) => {
+//   try {
+//     const result = await fetch(checkEmailByAll, {
+//       method: 'POST',
+//       headers: {'Content-Type': 'application/json'},
+//       body: JSON.stringify({email: inputEmail}),
+//     });
+
+//     const jsonData = await result.json();
+//     return jsonData;
+//   } catch (err) {
+//     console.log('err', err);
+//   }
+// };
 export const handleCheckByEmailAndPassword = async (
   email: string,
   password: string,

@@ -7,6 +7,8 @@ export const updateUserName = 'http://10.0.2.2:3001/user/update/username';
 // check
 export const checkUserName = 'http://10.0.2.2:3001/check/DuplicatedUsername';
 export const checkEmail = 'http://10.0.2.2:3001/check/DuplicatedEmail';
+export const checkEmailByAll =
+  'http://10.0.2.2:3001/check/email/allEmailColumns';
 export const checkUser = 'http://10.0.2.2:3001/check/user';
 export const checkUserById = 'http://10.0.2.2:3001/check/user/id';
 

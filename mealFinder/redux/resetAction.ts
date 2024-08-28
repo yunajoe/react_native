@@ -13,3 +13,7 @@ export const resetDeleteUser = {
 export const resetUpdateUser = {
   type: 'UPDATE/reset',
 };
+
+export const resetStatus = {
+  type: 'status/reset',
+};

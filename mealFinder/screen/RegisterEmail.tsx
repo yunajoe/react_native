@@ -7,9 +7,14 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 
 import EditScreenLayout from '@/components/layout/EditScreenLayout';
 import EmailList from '@/components/list/EmailList';
+import useAlertMessage from '@/hooks/useAlertMessage';
+import {checkNewEmail} from '@/redux/action';
+import {useAppDispatch} from '@/redux/store';
+import {StatusState} from '@/types/reducerType';
 import {
   emailProcessTwo,
   filterMatchText,
@@ -21,8 +26,14 @@ function RegisterEmail() {
   const [email, setEmail] = useState('');
   const [isSelected, setIsSelected] = useState(false);
 
-  const onPress = () => {
-    console.log('눌렀땨');
+  const statusState = useSelector(
+    (state: {statusReducer: StatusState}) => state.statusReducer,
+  );
+  const dispatch = useAppDispatch();
+  console.log('statusState', statusState);
+
+  const handlePress = async (email: string) => {
+    dispatch(checkNewEmail(email));
   };
 
   const handleOnChange = ({nativeEvent: {eventCount, target, text}}) => {
@@ -42,13 +53,23 @@ function RegisterEmail() {
 
   const dataTwo = emailProcessTwo(result);
 
+  const borderColor = statusState.registerEmailStatus === 400 ? 'red' : 'gray';
+
+  // useAlertMessage()
+  useAlertMessage({
+    state: {
+      message: statusState.registerEmailMessage,
+      status: statusState.registerEmailStatus,
+    },
+    actionType: 'REGISTER/EMAIL',
+  });
   return (
     <EditScreenLayout>
       <View style={styles.container}>
         <Text style={styles.text}>이메일은 최대 3개까지 등록가능합니다</Text>
         <View style={styles.emailContainer}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, {borderColor: borderColor}]}
             value={email}
             onChangeText={setEmail}
             onChange={handleOnChange}
@@ -59,7 +80,7 @@ function RegisterEmail() {
               {backgroundColor: disabled ? '#a9adb9' : '#e4e6ed'},
             ]}
             disabled={disabled}
-            onPress={onPress}>
+            onPress={() => handlePress(email)}>
             <Text>확인</Text>
           </Pressable>
         </View>

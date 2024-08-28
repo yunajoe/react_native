@@ -61,3 +61,8 @@ export type SearchState = {
   isWholeDeleteButtonClick: boolean;
   isWholeItemDelete: boolean;
 };
+
+export type StatusState = {
+  registerEmailStatus: number | null;
+  registerEmailMessage: string;
+};

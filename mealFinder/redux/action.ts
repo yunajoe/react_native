@@ -1,4 +1,5 @@
 import {
+  checkEmailByAll,
   checkUserById,
   createUser,
   deleteUser,
@@ -164,7 +165,6 @@ export const KaKaoLoginUser = createAsyncThunk(
 export const KaKaoLogOutUser = createAsyncThunk(
   'KAKAO/LOGOUT',
   async (data: KaKaoLogOutInfo | null) => {
-    console.log('로그아웃데이떠엉어', data);
     try {
       const response = await fetch(kakaoSignOut, {
         method: 'POST',
@@ -192,7 +192,25 @@ export const getUserInfo = createAsyncThunk(
         credentials: 'include',
       });
       const result = await response.json();
-      console.log('result', result);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+);
+
+//
+export const checkNewEmail = createAsyncThunk(
+  'REGISTER/EMAIL',
+  async (email: string) => {
+    try {
+      const response = await fetch(checkEmailByAll, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email}),
+        credentials: 'include',
+      });
+      const result = await response.json();
       return result;
     } catch (err) {
       console.error(err);

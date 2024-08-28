@@ -16,14 +16,12 @@ export default function updateUserReducer(
 ) {
   switch (action.type) {
     case 'UPDATE/USERNAME/pending': {
-      console.log('닉네임 변경 펜딩중');
       return {
         ...state,
       };
     }
     case 'UPDATE/USERNAME/fulfilled': {
       const {status, message} = action.payload;
-      console.log('닉네임이 변경되었습니다앙아');
 
       return {
         ...state,
