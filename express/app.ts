@@ -6,7 +6,10 @@ export const mealFinderDataBase = require("./db");
 const homeRouter = require("./routers/homeRouter");
 const authRouter = require("./routers/authRouter");
 const userRouter = require("./routers/userRouter");
+const emailRouter = require("./routers/emailRouter");
+
 const cookieParser = require("cookie-parser");
+
 // const jwt = require("jsonwebtoken");
 
 const app: Express = express();
@@ -29,6 +32,7 @@ app.use(function (req, res, next) {
 app.use(homeRouter);
 app.use(authRouter);
 app.use(userRouter);
+app.use(emailRouter);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

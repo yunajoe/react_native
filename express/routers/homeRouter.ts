@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { Request, Response, Router } from "express";
 import {
+  checkUserByAllEmailColumns,
   checkUserByEmail,
   checkUserByEmailAndPassword,
   checkUserByUserName,
@@ -52,6 +53,28 @@ homeRouter.post(
   }
 );
 
+homeRouter.post(
+  "/check/email/allEmailColumns",
+  async (req: Request, res: Response) => {
+    const { email } = req.body;
+    try {
+      const result = await checkUserByAllEmailColumns(email);
+      if (result) {
+        return res.status(400).send({
+          status: 400,
+          message: "이미 사용 중인 이메일입니다",
+        });
+      }
+      return res.status(200).send({
+        status: 200,
+        message: "사용할 수 있는 이메일입니다",
+      });
+    } catch (error) {
+      res.status(500).json({ status: 500, message: "interner server" });
+    }
+  }
+);
+
 homeRouter.post("/check/user", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -90,4 +113,5 @@ homeRouter.post("/check/user/id", async (req, res) => {
     res.status(500).send({ status: 500, message: "Internal server error" });
   }
 });
+
 module.exports = homeRouter;

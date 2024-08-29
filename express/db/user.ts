@@ -132,6 +132,18 @@ export const checkUserByKaKaoEmail = async (kakaoEmail: string) => {
   ]);
   return result.rows[0];
 };
+
+export const checkUserByAllEmailColumns = async (email: string) => {
+  const result = await pool.query(
+    `SELECT * FROM users 
+     WHERE email = $1
+        OR sub_email_1 = $1
+        OR sub_email_2 = $1
+        OR kakao_email = $1`,
+    [email]
+  );
+  return result.rows[0];
+};
 // userName으로 user가 있는지확인하기
 export const checkUserByUserName = async (username: string) => {
   const result = await pool.query(`SELECT * FROM users WHERE username=$1`, [
