@@ -24,6 +24,8 @@ type UseAlertMessageOptions = {
 
 function useAlertMessage(options: UseAlertMessageOptions) {
   const {state, actionType, destination, loginInfo} = options;
+
+  console.log('actionType', actionType);
   const email = loginInfo?.email;
   const password = loginInfo?.password;
 
@@ -111,6 +113,12 @@ function useAlertMessage(options: UseAlertMessageOptions) {
 
   // alert메세지
   useEffect(() => {
+    if (actionType === 'REGISTER/EMAIL') {
+      if (state.status === 400) {
+        handleMessageCallback();
+      }
+      return;
+    }
     if (typeof state.status === 'number' && typeof state.message === 'string') {
       if (state.status === 200 || state.status === 400) {
         handleMessageCallback();

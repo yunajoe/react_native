@@ -65,4 +65,8 @@ export type SearchState = {
 export type StatusState = {
   registerEmailStatus: number | null;
   registerEmailMessage: string;
+  authRizationStatus: number | null;
+  authRizationMesaage: string;
+  currentTime: number;
+  expiredTime: number;
 };

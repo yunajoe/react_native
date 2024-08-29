@@ -3,11 +3,17 @@ import {PayloadAction} from '@reduxjs/toolkit';
 export type StatusPayload = {
   message: string;
   status: number | null;
+  currentTime?: number | null;
+  expiredTime?: number | null;
 };
 
 export const initialState = {
   registerEmailMessage: '',
   registerEmailStatus: null,
+  authRizationMesaage: '',
+  authRizationStatus: null,
+  currentTime: null,
+  expiredTime: null,
 };
 
 export default function statusReducer(
@@ -16,13 +22,11 @@ export default function statusReducer(
 ) {
   switch (action.type) {
     case 'REGISTER/EMAIL/pending': {
-      console.log('이메일 등록 펜딩중');
       return {
         ...state,
       };
     }
     case 'REGISTER/EMAIL/fulfilled': {
-      console.log('이메일 등록 성고옹ㅇ');
       const {status, message} = action.payload;
 
       return {
@@ -31,13 +35,41 @@ export default function statusReducer(
         registerEmailStatus: status,
       };
     }
-    case 'REGISTER/EMAIL/rejected':
+    case 'REGISTER/EMAIL/rejected': {
       const {status, message} = action.payload;
       return {
         ...state,
         registerEmailMessage: message,
         registerEmailStatus: status,
       };
+    }
+
+    case 'SEND/EMAIL/pending': {
+      console.log('Oauth코드 보내기.. pedddnding');
+      return {
+        ...state,
+      };
+    }
+    case 'SEND/EMAIL/fulfilled': {
+      console.log('Oauthddd코드 ddd보내기.. 성고오옹');
+      const {status, message, currentTime, expiredTime} = action.payload;
+
+      return {
+        ...state,
+        authRizationMesaage: message,
+        authRizationStatus: status,
+        currentTime: currentTime,
+        expiredTime: expiredTime,
+      };
+    }
+    case 'SEND/EMAIL/rejected': {
+      const {status, message} = action.payload;
+      return {
+        ...state,
+        authRizationMesaage: message,
+        authRizationStatus: status,
+      };
+    }
 
     case 'status/reset':
       return initialState;

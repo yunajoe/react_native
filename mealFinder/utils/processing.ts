@@ -138,3 +138,24 @@ export const emailProcessTwo = (data: Email | undefined) => {
     return arr;
   }
 };
+
+export const convertDateFormat = (currentTime: number, expiredTime: number) => {
+  const diffTime = expiredTime - currentTime;
+
+  if (diffTime <= 0) {
+    return {
+      formatMinutes: '00',
+      formatSeconds: '00',
+    };
+  }
+  // from milisecond => seconds
+  const totalSeconds = Math.floor(diffTime / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const formatMinutes = String(minutes).padStart(2, '0');
+  const formatSeconds = String(seconds).padStart(2, '0');
+  return {
+    formatMinutes,
+    formatSeconds,
+  };
+};

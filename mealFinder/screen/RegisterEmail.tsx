@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   Pressable,
@@ -10,6 +10,7 @@ import {
 import {useSelector} from 'react-redux';
 
 import InputError from '@/components/error/InputError';
+import VerificationInput from '@/components/input/VerificationInput';
 import EditScreenLayout from '@/components/layout/EditScreenLayout';
 import EmailList from '@/components/list/EmailList';
 import useAlertMessage from '@/hooks/useAlertMessage';
@@ -25,26 +26,38 @@ import {
 
 function RegisterEmail() {
   const [email, setEmail] = useState('');
+  const [authrizationCode, setAuthrizationCode] = useState('');
+
   const [isSelected, setIsSelected] = useState(false);
 
   const statusState = useSelector(
     (state: {statusReducer: StatusState}) => state.statusReducer,
   );
 
-  const {registerEmailStatus, registerEmailMessage} = statusState;
+  const {
+    registerEmailStatus,
+    registerEmailMessage,
+    authRizationStatus,
+    authRizationMesaage,
+    currentTime,
+    expiredTime,
+  } = statusState;
   const dispatch = useAppDispatch();
+
   console.log('statusState', statusState);
 
   const handlePress = async (email: string) => {
-    console.log('email', email);
     dispatch(checkNewEmail(email));
   };
 
-  const handleOnChange = ({nativeEvent: {eventCount, target, text}}) => {
+  // {nativeEvent: {eventCount, target, text}
+  const handleOnChange = () => {
     setIsSelected(false);
   };
 
   const disabled = email.length === 0 ? true : false;
+
+  const authrizationDisabled = authrizationCode.length === 0 ? true : false;
 
   const data = Array.from({length: 8}, (_, i) => {
     return {
@@ -59,7 +72,6 @@ function RegisterEmail() {
 
   const borderColor = statusState.registerEmailStatus === 400 ? 'red' : 'gray';
 
-  // useAlertMessage()
   useAlertMessage({
     state: {
       message: statusState.registerEmailMessage,
@@ -68,9 +80,16 @@ function RegisterEmail() {
     actionType: 'REGISTER/EMAIL',
   });
 
-  const handleConfirm = async (email: string) => {
-    dispatch(sendNewEmail(email));
+  const handleConfirm = async (authrizationCode: string) => {
+    console.log('받은 인증번호', authrizationCode);
   };
+
+  useEffect(() => {
+    if (registerEmailStatus === 200) {
+      dispatch(sendNewEmail(email));
+    }
+  }, [registerEmailStatus]);
+
   return (
     <EditScreenLayout>
       <View style={styles.container}>
@@ -93,10 +112,14 @@ function RegisterEmail() {
             <Text>확인</Text>
           </Pressable>
         </View>
-
-        {/* status에 따라 달라지는 컴퍼어어어넌트 */}
+        {/* 가능한 이메일인 경우 autoriztion code랑 createTimedlf, expiresTIem다 받아짐. */}
         {registerEmailStatus === 200 && (
-          <Text>성공시 textinput으로 변ㅎ함</Text>
+          <VerificationInput
+            authrizationCode={authrizationCode}
+            setAuthrizationCode={setAuthrizationCode}
+            currentTime={currentTime}
+            expiredTime={expiredTime}
+          />
         )}
 
         {registerEmailStatus === 400 && (
@@ -139,7 +162,11 @@ function RegisterEmail() {
           )}
       </View>
       <View style={{width: '100%'}}>
-        <Button title="확인" onPress={() => handleConfirm(email)} />
+        <Button
+          title="확인"
+          onPress={() => handleConfirm(authrizationCode)}
+          disabled={authrizationDisabled}
+        />
       </View>
     </EditScreenLayout>
   );
@@ -160,10 +187,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
-    // backgroundColor: 'blue',
   },
   inputContainer: {
-    // backgroundColor: 'green',
     flex: 1,
   },
   input: {
@@ -172,7 +197,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 8,
     width: '80%',
-    // backgroundColor: 'red',
   },
   button: {
     borderColor: 'gray',

@@ -184,7 +184,6 @@ export const KaKaoLogOutUser = createAsyncThunk(
 export const getUserInfo = createAsyncThunk(
   'USERINFO/ID',
   async (id: string) => {
-    console.log('API호출');
     try {
       const response = await fetch(checkUserById, {
         method: 'POST',
@@ -219,11 +218,9 @@ export const checkNewEmail = createAsyncThunk(
   },
 );
 
-// 'http://10.0.2.2:3001/email/send'
 export const sendNewEmail = createAsyncThunk(
   'SEND/EMAIL',
   async (email: string) => {
-    console.log('eeee', email);
     try {
       const response = await fetch(sendEmail, {
         method: 'POST',
