@@ -139,23 +139,39 @@ export const emailProcessTwo = (data: Email | undefined) => {
   }
 };
 
-export const convertDateFormat = (currentTime: number, expiredTime: number) => {
-  const diffTime = expiredTime - currentTime;
+export const convertString = (minute: number, second: number) => {
+  const formatMinutes = String(minute).padStart(2, '0');
+  const formatSeconds = String(second).padStart(2, '0');
+  return {
+    formatMinutes,
+    formatSeconds,
+  };
+};
 
-  if (diffTime <= 0) {
+export const formatting = (time: number | null) => {
+  if (time == null) {
     return {
       formatMinutes: '00',
       formatSeconds: '00',
     };
   }
-  // from milisecond => seconds
-  const totalSeconds = Math.floor(diffTime / 1000);
+  const totalSeconds = Math.floor(time / 1000);
   const minutes = Math.floor(totalSeconds / 60);
+
   const seconds = totalSeconds % 60;
-  const formatMinutes = String(minutes).padStart(2, '0');
-  const formatSeconds = String(seconds).padStart(2, '0');
+
+  const {formatMinutes, formatSeconds} = convertString(minutes, seconds);
+
   return {
     formatMinutes,
     formatSeconds,
   };
+};
+
+export const convertDateFormat = (currentTime: number, expiredTime: number) => {
+  if (currentTime && expiredTime) {
+    const diffTime = expiredTime - currentTime;
+    return diffTime;
+  }
+  return 0;
 };

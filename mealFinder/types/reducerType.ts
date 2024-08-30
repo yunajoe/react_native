@@ -67,6 +67,8 @@ export type StatusState = {
   registerEmailMessage: string;
   authRizationStatus: number | null;
   authRizationMesaage: string;
+  sentCodeStatus: number | null;
+  sentCodeMessage: string;
   currentTime: number;
   expiredTime: number;
 };

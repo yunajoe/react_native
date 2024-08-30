@@ -14,7 +14,11 @@ import VerificationInput from '@/components/input/VerificationInput';
 import EditScreenLayout from '@/components/layout/EditScreenLayout';
 import EmailList from '@/components/list/EmailList';
 import useAlertMessage from '@/hooks/useAlertMessage';
-import {checkNewEmail, sendNewEmail} from '@/redux/action';
+import {
+  checkNewEmail,
+  sendAuthrizationCode,
+  sendNewEmail,
+} from '@/redux/action';
 import {useAppDispatch} from '@/redux/store';
 import {StatusState} from '@/types/reducerType';
 import {
@@ -37,8 +41,8 @@ function RegisterEmail() {
   const {
     registerEmailStatus,
     registerEmailMessage,
-    authRizationStatus,
-    authRizationMesaage,
+    sentCodeStatus,
+    sentCodeMessage,
     currentTime,
     expiredTime,
   } = statusState;
@@ -50,7 +54,6 @@ function RegisterEmail() {
     dispatch(checkNewEmail(email));
   };
 
-  // {nativeEvent: {eventCount, target, text}
   const handleOnChange = () => {
     setIsSelected(false);
   };
@@ -74,14 +77,28 @@ function RegisterEmail() {
 
   useAlertMessage({
     state: {
-      message: statusState.registerEmailMessage,
-      status: statusState.registerEmailStatus,
+      message: registerEmailMessage,
+      status: registerEmailStatus,
     },
     actionType: 'REGISTER/EMAIL',
   });
 
-  const handleConfirm = async (authrizationCode: string) => {
-    console.log('받은 인증번호', authrizationCode);
+  useAlertMessage({
+    state: {
+      message: sentCodeMessage,
+      status: sentCodeStatus,
+    },
+    actionType: 'AUTHRIZATION/CODE',
+    destination: 'NewProfile',
+  });
+
+  const handleConfirm = async (email: string, authrizationCode: string) => {
+    dispatch(
+      sendAuthrizationCode({
+        email: email,
+        authcode: authrizationCode,
+      }),
+    );
   };
 
   useEffect(() => {
@@ -164,7 +181,7 @@ function RegisterEmail() {
       <View style={{width: '100%'}}>
         <Button
           title="확인"
-          onPress={() => handleConfirm(authrizationCode)}
+          onPress={() => handleConfirm(email, authrizationCode)}
           disabled={authrizationDisabled}
         />
       </View>

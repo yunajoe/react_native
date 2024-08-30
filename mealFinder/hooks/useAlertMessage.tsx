@@ -82,6 +82,13 @@ function useAlertMessage(options: UseAlertMessageOptions) {
     }
   };
 
+  const authrizationCodeCallback = () => {
+    if (destination && state.status === 200) {
+      navigation.navigate(destination);
+    }
+    dispatch(resetStatus);
+  };
+
   const handleMessageCallback = useCallback(() => {
     Alert.alert(state.message, '', [
       {
@@ -105,6 +112,8 @@ function useAlertMessage(options: UseAlertMessageOptions) {
               break;
             case 'REGISTER/EMAIL':
               registerEmailCallback();
+            // case 'AUTHRIZATION/CODE':
+            //   authrizationCodeCallback();
           }
         },
       },
@@ -113,12 +122,19 @@ function useAlertMessage(options: UseAlertMessageOptions) {
 
   // alert메세지
   useEffect(() => {
+    if (actionType === 'AUTHRIZATION/CODE') {
+      if (state.status === 200) {
+        authrizationCodeCallback();
+        return;
+      }
+    }
     if (actionType === 'REGISTER/EMAIL') {
       if (state.status === 400) {
         handleMessageCallback();
       }
       return;
     }
+
     if (typeof state.status === 'number' && typeof state.message === 'string') {
       if (state.status === 200 || state.status === 400) {
         handleMessageCallback();
@@ -140,8 +156,6 @@ function useAlertMessage(options: UseAlertMessageOptions) {
           dispatch(resetDeleteUser);
           dispatch(resetAuthUser);
           break;
-        // case 'REGISTER/EMAIL':
-        //   dispatch(resetStatus);
       }
     };
   }, [state.status, state.message]);

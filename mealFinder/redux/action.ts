@@ -5,6 +5,7 @@ import {
   deleteUser,
   kakaoSignIn,
   kakaoSignOut,
+  sendAuthCode,
   sendEmail,
   signInUser,
   signOutUser,
@@ -229,7 +230,29 @@ export const sendNewEmail = createAsyncThunk(
       });
 
       const result = await response.json();
-      console.log('reuslt', result);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+);
+
+type SendAuthCode = {
+  email: string;
+  authcode: string;
+};
+
+export const sendAuthrizationCode = createAsyncThunk(
+  'SEND/AUTHCODE',
+  async ({email, authcode}: SendAuthCode) => {
+    try {
+      const response = await fetch(sendAuthCode, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email, authcode}),
+      });
+
+      const result = await response.json();
       return result;
     } catch (err) {
       console.error(err);

@@ -2,7 +2,6 @@ import React from 'react';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 
 import AuthrizationCodeTimer from '@/components/timer/AuthrizationCodeTimer';
-import {convertDateFormat} from '@/utils/processing';
 
 type VerificationInputProps = {
   authrizationCode: string;
@@ -17,22 +16,7 @@ function VerificationInput({
   currentTime,
   expiredTime,
 }: VerificationInputProps) {
-  const {formatMinutes, formatSeconds} = convertDateFormat(
-    currentTime,
-    expiredTime,
-  );
-
   const handlePress = () => {};
-
-  // useEffect(() => {
-  //   let timerId = setTimeout(() => {
-  //     Alert.alert('하이이');
-  //   }, 2000);
-  //   return () => {
-  //     console.log('지워져랏');
-  //     clearTimeout(timerId);
-  //   };
-  // }, []);
 
   return (
     <View style={styles.container}>
@@ -43,10 +27,7 @@ function VerificationInput({
         value={authrizationCode}
         onChangeText={setAuthrizationCode}
       />
-      {/* <AuthrizationCodeTimer
-        formatMinutes={formatMinutes}
-        formatSeconds={formatSeconds}
-      /> */}
+
       <AuthrizationCodeTimer
         currentTime={currentTime}
         expiredTime={expiredTime}
