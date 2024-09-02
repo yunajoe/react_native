@@ -52,7 +52,6 @@ function RegisterEmail() {
   const dispatch = useAppDispatch();
 
   const handlePress = async (email: string) => {
-    console.log('');
     dispatch(checkNewEmail(email));
   };
 

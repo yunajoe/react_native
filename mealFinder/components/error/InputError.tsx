@@ -1,7 +1,5 @@
 import React from 'react';
-import {Text} from 'react-native';
-
-import {styles} from '@/styles/error/input_error_style';
+import {StyleSheet, Text} from 'react-native';
 
 type InputErrorProps = {
   errorMessage: string;
@@ -12,3 +10,9 @@ function InputError({errorMessage}: InputErrorProps) {
 }
 
 export default InputError;
+
+export const styles = StyleSheet.create({
+  errorMessage: {
+    color: 'red',
+  },
+});

@@ -1,62 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import {StatusState} from '@/types/reducerType';
-import {convertDateFormat, formatting} from '@/utils/processing';
+import {formatting} from '@/utils/processing';
 
 type AuthrizationCodeTimeProps = {
-  currentTime: number;
-  expiredTime: number;
+  remainingTimes: number | null;
 };
 
-function AuthrizationCodeTimer({
-  currentTime,
-  expiredTime,
-}: AuthrizationCodeTimeProps) {
-  const [remainingTimes, setRemainingTimes] = useState<null | number>(
-    convertDateFormat(currentTime, expiredTime),
-  );
+function AuthrizationCodeTimer({remainingTimes}: AuthrizationCodeTimeProps) {
   const statusState = useSelector(
     (state: {statusReducer: StatusState}) => state.statusReducer,
   );
 
   const {authRizationStatus} = statusState;
 
-  console.log('리메니인ㅇ', remainingTimes);
-
-  // useEffect(() => {
-  //   if (currentTime && expiredTime) {
-  //     const remainingTime = convertDateFormat(currentTime, expiredTime);
-  //     setRemainingTimes(remainingTime);
-  //   }
-  // }, []);
-
-  // authRizationStatus === 200 &&
-  useEffect(() => {
-    if (currentTime && expiredTime) {
-      const remainingTime = convertDateFormat(currentTime, expiredTime);
-      setRemainingTimes(remainingTime);
-    }
-  }, [authRizationStatus]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRemainingTimes(prev => {
-        if (!prev) {
-          clearInterval(interval);
-          return null;
-        }
-        return prev - 1000;
-      });
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [remainingTimes]);
-
-  if (!remainingTimes && remainingTimes !== 0) return;
+  if (authRizationStatus !== 200) {
+    return null;
+  }
 
   const {formatMinutes, formatSeconds} = formatting(remainingTimes ?? 0);
 
