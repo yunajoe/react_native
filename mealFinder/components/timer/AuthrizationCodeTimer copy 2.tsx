@@ -62,9 +62,13 @@ function AuthrizationCodeTimer({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.minute}>{formatMinutes}</Text>
+      <Text style={styles.minute}>
+        {remainingTimes === 0 ? '00' : formatMinutes}
+      </Text>
       <Text style={styles.colon}>:</Text>
-      <Text style={styles.second}>{formatSeconds}</Text>
+      <Text style={styles.second}>
+        {remainingTimes === 0 ? '00' : formatSeconds}
+      </Text>
     </View>
   );
 }

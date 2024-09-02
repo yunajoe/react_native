@@ -238,18 +238,19 @@ export const sendNewEmail = createAsyncThunk(
 );
 
 type SendAuthCode = {
+  authEmail: string;
   email: string;
   authcode: string;
 };
 
 export const sendAuthrizationCode = createAsyncThunk(
   'SEND/AUTHCODE',
-  async ({email, authcode}: SendAuthCode) => {
+  async ({authEmail, email, authcode}: SendAuthCode) => {
     try {
       const response = await fetch(sendAuthCode, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, authcode}),
+        body: JSON.stringify({authEmail, email, authcode}),
       });
 
       const result = await response.json();

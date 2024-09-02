@@ -17,3 +17,7 @@ export const resetUpdateUser = {
 export const resetStatus = {
   type: 'status/reset',
 };
+
+export const resetAuthCodeStatus = {
+  type: 'status/authcode/reset',
+};

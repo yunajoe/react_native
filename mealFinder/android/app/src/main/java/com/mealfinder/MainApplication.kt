@@ -40,12 +40,8 @@ class MainApplication : Application(), ReactApplication {
 
     override fun onCreate() {
         super.onCreate()
-//        var keyHash = Utility.getKeyHash(this)
-//
-//        Log.d("keyhas", keyHash)
-
         // 추가
-        KakaoSdk.init(this, "KAKAOKEY")
+        KakaoSdk.init(this, "01af65216353d4b83264ca182365b8ee")
         SoLoader.init(this, false)
         if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
             // If you opted-in for the New Architecture, we load the native entry point for this app.

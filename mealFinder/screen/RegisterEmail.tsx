@@ -20,7 +20,7 @@ import {
   sendNewEmail,
 } from '@/redux/action';
 import {useAppDispatch} from '@/redux/store';
-import {StatusState} from '@/types/reducerType';
+import {AuthState, StatusState} from '@/types/reducerType';
 import {
   emailProcessTwo,
   filterMatchText,
@@ -33,6 +33,9 @@ function RegisterEmail() {
   const [authrizationCode, setAuthrizationCode] = useState('');
 
   const [isSelected, setIsSelected] = useState(false);
+  const authState = useSelector(
+    (state: {authReducer: AuthState}) => state.authReducer,
+  );
 
   const statusState = useSelector(
     (state: {statusReducer: StatusState}) => state.statusReducer,
@@ -48,9 +51,8 @@ function RegisterEmail() {
   } = statusState;
   const dispatch = useAppDispatch();
 
-  console.log('statusState', statusState);
-
   const handlePress = async (email: string) => {
+    console.log('');
     dispatch(checkNewEmail(email));
   };
 
@@ -92,9 +94,14 @@ function RegisterEmail() {
     destination: 'NewProfile',
   });
 
-  const handleConfirm = async (email: string, authrizationCode: string) => {
+  const handleConfirm = async (
+    authEmail: string,
+    email: string,
+    authrizationCode: string,
+  ) => {
     dispatch(
       sendAuthrizationCode({
+        authEmail: authEmail,
         email: email,
         authcode: authrizationCode,
       }),
@@ -136,6 +143,8 @@ function RegisterEmail() {
             setAuthrizationCode={setAuthrizationCode}
             currentTime={currentTime}
             expiredTime={expiredTime}
+            email={email}
+            handlePress={handlePress}
           />
         )}
 
@@ -181,7 +190,9 @@ function RegisterEmail() {
       <View style={{width: '100%'}}>
         <Button
           title="확인"
-          onPress={() => handleConfirm(email, authrizationCode)}
+          onPress={() =>
+            handleConfirm(authState.email, email, authrizationCode)
+          }
           disabled={authrizationDisabled}
         />
       </View>

@@ -4,6 +4,7 @@ import {Alert} from 'react-native';
 
 import {loginUser} from '@/redux/action';
 import {
+  resetAuthCodeStatus,
   resetAuthUser,
   resetDeleteUser,
   resetRegisterUser,
@@ -25,7 +26,6 @@ type UseAlertMessageOptions = {
 function useAlertMessage(options: UseAlertMessageOptions) {
   const {state, actionType, destination, loginInfo} = options;
 
-  console.log('actionType', actionType);
   const email = loginInfo?.email;
   const password = loginInfo?.password;
 
@@ -86,7 +86,6 @@ function useAlertMessage(options: UseAlertMessageOptions) {
     if (destination && state.status === 200) {
       navigation.navigate(destination);
     }
-    dispatch(resetStatus);
   };
 
   const handleMessageCallback = useCallback(() => {
@@ -123,8 +122,15 @@ function useAlertMessage(options: UseAlertMessageOptions) {
   // alert메세지
   useEffect(() => {
     if (actionType === 'AUTHRIZATION/CODE') {
+      if (state.status === 400) {
+        console.log('인증번호가 잘못되었땨아~');
+        dispatch(resetAuthCodeStatus);
+      }
       if (state.status === 200) {
+        console.log('인증번호가 맛네여');
+
         authrizationCodeCallback();
+        dispatch(resetStatus);
         return;
       }
     }

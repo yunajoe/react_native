@@ -148,8 +148,8 @@ export const convertString = (minute: number, second: number) => {
   };
 };
 
-export const formatting = (time: number | null) => {
-  if (time == null) {
+export const formatting = (time: number) => {
+  if (time === 0) {
     return {
       formatMinutes: '00',
       formatSeconds: '00',
@@ -173,5 +173,5 @@ export const convertDateFormat = (currentTime: number, expiredTime: number) => {
     const diffTime = expiredTime - currentTime;
     return diffTime;
   }
-  return 0;
+  return null;
 };

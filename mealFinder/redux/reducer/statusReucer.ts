@@ -69,15 +69,12 @@ export default function statusReducer(
     }
 
     case 'SEND/AUTHCODE/pending': {
-      console.log('authddd코dd드 펜ddddddddsdfsdddfddddddd디이잉');
       return {
         ...state,
       };
     }
 
     case 'SEND/AUTHCODE/fulfilled': {
-      console.log('authddddddddddddddddd코ddddddddddddddd드 성고옹잉');
-
       const {status, message} = action.payload;
       return {
         ...state,
@@ -89,6 +86,14 @@ export default function statusReducer(
     case 'SEND/AUTHCODE/rejected': {
       return {
         ...initialState,
+      };
+    }
+
+    case 'status/authcode/reset': {
+      return {
+        ...state,
+        sentCodeMessage: '',
+        sentCodeStatus: null,
       };
     }
 

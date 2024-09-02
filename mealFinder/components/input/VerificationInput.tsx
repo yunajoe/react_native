@@ -8,6 +8,8 @@ type VerificationInputProps = {
   setAuthrizationCode: React.Dispatch<React.SetStateAction<string>>;
   currentTime: number;
   expiredTime: number;
+  email: string;
+  handlePress: (email: string) => void;
 };
 
 function VerificationInput({
@@ -15,8 +17,10 @@ function VerificationInput({
   setAuthrizationCode,
   currentTime,
   expiredTime,
+  email,
+  handlePress,
 }: VerificationInputProps) {
-  const handlePress = () => {};
+  // const handlePress = () => {};
 
   return (
     <View style={styles.container}>
@@ -32,7 +36,7 @@ function VerificationInput({
         currentTime={currentTime}
         expiredTime={expiredTime}
       />
-      <Pressable style={styles.button} onPress={handlePress}>
+      <Pressable style={styles.button} onPress={() => handlePress(email)}>
         <Text>재전송</Text>
       </Pressable>
     </View>
