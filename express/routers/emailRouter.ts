@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { Router } from "express";
+import { checkSubEmailIsNull, updateSubEmail } from "../db/user";
 import { generateRandomNumber } from "../utils/email";
 const nodemailer = require("nodemailer");
 
@@ -19,21 +20,19 @@ const transporter = nodemailer.createTransport({
 });
 
 emailRouter.post("/email/send", async (req, res) => {
-  console.log("authCode가 보내졌다앙아");
   const currentTime = Date.now();
   const expiredTime = currentTime + 60 * 1000 * 1;
 
   const userEmail = req.body.email;
 
-  const authCodeMap = new Map(); // In-memory storage for demo purposes
-
   const authCode = generateRandomNumber();
-  // 나중에 validation을 위해서 저장
-  authCodeMap.set(userEmail, {
+
+  res.cookie(userEmail, {
     code: authCode,
     expiresAt: expiredTime,
   });
-  var mailOptions = {
+
+  const mailOptions = {
     from: process.env.AUTH_EMAIL,
     to: userEmail,
     subject: "MealFinder에서 Authorization Code를 발송하였습니다",
@@ -59,4 +58,39 @@ emailRouter.post("/email/send", async (req, res) => {
   }
 });
 
+emailRouter.post("/email/authrizationcode", async (req, res) => {
+  const { authEmail, email, authcode } = req.body;
+
+  try {
+    const { code } = req.cookies[email];
+
+    if (Number(authcode) !== code) {
+      return res.status(400).send({
+        status: 400,
+        message: "인증번호가 올바르지 않습니다",
+      });
+    }
+    const isCheckEmailNull = await checkSubEmailIsNull(authEmail);
+    if (!isCheckEmailNull) {
+      return res.status(400).send({
+        status: 400,
+        message: "email은 총 3개만 입력이 가능합니다",
+      });
+    }
+
+    const isUpdated = await updateSubEmail(authEmail, email);
+    if (isUpdated) {
+      return res.status(200).send({
+        status: 200,
+        message: "email이 추가가 되었습니다",
+      });
+    }
+    return res.status(400).send({
+      status: 400,
+      message: "email이 추가가 되지 않았습니다",
+    });
+  } catch (error) {
+    res.status(500).send({ status: 500, message: "Internal server error" });
+  }
+});
 module.exports = emailRouter;

@@ -22,7 +22,7 @@ export const createUser = async (data: CreateUser) => {
   const { username, email, password } = data;
   try {
     const result = await pool.query(
-      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
+      "INSERT INTO users (username, email, sub_email_1, password) VALUES ($1, $2, $2, $3)",
       [username, email, password]
     );
     return result.rowCount > 0;
@@ -77,9 +77,10 @@ export const kakaoCreateUser = async (data: KaKaoCreateUser) => {
         kakao_username, 
         kakao_email, 
         email, 
+        sub_email_1,
         kakao_profile_image_url, 
         kakao_thumbnail_image_url
-      ) VALUES ($1, $2, $3, $3, $4, $5)`,
+      ) VALUES ($1, $2, $3, $3, $3, $4, $5)`,
       [kakaoId, kakaoNickName, kakaoEmail, profileImageUrl, thumbnailImageUrl]
     );
 
@@ -119,47 +120,110 @@ export const getUserIdByKakaoId = async (kakaoId: string) => {
 
 // email로 user가 있는지 확인하기
 export const checkUserByEmail = async (email: string) => {
-  const result = await pool.query(`SELECT * FROM users WHERE email=$1`, [
-    email,
-  ]);
-  return result.rows[0];
+  try {
+    const result = await pool.query(`SELECT * FROM users WHERE email=$1`, [
+      email,
+    ]);
+    return result.rows[0];
+  } catch (err) {
+    return false;
+  }
 };
 
 // kakao_email로 uesr아 있는지 확인
 export const checkUserByKaKaoEmail = async (kakaoEmail: string) => {
-  const result = await pool.query(`SELECT * FROM users WHERE kakao_email=$1`, [
-    kakaoEmail,
-  ]);
-  return result.rows[0];
+  try {
+    const result = await pool.query(
+      `SELECT * FROM users WHERE kakao_email=$1`,
+      [kakaoEmail]
+    );
+    return result.rows[0];
+  } catch (err) {
+    return false;
+  }
 };
 
 export const checkUserByAllEmailColumns = async (email: string) => {
-  const result = await pool.query(
-    `SELECT * FROM users 
-     WHERE email = $1
-        OR sub_email_1 = $1
-        OR sub_email_2 = $1
-        OR kakao_email = $1`,
-    [email]
-  );
-  return result.rows[0];
+  try {
+    const result = await pool.query(
+      `SELECT * FROM users 
+       WHERE email = $1
+          OR sub_email_1 = $1
+          OR sub_email_2 = $1
+          OR sub_email_3 = $1
+          OR kakao_email = $1`,
+      [email]
+    );
+    return result.rows[0];
+  } catch (err) {
+    return false;
+  }
 };
 // userName으로 user가 있는지확인하기
 export const checkUserByUserName = async (username: string) => {
-  const result = await pool.query(`SELECT * FROM users WHERE username=$1`, [
-    username,
-  ]);
-  return result.rows[0];
+  try {
+    const result = await pool.query(`SELECT * FROM users WHERE username=$1`, [
+      username,
+    ]);
+    return result.rows[0];
+  } catch (err) {
+    return false;
+  }
 };
 
+// email과 pwd로 user확인하기
 export const checkUserByEmailAndPassword = async ({
   email,
   password,
 }: CheckUserByEmailAndPassword) => {
-  const result = await pool.query(
-    `SELECT * FROM users WHERE email=$1 AND password = $2`,
-    [email, password]
-  );
+  try {
+    const result = await pool.query(
+      `SELECT * FROM users WHERE email=$1 AND password = $2`,
+      [email, password]
+    );
+    return result.rows[0];
+  } catch (err) {
+    return false;
+  }
+};
 
-  return result.rows[0];
+// sub_email_1 또는 sub_email2 컬럼이 null값인지 확인
+export const checkSubEmailIsNull = async (email: string) => {
+  try {
+    const result = await pool.query(
+      `SELECT EXISTS (
+        SELECT 1
+        FROM users
+        WHERE email = $1
+          AND (sub_email_2 IS NULL OR sub_email_3 IS NULL)
+      ) AS exists`,
+      [email]
+    );
+
+    return result.rows[0].exists;
+  } catch (err) {
+    return false;
+  }
+};
+
+export const updateSubEmail = async (authEmail: string, email: string) => {
+  try {
+    const result = await pool.query(
+      `UPDATE users
+      SET sub_email_2 = CASE
+          WHEN sub_email_2 IS NULL THEN $2
+          ELSE sub_email_2
+      END,
+      sub_email_3 = CASE
+          WHEN sub_email_2 IS NOT NULL AND sub_email_3 IS NULL THEN $2
+          ELSE sub_email_3
+      END
+      WHERE email = $1;`,
+      [authEmail, email]
+    );
+
+    return result.rowCount;
+  } catch (err) {
+    return false;
+  }
 };
