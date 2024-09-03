@@ -5,11 +5,13 @@ import FadeOut from '@/components/style/FadeOut';
 
 type ToastProps = {
   message: string;
+  setIsToastOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function Toast({message}: ToastProps) {
+function Toast({message, setIsToastOpen}: ToastProps) {
   return (
     <FadeOut
+      setIsToastOpen={setIsToastOpen}
       style={{
         flexDirection: 'row',
         alignItems: 'center',

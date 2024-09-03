@@ -3,11 +3,12 @@ import type {ViewStyle} from 'react-native';
 import {Animated} from 'react-native';
 
 type FadeOutProps = {
-  style?: ViewStyle; // style은 선택적 props로 설정
+  style?: ViewStyle;
   children?: React.ReactNode;
+  setIsToastOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function FadeOut({style, children}: FadeOutProps) {
+function FadeOut({style, children, setIsToastOpen}: FadeOutProps) {
   const fadeOutAdmin = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -15,7 +16,9 @@ function FadeOut({style, children}: FadeOutProps) {
       toValue: 0,
       duration: 3000,
       useNativeDriver: true,
-    }).start();
+    }).start(() => {
+      setIsToastOpen(false);
+    });
   }, [fadeOutAdmin]);
 
   return (

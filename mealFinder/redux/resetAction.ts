@@ -21,3 +21,7 @@ export const resetStatus = {
 export const resetAuthCodeStatus = {
   type: 'status/authcode/reset',
 };
+
+export const resetAuthrizationStatus = {
+  type: 'status/authrization/reset',
+};

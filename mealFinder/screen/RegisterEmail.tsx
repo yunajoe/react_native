@@ -15,11 +15,13 @@ import EditScreenLayout from '@/components/layout/EditScreenLayout';
 import EmailList from '@/components/list/EmailList';
 import Toast from '@/components/toast/Toast';
 import useAlertMessage from '@/hooks/useAlertMessage';
+import useTimeOut from '@/hooks/useTimeOut';
 import {
   checkNewEmail,
   sendAuthrizationCode,
   sendNewEmail,
 } from '@/redux/action';
+import {resetAuthrizationStatus} from '@/redux/resetAction';
 import {useAppDispatch} from '@/redux/store';
 import {AuthState, StatusState} from '@/types/reducerType';
 import {
@@ -34,6 +36,8 @@ function RegisterEmail() {
   const [authrizationCode, setAuthrizationCode] = useState('');
 
   const [isSelected, setIsSelected] = useState(false);
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [isSentCodeButton, setIsSentCodeButton] = useState(false);
   const authState = useSelector(
     (state: {authReducer: AuthState}) => state.authReducer,
   );
@@ -47,14 +51,41 @@ function RegisterEmail() {
     registerEmailMessage,
     sentCodeStatus,
     sentCodeMessage,
+    authRizationStatus,
     currentTime,
     expiredTime,
   } = statusState;
   const dispatch = useAppDispatch();
 
+  const {remainingTimes} = useTimeOut(currentTime, expiredTime);
+
   const handlePress = async (email: string) => {
-    dispatch(checkNewEmail(email));
+    // 처음 재전송 버튼을 눌렀을떄
+    if (!isSentCodeButton) {
+      dispatch(checkNewEmail(email));
+      setIsSentCodeButton(true);
+    }
+
+    // 처음이 아닌 두번째 재전송 버튼을 눌렀을떄
+    if (isSentCodeButton) {
+      // toast (시간이 아직 안됬기 때문에 인증코드를 못 보낸다)
+      if (remainingTimes && remainingTimes >= 290000) {
+        setIsToastOpen(true);
+        return;
+      }
+
+      // 인증코드 다시 보냄
+      if (remainingTimes && remainingTimes > 0 && remainingTimes < 290000) {
+        dispatch(sendNewEmail(email));
+      }
+      if (remainingTimes === 0) {
+        dispatch(resetAuthrizationStatus);
+        dispatch(sendNewEmail(email));
+      }
+    }
   };
+
+  console.log('aaa', remainingTimes, authRizationStatus);
 
   const handleOnChange = () => {
     setIsSelected(false);
@@ -141,10 +172,9 @@ function RegisterEmail() {
           <VerificationInput
             authrizationCode={authrizationCode}
             setAuthrizationCode={setAuthrizationCode}
-            currentTime={currentTime}
-            expiredTime={expiredTime}
             email={email}
             handlePress={handlePress}
+            remainingTimes={remainingTimes}
           />
         )}
 
@@ -198,7 +228,12 @@ function RegisterEmail() {
       </View>
 
       {/* 유효코드 재발급 Toast */}
-      <Toast message="인증 코드 재발급은 1분이 지나야 가능합니다" />
+      {isToastOpen && (
+        <Toast
+          message="인증 코드 재발급은 1분이 지나야 가능합니다"
+          setIsToastOpen={setIsToastOpen}
+        />
+      )}
     </EditScreenLayout>
   );
 }

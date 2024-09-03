@@ -75,7 +75,6 @@ export default function statusReducer(
     }
 
     case 'SEND/AUTHCODE/fulfilled': {
-      console.log('ㅎㅎ');
       const {status, message} = action.payload;
       return {
         ...state,
@@ -90,6 +89,13 @@ export default function statusReducer(
       };
     }
 
+    case 'status/authrization/reset': {
+      return {
+        ...state,
+        authRizationMesaage: '',
+        authRizationStatus: null,
+      };
+    }
     case 'status/authcode/reset': {
       return {
         ...state,

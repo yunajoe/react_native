@@ -4,34 +4,29 @@ import {useSelector} from 'react-redux';
 
 import InputError from '@/components/error/InputError';
 import AuthrizationCodeTimer from '@/components/timer/AuthrizationCodeTimer';
-import useTimeOut from '@/hooks/useTimeOut';
 import {StatusState} from '@/types/reducerType';
 
 type VerificationInputProps = {
   authrizationCode: string;
   setAuthrizationCode: React.Dispatch<React.SetStateAction<string>>;
-  currentTime: number;
-  expiredTime: number;
+
   email: string;
   handlePress: (email: string) => void;
+  remainingTimes: number | null;
 };
 
 function VerificationInput({
   authrizationCode,
   setAuthrizationCode,
-  currentTime,
-  expiredTime,
+
   email,
   handlePress,
+  remainingTimes,
 }: VerificationInputProps) {
   const statusState = useSelector(
     (state: {statusReducer: StatusState}) => state.statusReducer,
   );
   const {authRizationStatus} = statusState;
-
-  const {remainingTimes} = useTimeOut(currentTime, expiredTime);
-
-  console.log('veerifactionInput컴퍼넌트', remainingTimes, authRizationStatus);
 
   const borderColor =
     remainingTimes === 0 && authRizationStatus === 200 ? 'red' : 'gray';

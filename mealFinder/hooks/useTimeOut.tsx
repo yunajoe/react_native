@@ -17,7 +17,7 @@ function useTimeOut(currentTime: number, expiredTime: number) {
       const remainingTime = convertDateFormat(currentTime, expiredTime);
       setRemainingTimes(remainingTime);
     }
-  }, [authRizationStatus]);
+  }, [authRizationStatus, currentTime, expiredTime]);
 
   useEffect(() => {
     const interval = setInterval(() => {
