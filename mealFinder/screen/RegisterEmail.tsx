@@ -51,7 +51,6 @@ function RegisterEmail() {
     registerEmailMessage,
     sentCodeStatus,
     sentCodeMessage,
-    authRizationStatus,
     currentTime,
     expiredTime,
   } = statusState;
@@ -84,8 +83,6 @@ function RegisterEmail() {
       }
     }
   };
-
-  console.log('aaa', remainingTimes, authRizationStatus);
 
   const handleOnChange = () => {
     setIsSelected(false);

@@ -53,7 +53,6 @@ export default function statusReducer(
     }
     case 'SEND/EMAIL/fulfilled': {
       const {status, message, currentTime, expiredTime} = action.payload;
-
       return {
         ...state,
         authRizationMesaage: message,
