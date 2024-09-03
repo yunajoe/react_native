@@ -32,11 +32,19 @@ function VerificationInput({
   const {remainingTimes} = useTimeOut(currentTime, expiredTime);
 
   console.log('veerifactionInput컴퍼넌트', remainingTimes, authRizationStatus);
+
+  const borderColor =
+    remainingTimes === 0 && authRizationStatus === 200 ? 'red' : 'gray';
   return (
     <View style={styles.container}>
       <TextInput
         placeholder="숫자 4자리"
-        style={styles.input}
+        style={[
+          styles.input,
+          {
+            borderColor: borderColor,
+          },
+        ]}
         maxLength={4}
         value={authrizationCode}
         onChangeText={setAuthrizationCode}

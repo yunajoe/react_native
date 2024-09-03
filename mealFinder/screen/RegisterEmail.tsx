@@ -13,6 +13,7 @@ import InputError from '@/components/error/InputError';
 import VerificationInput from '@/components/input/VerificationInput';
 import EditScreenLayout from '@/components/layout/EditScreenLayout';
 import EmailList from '@/components/list/EmailList';
+import Toast from '@/components/toast/Toast';
 import useAlertMessage from '@/hooks/useAlertMessage';
 import {
   checkNewEmail,
@@ -195,6 +196,9 @@ function RegisterEmail() {
           disabled={authrizationDisabled}
         />
       </View>
+
+      {/* 유효코드 재발급 Toast */}
+      <Toast message="인증 코드 재발급은 1분이 지나야 가능합니다" />
     </EditScreenLayout>
   );
 }

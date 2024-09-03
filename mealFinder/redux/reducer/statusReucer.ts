@@ -75,6 +75,7 @@ export default function statusReducer(
     }
 
     case 'SEND/AUTHCODE/fulfilled': {
+      console.log('ㅎㅎ');
       const {status, message} = action.payload;
       return {
         ...state,
