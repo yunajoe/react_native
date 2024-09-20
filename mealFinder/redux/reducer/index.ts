@@ -6,6 +6,7 @@ import deleteUserReducer from './deleteUserReducer';
 import searchReducer from './searchReducer';
 import statusReducer from './statusReucer';
 import updateUserReducer from './updateUserReducer';
+import listReducer from '@/redux/reducer/listReducer';
 
 const reducer = combineReducers({
   authReducer,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   deleteUserReducer,
   searchReducer,
   statusReducer,
+  listReducer,
 });
 
 export default reducer;

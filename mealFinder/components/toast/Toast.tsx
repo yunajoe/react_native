@@ -9,6 +9,7 @@ type ToastProps = {
 };
 
 function Toast({message, setIsToastOpen}: ToastProps) {
+  console.log('나는토수우수');
   return (
     <FadeOut
       setIsToastOpen={setIsToastOpen}
@@ -17,11 +18,12 @@ function Toast({message, setIsToastOpen}: ToastProps) {
         alignItems: 'center',
         justifyContent: 'center',
         width: 260,
-        borderRadius: 2,
         padding: 16,
+        borderRadius: 2,
         position: 'absolute',
-        zIndex: 1,
-        bottom: '50%',
+        top: '30%',
+        left: '10%',
+
         backgroundColor: '#333',
       }}>
       <Text style={styles.text}>{message}</Text>
@@ -31,16 +33,6 @@ function Toast({message, setIsToastOpen}: ToastProps) {
 
 export default Toast;
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#333',
-    borderRadius: 2,
-    padding: 16,
-    position: 'absolute',
-    zIndex: 1,
-    left: '50%',
-    bottom: 30,
-  },
-
   text: {
     color: 'white',
   },

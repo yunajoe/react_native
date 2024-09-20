@@ -4,10 +4,11 @@ import {useSelector} from 'react-redux';
 
 import ChangeEmailButton from '@/components/button/ChangeEmailButton';
 import EditScreenLayout from '@/components/layout/EditScreenLayout';
-import {getUserInfo} from '@/redux/action';
+import useMounted from '@/hooks/useMounted';
+import {getSubEmailList, getUserInfo} from '@/redux/action';
 import {useAppDispatch} from '@/redux/store';
 import {StackNavigation} from '@/types/navigation';
-import {AuthState} from '@/types/reducerType';
+import {AuthState, ListState} from '@/types/reducerType';
 import {useNavigation} from '@react-navigation/native';
 
 function ChangeEmail() {
@@ -15,12 +16,18 @@ function ChangeEmail() {
     (state: {authReducer: AuthState}) => state.authReducer,
   );
 
+  const listState = useSelector(
+    (state: {listReducer: ListState}) => state.listReducer,
+  );
+
+  console.log('LLL', listState);
   const dispatch = useAppDispatch();
+  // useMounted(dispatch(getSubEmailList(authState.id)));
+  useMounted(getSubEmailList(authState.id));
+
   const navigation = useNavigation<StackNavigation>();
   const handleUserInfo = async () => {
     dispatch(getUserInfo(authState.id));
-    // const aaa = await getUserInfo(authState.id);
-    // console.log('aaa', aaa);
   };
   const onPress = () => {
     navigation.navigate('RegisterEmail');

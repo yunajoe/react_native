@@ -19,3 +19,6 @@ export const kakaoSignOut = 'http://10.0.2.2:3001/kakao/signout';
 // email
 export const sendEmail = 'http://10.0.2.2:3001/email/send';
 export const sendAuthCode = 'http://10.0.2.2:3001/email/authrizationcode';
+
+// list
+export const getSubEmailListById = 'http://10.0.2.2:3001/subemail/list';

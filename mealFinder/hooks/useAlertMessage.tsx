@@ -26,8 +26,6 @@ type UseAlertMessageOptions = {
 function useAlertMessage(options: UseAlertMessageOptions) {
   const {state, actionType, destination, loginInfo} = options;
 
-  console.log('얼랏메시쥐', actionType);
-
   const email = loginInfo?.email;
   const password = loginInfo?.password;
 
@@ -124,7 +122,6 @@ function useAlertMessage(options: UseAlertMessageOptions) {
   // alert메세지
   useEffect(() => {
     if (actionType === 'AUTHRIZATION/CODE') {
-      console.log('인증볺ㅇ오오오오오오');
       if (state.status === 400) {
         console.log('인증번호가 잘못되었땨아~');
         dispatch(resetAuthCodeStatus);

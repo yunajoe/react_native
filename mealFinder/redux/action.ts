@@ -3,6 +3,7 @@ import {
   checkUserById,
   createUser,
   deleteUser,
+  getSubEmailListById,
   kakaoSignIn,
   kakaoSignOut,
   sendAuthCode,
@@ -74,7 +75,9 @@ export const loginUser = createAsyncThunk(
         body: JSON.stringify({email, password}),
         credentials: 'include',
       });
+
       const result = await response.json();
+      console.log('rrr', result);
       return {
         ...result,
         email,
@@ -251,6 +254,24 @@ export const sendAuthrizationCode = createAsyncThunk(
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({authEmail, email, authcode}),
+      });
+
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+);
+
+export const getSubEmailList = createAsyncThunk(
+  'SUBEMAIL/LIST',
+  async (id: string) => {
+    // encodeURIComponent(id)
+    try {
+      const response = await fetch(`${getSubEmailListById}?id=${id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
       });
 
       const result = await response.json();

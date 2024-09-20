@@ -35,6 +35,8 @@ export default function SignIn() {
     dispatch(loginUser({email, password}));
   };
 
+  console.log('authState', authState);
+
   // 소셜 로그인
   const handleKaKaoLogin = () => {
     getKaKaoLogin((result: KaKaoLoginApi) => {
@@ -69,7 +71,7 @@ export default function SignIn() {
   return (
     <>
       {authState.loginStatus === 200 ? (
-        <View style={{flex: 1}}>
+        <View style={styles.indicator}>
           <Indicator />
         </View>
       ) : (
@@ -108,6 +110,10 @@ export default function SignIn() {
 }
 
 const styles = StyleSheet.create({
+  indicator: {
+    backgroundColor: 'blue',
+    marginTop: '50%',
+  },
   container: {
     marginTop: 30,
     marginLeft: 10,

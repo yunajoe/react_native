@@ -72,3 +72,9 @@ export type StatusState = {
   currentTime: number;
   expiredTime: number;
 };
+
+export type ListState = {
+  subEmailListStatus: number | null;
+  subEmailListMessage: '';
+  subEmailArr: [];
+};

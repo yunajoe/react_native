@@ -67,6 +67,7 @@ export default function Home() {
   // removeItemFromStorage('user');
   // removeItemFromStorage('kakao_user');
   const darkModeStyle = darkModeStyling(theme);
+  // console.log('==============================================================');
 
   if (isSearchApiCalled && isSearchLoading) {
     return <Indicator />;

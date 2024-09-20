@@ -18,10 +18,10 @@ export const resetStatus = {
   type: 'status/reset',
 };
 
-export const resetAuthCodeStatus = {
-  type: 'status/authcode/reset',
-};
-
 export const resetAuthrizationStatus = {
   type: 'status/authrization/reset',
+};
+
+export const resetAuthCodeStatus = {
+  type: 'status/authcode/reset',
 };

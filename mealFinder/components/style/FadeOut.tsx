@@ -2,6 +2,9 @@ import React, {useEffect, useRef} from 'react';
 import type {ViewStyle} from 'react-native';
 import {Animated} from 'react-native';
 
+import {resetAuthCodeStatus} from '@/redux/resetAction';
+import {useAppDispatch} from '@/redux/store';
+
 type FadeOutProps = {
   style?: ViewStyle;
   children?: React.ReactNode;
@@ -10,7 +13,7 @@ type FadeOutProps = {
 
 function FadeOut({style, children, setIsToastOpen}: FadeOutProps) {
   const fadeOutAdmin = useRef(new Animated.Value(1)).current;
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     Animated.timing(fadeOutAdmin, {
       toValue: 0,
@@ -18,6 +21,7 @@ function FadeOut({style, children, setIsToastOpen}: FadeOutProps) {
       useNativeDriver: true,
     }).start(() => {
       setIsToastOpen(false);
+      dispatch(resetAuthCodeStatus);
     });
   }, [fadeOutAdmin]);
 
@@ -29,3 +33,4 @@ function FadeOut({style, children, setIsToastOpen}: FadeOutProps) {
 }
 
 export default FadeOut;
+59;

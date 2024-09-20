@@ -7,7 +7,6 @@ import UserContainer from '@/components/container/UserContainer';
 import Toast from '@/components/toast/Toast';
 import useLogOut from '@/hooks/useLogOut';
 import useWithDrawal from '@/hooks/useWithDrawal';
-import {useAppDispatch} from '@/redux/store';
 import {StatusState} from '@/types/reducerType';
 
 export default function NewProfile() {
@@ -17,26 +16,29 @@ export default function NewProfile() {
   );
   const handleLogOut = useLogOut();
   const handleWithDrawal = useWithDrawal();
-  const dispatch = useAppDispatch();
 
-  console.log('statusReuder', statusState);
+  // console.log('statusReeeweuder', statusState);
+  // console.log('istTOast', isToastOpen);
+
+  // 해당 id에 대한 email를
 
   useEffect(() => {
     if (statusState.sentCodeStatus === 200) {
       setIsToastOpen(true);
+    } else {
+      setIsToastOpen(false);
     }
-    // return () => {
-    //   dispatch(resetStatus);
-    // };
   }, [statusState.sentCodeStatus]);
 
   return (
-    <View style={styles.container}>
-      <UserContainer />
-      <NewProfileButton
-        handleLogOut={handleLogOut}
-        handleWithDrawal={handleWithDrawal}
-      />
+    <View style={{flex: 1, position: 'relative'}}>
+      <View style={styles.container}>
+        <UserContainer />
+        <NewProfileButton
+          handleLogOut={handleLogOut}
+          handleWithDrawal={handleWithDrawal}
+        />
+      </View>
       {isToastOpen && (
         <Toast
           message="이메일이 추가가 되었습니다"
@@ -49,7 +51,6 @@ export default function NewProfile() {
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
